@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -32,7 +34,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "subService_id")
     private SubService subService;
 
@@ -42,7 +44,8 @@ public class Order extends BaseEntity {
     @Enumerated
     private OrderStatus orderStatus;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Comment comment;
+
 
 }

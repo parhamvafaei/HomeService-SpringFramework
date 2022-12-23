@@ -22,7 +22,6 @@ public class Offer extends BaseEntity {
     private Duration durationTime;
 
     @ManyToOne
-    @NotNull
     private Expert expert;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

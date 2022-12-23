@@ -10,9 +10,9 @@ import com.maktab.entity.SubService;
 import java.time.LocalDateTime;
 
 public interface OrderService extends BaseService<Order> {
-    void addOrder(Double price, String description, LocalDateTime time, Address address, SubService subService);
+    Long addOrder(Double price, String description, LocalDateTime time, Address address, SubService subService);
 
-    void chooseExpert(Long id, Offer offer);
+    void chooseExpert(Long id);
 
     void changeOrderStatusToStarted(Long id);
 

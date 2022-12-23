@@ -42,7 +42,7 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
         if (!(Utils.existsSubServiceInService(subService, service)))
             throw new NotFoundServiceException("this SubService was already added!");
 
-
+subService.setService(service);
         saveOrUpdate(subService);
 
         return subService.getId();
@@ -81,6 +81,7 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
         if (subService.getExperts().contains(expert))
             throw new ExpertAddException("expert already added !");
         if (expert.getExpertStatus() == ExpertStatus.CONFIRMED && checkSubServiceInName(subService.getName())) {
+
             List<Expert> experts = subService.getExperts();
             experts.add(expert);
             subService.setExperts(experts);

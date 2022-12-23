@@ -26,7 +26,7 @@ public class Expert extends Person {
     @Size(max = 300_000)
     private byte[] image;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "expert_subService"
             , joinColumns = @JoinColumn(name = "expert_id")
             , inverseJoinColumns = @JoinColumn(name = "subService_id"))

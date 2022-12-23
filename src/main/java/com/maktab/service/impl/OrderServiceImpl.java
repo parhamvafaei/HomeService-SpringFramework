@@ -19,21 +19,21 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     @Transactional
     @Override
-    public void addOrder(Double price, String description, LocalDateTime time, Address address, SubService subService) {
+    public Long addOrder(Double price, String description, LocalDateTime time, Address address, SubService subService) {
         Order order = new Order(price, description, time, address);
         order.setOrderStatus(OrderStatus.WAITING_FOR_EXPERT);
         order.setSubService(subService);
 
         saveOrUpdate(order);
-
+return order.getId();
     }
 
     //    save Expert to order
     @Transactional
     @Override
-    public void chooseExpert(Long id, Offer offer) {
+    public void chooseExpert(Long id) {
         Order order = findById(id).orElseThrow(NullPointerException::new);
-        if (findById(id).get().getOrderStatus().equals(OrderStatus.SELECTING_EXPERT)) {
+        if (order.getOrderStatus().equals(OrderStatus.SELECTING_EXPERT)) {
             order.setOrderStatus(OrderStatus.WAITING_EXPERT_COME);
             saveOrUpdate(order);
         } else

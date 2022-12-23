@@ -7,6 +7,8 @@ import com.maktab.service.ExpertService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 
 
 import java.io.File;
@@ -14,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@ImportResource("IMG_20220225_174859_946.jpg")
 @SpringBootTest
 class ExpertServiceImplTest {
 
@@ -32,7 +34,7 @@ class ExpertServiceImplTest {
         assertEquals("FGsrofm3", service.findById(expert.getId()).get().getPassword());
     }
 
-
+//#
     @Test
     void setProfileImage() throws IOException {
         Expert expert = new Expert();
