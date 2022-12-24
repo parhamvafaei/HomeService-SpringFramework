@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,5 +25,5 @@ private Credit credit;
 
     @OneToMany(mappedBy = "client" ,cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 }

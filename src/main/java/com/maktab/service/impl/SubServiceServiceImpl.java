@@ -7,7 +7,7 @@ import com.maktab.entity.SubService;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
 import com.maktab.exception.DeleteExpertException;
-import com.maktab.exception.DuplicateServiceException;
+
 import com.maktab.exception.ExpertAddException;
 import com.maktab.exception.NotFoundServiceException;
 import com.maktab.repository.SubServiceRepository;
@@ -36,13 +36,10 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
         if (!(isExistsById(subService.getId())))
             throw new NotFoundServiceException("this SubService doesnt exist !");
 
-        if (checkSubServiceInName(subService.getName()))
-            throw new DuplicateServiceException("this SubService was already added!");
-
         if (!(Utils.existsSubServiceInService(subService, service)))
             throw new NotFoundServiceException("this SubService was already added!");
 
-subService.setService(service);
+        subService.setService(service);
         saveOrUpdate(subService);
 
         return subService.getId();

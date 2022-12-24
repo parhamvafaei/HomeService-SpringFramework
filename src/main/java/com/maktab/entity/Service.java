@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,8 @@ import java.util.List;
 public class Service extends BaseEntity {
     private String name;
 
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service",cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<SubService> subServices;
+    private List<SubService> subServices = new ArrayList<>();
 
 }

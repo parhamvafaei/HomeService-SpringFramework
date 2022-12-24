@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,9 +32,9 @@ public class Expert extends Person {
             , joinColumns = @JoinColumn(name = "expert_id")
             , inverseJoinColumns = @JoinColumn(name = "subService_id"))
     @ToString.Exclude
-    private List<SubService> subServices;
+    private List<SubService> subServices =new ArrayList<>();
 
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Offer> offers;
+    private List<Offer> offers =new ArrayList<>();
 }

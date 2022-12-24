@@ -6,6 +6,7 @@ import com.maktab.entity.person.Expert;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,10 +21,13 @@ public class SubService extends BaseEntity {
     private String description;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Service service;
+
     //why use many to many
-    @ManyToMany(mappedBy = "subServices" ,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "subServices", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Expert> experts;
+    private List<Expert> experts =new ArrayList<>();
+
+
 }

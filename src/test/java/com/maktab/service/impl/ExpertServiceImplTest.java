@@ -7,13 +7,14 @@ import com.maktab.service.ExpertService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
+
 import org.springframework.context.annotation.ImportResource;
 
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 @ImportResource("IMG_20220225_174859_946.jpg")
@@ -46,7 +47,7 @@ class ExpertServiceImplTest {
         FileInputStream reader = new FileInputStream(file);
         byte[] bytes = reader.readAllBytes();
 
-        assertEquals(bytes, service.findById(expert.getId()).get().getImage());
+        assertArrayEquals(service.findById(expert.getId()).get().getImage(), bytes);
     }
 
     @Test
