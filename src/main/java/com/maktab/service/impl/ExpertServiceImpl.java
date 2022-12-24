@@ -44,14 +44,14 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     public void setProfileImage(File image, Long id) {
         Expert expert = findById(id).orElseThrow(NullPointerException::new);
         byte[] bytes;
-        if (image.getName().matches("/*jpg")) {
+//        if (image.getName().matches("/*jpg")) {
             try (FileInputStream reader = new FileInputStream(image)) {
                 bytes = reader.readAllBytes();
             } catch (Exception e) {
                 throw new FileReaderException();
             }
-        } else
-            throw new FileReaderException("wrong file format !");
+//        } else
+//            throw new FileReaderException("wrong file format !");
 
         expert.setImage(bytes);
         saveOrUpdate(expert);

@@ -51,7 +51,8 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
         if (orderService.findById(orderId).isEmpty())
             throw new NullPointerException();
         List<Offer> offerList = repository.findByOrderId(orderId);
-        Collections.sort(offerList, Comparator.comparingDouble(Offer::getPrice));
+
+        offerList.sort(Comparator.comparingDouble(Offer::getPrice));
         return offerList;
     }
 
@@ -60,7 +61,7 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
         if (orderService.findById(orderId).isEmpty())
             throw new NullPointerException();
         List<Offer> offerList = repository.findByOrderId(orderId);
-        Collections.sort(offerList, (o1, o2) -> (int) (o1.getExpert().getRating() - o2.getExpert().getRating()));
+        offerList.sort((o1, o2) -> (int) (o1.getExpert().getRating() - o2.getExpert().getRating()));
         return offerList;
     }
 }

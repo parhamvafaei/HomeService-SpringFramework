@@ -17,7 +17,7 @@ import java.io.IOException;
 
 
 import static org.junit.jupiter.api.Assertions.*;
-@ImportResource("IMG_20220225_174859_946.jpg")
+
 @SpringBootTest
 class ExpertServiceImplTest {
 

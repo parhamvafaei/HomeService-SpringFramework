@@ -52,26 +52,32 @@ class OfferServiceImplTest {
 
     @Test
     void offersToOrderByPrice() {
-        Offer offer=new Offer();
-        offer.setPrice(2D);
-        Offer offer2=new Offer();
-        offer2.setPrice(4D);
-        Order order=new Order();
+        Offer offer = new Offer();
+        offer.setPrice(545D);
+        Offer offer3 = new Offer();
+        offer3.setPrice(85D);
+        Offer offer4 = new Offer();
+        offer4.setPrice(0D);
+        Offer offer2 = new Offer();
+        offer2.setPrice(96D);
+        Order order = new Order();
         offer.setOrder(order);
         offer2.setOrder(order);
+        offer3.setOrder(order);
+        offer4.setOrder(order);
+        orderService.saveOrUpdate(order);
         service.saveOrUpdate(offer);
         service.saveOrUpdate(offer2);
-        List<Offer> offerList =new ArrayList<>();
-        offerList.add(offer2);
-        offerList.add(offer);
+        service.saveOrUpdate(offer3);
+        service.saveOrUpdate(offer4);
 
 
-assertEquals(offerList.get(0).getPrice(),service.offersToOrderByPrice(order.getId()).get(0).getPrice());
+
+
+        assertEquals(offer4.getPrice(), service.offersToOrderByPrice(order.getId()).get(0).getPrice());
 
 
     }
-
-
 
 
 }

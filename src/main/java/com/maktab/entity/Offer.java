@@ -24,7 +24,7 @@ public class Offer extends BaseEntity {
     @ManyToOne
     private Expert expert;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Order order;
 
 }
