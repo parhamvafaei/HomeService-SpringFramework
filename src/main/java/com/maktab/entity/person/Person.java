@@ -29,6 +29,7 @@ public abstract class Person extends BaseEntity {
     private String Email;
 
     @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}")
+    @NotNull
     private String password;
 
 }

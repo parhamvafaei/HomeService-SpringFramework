@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ public class Expert extends Person {
     @Size(max = 300_000)
     private byte[] image;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinTable(name = "expert_subService"
             , joinColumns = @JoinColumn(name = "expert_id")
             , inverseJoinColumns = @JoinColumn(name = "subService_id"))

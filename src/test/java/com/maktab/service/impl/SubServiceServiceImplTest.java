@@ -71,12 +71,13 @@ class SubServiceServiceImplTest {
     void addExpertToSubService() {
         Expert expert = new Expert();
         expert.setExpertStatus(ExpertStatus.CONFIRMED);
+        expert.setPassword("paRham23");
         SubService subService = new SubService();
         expertService.saveOrUpdate(expert);
         service.saveOrUpdate(subService);
         service.addExpertToSubService(expert, subService);
 
-        assertEquals(true, service.findById(subService.getId()).get().getExperts().contains(expert));
+        assertTrue(service.findById(subService.getId()).get().getExperts().contains(expert));
     }
 
     @Test

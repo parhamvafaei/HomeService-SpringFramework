@@ -17,7 +17,6 @@ class ServiceServiceImplTest {
     void loadServices() {
         Service service1=new Service();
         Service service2=new Service();
-        Service service3=new Service();
         service.saveOrUpdate(service1);
         service.saveOrUpdate(service2);
 

@@ -20,8 +20,13 @@ public class Utils {
     private OrderService orderService;
 
     public static boolean existsSubServiceInService(SubService subService, Service service) {
-
-        return subService.getService().getName().equals(service.getName());
+        boolean equals;
+        try {
+          equals = subService.getService().getName().equals(service.getName());
+     }catch (NullPointerException e ){
+         return false;
+     }
+        return equals;
     }
 
     public static List<Order> findOrdersToOffer() {

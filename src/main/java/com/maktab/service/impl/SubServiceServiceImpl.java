@@ -36,7 +36,7 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
         if (!(isExistsById(subService.getId())))
             throw new NotFoundServiceException("this SubService doesnt exist !");
 
-        if (!(Utils.existsSubServiceInService(subService, service)))
+        if (Utils.existsSubServiceInService(subService, service))
             throw new NotFoundServiceException("this SubService was already added!");
 
         subService.setService(service);
@@ -72,7 +72,7 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
         saveOrUpdate(subService);
 
     }
-
+//just save from expert side which has table join ?
     @Override
     public void addExpertToSubService(Expert expert, SubService subService) {
         if (subService.getExperts().contains(expert))
