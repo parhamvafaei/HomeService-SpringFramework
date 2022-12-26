@@ -23,8 +23,6 @@ class SubServiceServiceImplTest {
     @Autowired
     private ServiceService serviceService;
 
-    @Autowired
-    private ExpertService expertService;
 
     @Test
     void checkSubServiceInName() {
@@ -66,28 +64,6 @@ class SubServiceServiceImplTest {
         assertEquals("oo", service.findById(subService.getId()).get().getDescription());
     }
 
-    //#
-    @Test
-    void addExpertToSubService() {
-        Expert expert = new Expert();
-        expert.setExpertStatus(ExpertStatus.CONFIRMED);
-        expert.setPassword("paRham23");
-        SubService subService = new SubService();
-        subService.setName("sub");
-        expertService.saveOrUpdate(expert);
-        service.saveOrUpdate(subService);
-        service.addExpertToSubService(expert, subService);
-        System.out.println(service.findById(subService.getId()).get().getExperts());
-        System.out.println(expertService.findById(expert.getId()).get().getSubServices());
 
-        assertEquals(subService.getName(),expertService.findById(expert.getId()).get().getSubServices().get(0).getName());
-    }
-
-    @Test
-    void deleteExpertOfSubService() {
-        Expert expert = new Expert();
-        expert.setExpertStatus(ExpertStatus.CONFIRMED);
-        SubService subService = new SubService();
-    }
 
 }

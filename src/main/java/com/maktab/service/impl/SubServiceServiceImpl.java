@@ -72,38 +72,5 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
         saveOrUpdate(subService);
 
     }
-//just save from expert side which has table join ?
-@Transactional
-@Override
-    public void addExpertToSubService(Expert expert, SubService subService) {
-        if (subService.getExperts().contains(expert))
-            throw new ExpertAddException("expert already added !");
-        if (expert.getExpertStatus() == ExpertStatus.CONFIRMED && checkSubServiceInName(subService.getName())) {
-
-            List<Expert> experts = subService.getExperts();
-            experts.add(expert);
-            subService.setExperts(experts);
-
-            saveOrUpdate(subService);
-
-        } else
-            throw new ExpertAddException();
-    }
-
-    @Transactional
-    @Override
-    public void deleteExpertOfSubService(Expert expert, SubService subService) {
-
-        if (subService.getExperts().contains(expert)) {
-            List<Expert> experts = subService.getExperts();
-            experts.remove(expert);
-            subService.setExperts(experts);
-
-            saveOrUpdate(subService);
-
-
-        } else
-            throw new DeleteExpertException("delete expert of subService failed!");
-    }
 
 }

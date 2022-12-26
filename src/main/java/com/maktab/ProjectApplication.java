@@ -33,19 +33,19 @@ public class ProjectApplication {
         expertService.saveOrUpdate(expert);
         service.saveOrUpdate(subService);
 
-//       List<SubService> list = expert.getSubServices();
-//        list.add(subService);
-//        expert.setSubServices(list);
-//      expertService.saveOrUpdate(expert);
+       List<SubService> list = expert.getSubServices();
+        list.add(subService);
+        expert.setSubServices(list);
+      expertService.saveOrUpdate(expert);
 
-        List<Expert> experts = subService.getExperts();
-        experts.add(expert);
-        subService.setExperts(experts);
-        service.saveOrUpdate(subService);
+//        List<Expert> experts = subService.getExperts();
+//        experts.add(expert);
+//        subService.setExperts(experts);
+//        service.saveOrUpdate(subService);
 
 
         System.out.println(service.findById(subService.getId()).get());
-        System.out.println(service.findById(subService.getId()).get().getExperts());
+        System.out.println(service.findById(subService.getId()).get().getExperts().contains(expert));
         System.out.println(service.findById(subService.getId()).get().getExperts());
         System.out.println(expertService.findById(expert.getId()).get().getSubServices());
     }

@@ -2,6 +2,7 @@ package com.maktab.service;
 
 
 import com.maktab.base.service.impl.BaseService;
+import com.maktab.entity.SubService;
 import com.maktab.entity.person.Expert;
 
 import java.io.File;
@@ -17,6 +18,8 @@ public interface ExpertService extends BaseService<Expert> {
 
     Long confirmExpert(Long id);
 
+    void addExpertToSubService(Expert expert, SubService subService);
 
+    void deleteExpertOfSubService(Expert expert, SubService subService);
     //    void changeEmail(Long id, String email);
 }

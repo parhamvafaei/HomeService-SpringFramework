@@ -18,8 +18,6 @@ public interface SubServiceService extends BaseService<SubService> {
 
     void editSubService(Long id, Double price, String description);
 
-    void addExpertToSubService(Expert expert, SubService subService);
 
-    void deleteExpertOfSubService(Expert expert, SubService subService);
 
 }

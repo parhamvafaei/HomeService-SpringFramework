@@ -1,9 +1,11 @@
 package com.maktab.service.impl;
 
 
+import com.maktab.entity.SubService;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
 import com.maktab.service.ExpertService;
+import com.maktab.service.SubServiceService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +25,9 @@ class ExpertServiceImplTest {
 
     @Autowired
     private ExpertService service;
+
+    @Autowired
+    private SubServiceService subServiceService;
 
     @Test
     void changePassword() {
@@ -58,6 +63,38 @@ class ExpertServiceImplTest {
         expert.setExpertStatus(ExpertStatus.CONFIRMED);
         service.saveOrUpdate(expert);
         assertEquals(ExpertStatus.CONFIRMED, service.findById(expert.getId()).get().getExpertStatus());
+    }
+
+    @Test
+    void addExpertToSubService() {
+        Expert expert = new Expert();
+        expert.setExpertStatus(ExpertStatus.CONFIRMED);
+        expert.setPassword("paRham23");
+        SubService subService = new SubService();
+        subService.setName("sub");
+        service.saveOrUpdate(expert);
+        subServiceService.saveOrUpdate(subService);
+        service.addExpertToSubService(expert, subService);
+        System.out.println(subServiceService.findById(subService.getId()).get().getExperts());
+        System.out.println(service.findById(expert.getId()).get().getSubServices());
+
+        assertEquals(subService.getName(),service.findById(expert.getId()).get().getSubServices().get(0).getName());
+    }
+
+    @Test
+    void deleteExpertOfSubService() {
+        Expert expert = new Expert();
+        expert.setExpertStatus(ExpertStatus.CONFIRMED);
+        expert.setPassword("paRham23");
+        SubService subService = new SubService();
+        subService.setName("sub");
+        service.saveOrUpdate(expert);
+        subServiceService.saveOrUpdate(subService);
+        service.addExpertToSubService(expert, subService);
+        service.deleteExpertOfSubService(expert,subService);
+
+        assertThrows(NullPointerException.class,this::deleteExpertOfSubService);
+
     }
 
 }
