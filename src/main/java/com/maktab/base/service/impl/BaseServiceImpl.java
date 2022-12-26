@@ -2,6 +2,7 @@ package com.maktab.base.service.impl;
 
 
 import com.maktab.base.entity.BaseEntity;
+import com.maktab.base.service.BaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

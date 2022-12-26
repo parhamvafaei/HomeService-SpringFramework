@@ -2,7 +2,6 @@ package com.maktab.service.impl;
 
 
 import com.maktab.base.service.impl.BaseServiceImpl;
-import com.maktab.entity.person.Admin;
 import com.maktab.entity.person.Client;
 import com.maktab.repository.ClientRepository;
 import com.maktab.service.ClientService;

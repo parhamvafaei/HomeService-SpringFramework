@@ -1,9 +1,8 @@
 package com.maktab.service;
 
 
-import com.maktab.base.service.impl.BaseService;
+import com.maktab.base.service.BaseService;
 import com.maktab.entity.Address;
-import com.maktab.entity.Offer;
 import com.maktab.entity.Order;
 import com.maktab.entity.SubService;
 

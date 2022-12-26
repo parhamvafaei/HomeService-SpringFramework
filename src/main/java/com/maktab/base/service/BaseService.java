@@ -1,11 +1,11 @@
-package com.maktab.base.service.impl;
+package com.maktab.base.service;
 
 import com.maktab.base.entity.BaseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-//why base Entity
+
 public interface BaseService<E extends BaseEntity> {
     Long saveOrUpdate(E e);
 

@@ -1,10 +1,9 @@
 package com.maktab.service;
 
 
-import com.maktab.base.service.impl.BaseService;
+import com.maktab.base.service.BaseService;
 import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
-import com.maktab.entity.person.Expert;
 
 import java.util.List;
 
