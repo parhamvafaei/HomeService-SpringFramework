@@ -4,11 +4,7 @@ package com.maktab.service.impl;
 import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
-import com.maktab.entity.person.Expert;
-import com.maktab.entity.person.ExpertStatus;
-import com.maktab.exception.DeleteExpertException;
 
-import com.maktab.exception.ExpertAddException;
 import com.maktab.exception.NotFoundServiceException;
 import com.maktab.repository.SubServiceRepository;
 import com.maktab.service.SubServiceService;
