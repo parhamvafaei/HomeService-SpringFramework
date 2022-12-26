@@ -73,7 +73,8 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
 
     }
 //just save from expert side which has table join ?
-    @Override
+@Transactional
+@Override
     public void addExpertToSubService(Expert expert, SubService subService) {
         if (subService.getExperts().contains(expert))
             throw new ExpertAddException("expert already added !");
@@ -89,7 +90,7 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
             throw new ExpertAddException();
     }
 
-
+    @Transactional
     @Override
     public void deleteExpertOfSubService(Expert expert, SubService subService) {
 

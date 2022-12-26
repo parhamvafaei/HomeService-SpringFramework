@@ -35,10 +35,11 @@ class ExpertServiceImplTest {
         assertEquals("FGsrofm3", service.findById(expert.getId()).get().getPassword());
     }
 
-//#
+
     @Test
     void setProfileImage() throws IOException {
         Expert expert = new Expert();
+        expert.setPassword("Pksdjfj2");
         service.saveOrUpdate(expert);
         File file = new File("IMG_20220225_174859_946.jpg");
 
@@ -53,6 +54,7 @@ class ExpertServiceImplTest {
     @Test
     void confirmExpert() {
         Expert expert = new Expert();
+        expert.setPassword("Pksdjfj2");
         expert.setExpertStatus(ExpertStatus.CONFIRMED);
         service.saveOrUpdate(expert);
         assertEquals(ExpertStatus.CONFIRMED, service.findById(expert.getId()).get().getExpertStatus());
