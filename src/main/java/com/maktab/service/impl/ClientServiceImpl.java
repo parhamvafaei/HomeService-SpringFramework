@@ -10,8 +10,7 @@ import com.maktab.service.ClientService;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
+
 
 @Service
 public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository> implements ClientService {

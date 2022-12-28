@@ -14,7 +14,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
 
-//what if you don't use repository as field
 
 @Service
 public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> implements AdminService {

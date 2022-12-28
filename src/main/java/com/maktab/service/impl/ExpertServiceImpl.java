@@ -16,18 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 
 
-// use service in service or repo ?
-//why contains method doesn't work ?
+
 
 @Service
 public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository> implements ExpertService {
+
 
     private final SubServiceService subServiceService;
 
@@ -72,13 +68,12 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     }
 
     //show orders to expert
-    //just save from expert side which has table join ?
     @Transactional
     @Override
     public void addExpertToSubService(Expert expert, SubService subService) {
         if (subService.getExperts().contains(expert))
             throw new ExpertAddException("expert already added !");
-        if (expert.getExpertStatus() == ExpertStatus.CONFIRMED && subServiceService.checkSubServiceInName(subService.getName())) {
+        if (expert.getExpertStatus() == ExpertStatus.CONFIRMED && subServiceService.checkSubServiceByName(subService.getName())) {
 
             List<SubService> subServices = expert.getSubServices();
             subServices.add(subService);
@@ -125,20 +120,20 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     }
 
 
-//    @Transactional
-//    @Override
-//    public void changeEmail(Long id,String email) {
-//        Optional<Expert> expert = repository.findById(id);
-//        if (expert.isPresent()) {
-//            try {
-//                expert.get().setEmail(email);
-//            }catch (Exception e) {
-//                throw new ValidationException();
-//            }
-//                saveOrUpdate(expert.get());
-//
-//        } else
-//            throw new NullPointerException();
-//
-//    }
+ /*   @Transactional
+    @Override
+    public void changeEmail(Long id,String email) {
+        Optional<Expert> expert = repository.findById(id);
+        if (expert.isPresent()) {
+            try {
+                expert.get().setEmail(email);
+            }catch (Exception e) {
+                throw new ValidationException();
+            }
+                saveOrUpdate(expert.get());
+
+        } else
+            throw new NullPointerException();
+
+    }*/
 }

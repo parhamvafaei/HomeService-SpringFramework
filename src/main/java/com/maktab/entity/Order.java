@@ -36,7 +36,6 @@ public class Order extends BaseEntity {
     private Address address;
 
     @ManyToOne
-    @JoinColumn(name = "subService_id")
     private SubService subService;
 
     @ManyToOne

@@ -31,7 +31,6 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
         this.orderService = orderService;
     }
 
-    //is order saved
     @Transactional
     @Override
     public Long addNewOfferToOrder(Double price, Duration durationTime, Expert expert, Order order) {

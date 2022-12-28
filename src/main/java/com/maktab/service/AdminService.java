@@ -1,7 +1,6 @@
 package com.maktab.service;
 
 
-//get permission to expert just when is confirmed
 
 
 import com.maktab.base.service.BaseService;

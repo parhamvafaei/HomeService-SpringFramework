@@ -24,5 +24,4 @@ public interface ExpertService extends BaseService<Expert> {
 
     Long signIn(String firstName, String lastName, String Email, String password , byte[] image);
 
-    //    void changeEmail(Long id, String email);
 }
