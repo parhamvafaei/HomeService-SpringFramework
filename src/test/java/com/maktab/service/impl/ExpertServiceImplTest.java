@@ -4,6 +4,7 @@ package com.maktab.service.impl;
 import com.maktab.entity.SubService;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
+import com.maktab.exception.FileReaderException;
 import com.maktab.service.ExpertService;
 import com.maktab.service.SubServiceService;
 import org.junit.jupiter.api.Test;
@@ -46,12 +47,20 @@ class ExpertServiceImplTest {
         Expert expert = new Expert();
         expert.setPassword("Pksdjfj2");
         service.saveOrUpdate(expert);
-        File file = new File("IMG_20220225_174859_946.jpg");
+        File image = new File("IMG_20220225_174859_946.jpg");
+        byte[] bytes;
+        if (image.getName().contains(".jpg")) {
+            try (FileInputStream reader = new FileInputStream(image)) {
+                bytes = reader.readAllBytes();
+            } catch (Exception e) {
+                throw new FileReaderException();
+            }
+        } else
+            throw new FileReaderException("wrong file format !");
+        service.setProfileImage(bytes, expert.getId());
 
-        service.setProfileImage(file, expert.getId());
-
-        FileInputStream reader = new FileInputStream(file);
-        byte[] bytes = reader.readAllBytes();
+//        FileInputStream reader = new FileInputStream(file);
+//        byte[] bytes = reader.readAllBytes();
 
         assertArrayEquals(service.findById(expert.getId()).get().getImage(), bytes);
     }

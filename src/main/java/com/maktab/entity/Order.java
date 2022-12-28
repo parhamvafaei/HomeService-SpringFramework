@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
@@ -41,7 +42,7 @@ public class Order extends BaseEntity {
     @ManyToOne
     private Client client;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -27,4 +27,10 @@ class AdminServiceImplTest {
         assertEquals("FGsrofm3", adminService.findById(admin.getId()).get().getPassword());
     }
 
+    @Test
+    void createAdmin() {
+        adminService.createAdmin("padfef","aeff","Parham_fqe2@gamil.com","Prsgmdf3");
+
+
+    }
 }

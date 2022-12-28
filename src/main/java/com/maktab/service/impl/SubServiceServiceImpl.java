@@ -26,9 +26,11 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
         return repository.existsByName(name);
     }
 
+    //service
     @Transactional
     @Override
     public Long addSubService(SubService subService, Service service) {
+
         if (!(isExistsById(subService.getId())))
             throw new NotFoundServiceException("this SubService doesnt exist !");
 

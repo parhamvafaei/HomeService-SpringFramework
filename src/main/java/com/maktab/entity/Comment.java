@@ -1,10 +1,7 @@
 package com.maktab.entity;
 
 import com.maktab.base.entity.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -14,6 +11,7 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Comment extends BaseEntity {
 
     private Float rating;

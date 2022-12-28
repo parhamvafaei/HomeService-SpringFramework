@@ -23,7 +23,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 public abstract class Person extends BaseEntity {
     private String firstName;
-    private String firstLast;
+    private String lastName;
 
     @Email  @Column(unique = true)
     private String Email;

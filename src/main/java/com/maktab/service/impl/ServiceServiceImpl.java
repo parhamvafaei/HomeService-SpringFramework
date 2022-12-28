@@ -7,6 +7,7 @@ import com.maktab.repository.ServiceRepository;
 import com.maktab.service.ServiceService;
 
 import java.util.List;
+//add service
 
 @org.springframework.stereotype.Service
 public class ServiceServiceImpl extends BaseServiceImpl<Service, ServiceRepository> implements ServiceService {
@@ -19,4 +20,5 @@ public class ServiceServiceImpl extends BaseServiceImpl<Service, ServiceReposito
     public List<Service> loadServices() {
         return findAll();
     }
+
 }

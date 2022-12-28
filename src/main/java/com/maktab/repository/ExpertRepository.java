@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface ExpertRepository  extends JpaRepository<Expert,Long> {
 
+    boolean existsByEmail(String email);
 
 }

@@ -5,6 +5,9 @@ import com.maktab.entity.SubService;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,21 +24,28 @@ public class Expert extends Person {
 
     private Float rating = 0F;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private ExpertStatus expertStatus;
 
     @Lob
     @Size(max = 300_000)
     private byte[] image;
 
-    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
-    @JoinTable(name = "expert_subService"
-            , joinColumns = @JoinColumn(name = "expert_id")
-            , inverseJoinColumns = @JoinColumn(name = "subService_id"))
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<SubService> subServices =new ArrayList<>();
+    private List<SubService> subServices = new ArrayList<>();
 
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Offer> offers =new ArrayList<>();
+    private List<Offer> offers = new ArrayList<>();
+
+    @Builder
+    public Expert(String firstName, String lastName, String Email,  String password
+            , Float rating, ExpertStatus expertStatus, byte[] image) {
+
+        super(firstName, lastName, Email, password);
+        this.rating = rating;
+        this.expertStatus = expertStatus;
+        this.image = image;
+    }
 }

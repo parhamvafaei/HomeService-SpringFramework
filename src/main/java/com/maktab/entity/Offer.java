@@ -7,7 +7,6 @@ import lombok.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import java.time.Duration;
 
 @Entity
@@ -16,6 +15,7 @@ import java.time.Duration;
 @Getter
 @Setter
 @ToString
+@Builder
 public class Offer extends BaseEntity {
 
     private Double price;

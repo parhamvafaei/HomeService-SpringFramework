@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 public class SubService extends BaseEntity {
     private String name;
     private Double price;
