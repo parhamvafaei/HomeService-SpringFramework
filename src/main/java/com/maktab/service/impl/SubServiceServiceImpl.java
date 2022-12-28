@@ -7,6 +7,7 @@ import com.maktab.entity.SubService;
 
 import com.maktab.exception.NotFoundServiceException;
 import com.maktab.repository.SubServiceRepository;
+import com.maktab.service.ServiceService;
 import com.maktab.service.SubServiceService;
 import com.maktab.util.Utils;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,20 +17,23 @@ import java.util.List;
 @org.springframework.stereotype.Service
 public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServiceRepository> implements SubServiceService {
 
+    private final ServiceService serviceService;
 
-    public SubServiceServiceImpl(SubServiceRepository repository) {
+    public SubServiceServiceImpl(SubServiceRepository repository, ServiceService serviceService) {
         super(repository);
+        this.serviceService = serviceService;
     }
 
     @Override
-    public Boolean checkSubServiceInName(String name) {
+    public Boolean checkSubServiceByName(String name) {
         return repository.existsByName(name);
     }
 
-    //service
     @Transactional
     @Override
     public Long addSubService(SubService subService, Service service) {
+
+        serviceService.findById(service.getId()).orElseThrow(NotFoundServiceException::new);
 
         if (!(isExistsById(subService.getId())))
             throw new NotFoundServiceException("this SubService doesnt exist !");

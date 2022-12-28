@@ -3,18 +3,26 @@ package com.maktab.service.impl;
 
 import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.*;
+import com.maktab.entity.person.Expert;
+import com.maktab.exception.NotFoundPersonException;
 import com.maktab.exception.OrderStatusConditionException;
 import com.maktab.repository.OrderRepository;
+import com.maktab.service.ExpertService;
 import com.maktab.service.OrderService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> implements OrderService {
-    public OrderServiceImpl(OrderRepository repository) {
+
+    private final ExpertService expertService;
+    public OrderServiceImpl(OrderRepository repository, ExpertService expertService) {
         super(repository);
+        this.expertService = expertService;
     }
 
     @Transactional
@@ -62,4 +70,25 @@ return order.getId();
         } else
             throw new OrderStatusConditionException();
     }
+
+    @Override
+    public List<Order> showRelatedOrdersBySubService(Long expertId) {
+        Expert expert = expertService.findById(expertId).orElseThrow(NotFoundPersonException::new);
+        List<Order> result =new ArrayList<>();
+        List<SubService> subServices = expert.getSubServices();
+        subServices.forEach(subService -> result.addAll(subService.getOrders()));
+        return result;
+
+    }
+
+@Override
+    public  List<Order> findOrdersToOffer() {
+        return findAll().stream()
+                .filter(order -> order
+                        .getOrderStatus()
+                        .equals(OrderStatus.WAITING_FOR_EXPERT))
+                .toList();
+
+    }
+
 }

@@ -1,0 +1,12 @@
+// how to write query when use single table in inheritance
+//importance of use no argsConstructor
+
+//    @Query("select s from SubService s where s.service.name= :subService in ")
+//    Boolean existsSubServiceInService(SubService subService , Service service);
+//complete with subQuery
+
+//what if you don't use repository as field
+
+//just save from expert side which has table join ?
+
+//why contains method doesn't work ?

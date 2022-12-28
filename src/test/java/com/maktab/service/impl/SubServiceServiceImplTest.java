@@ -2,9 +2,6 @@ package com.maktab.service.impl;
 
 import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
-import com.maktab.entity.person.Expert;
-import com.maktab.entity.person.ExpertStatus;
-import com.maktab.service.ExpertService;
 import com.maktab.service.ServiceService;
 import com.maktab.service.SubServiceService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +25,7 @@ class SubServiceServiceImplTest {
     void checkSubServiceInName() {
         SubService subService1 = new SubService();
         service.saveOrUpdate(subService1);
-        assertEquals(true, service.checkSubServiceInName(subService1.getName()));
+        assertEquals(true, service.checkSubServiceByName(subService1.getName()));
     }
 //#
     @Test
@@ -56,7 +53,7 @@ class SubServiceServiceImplTest {
 
     @Test
     void editSubService() {
-        SubService subService = new SubService("subservice", 54D, "pppp", null, null);
+        SubService subService = new SubService("subservice", 54D, "pppp", null, null,null);
         service.saveOrUpdate(subService);
         service.editSubService(subService.getId(), 48D, "oo");
 

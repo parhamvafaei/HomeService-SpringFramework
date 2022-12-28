@@ -7,9 +7,9 @@ import com.maktab.entity.SubService;
 
 import java.util.List;
 
-// how to write query when use single table in inheritance
+
 public interface SubServiceService extends BaseService<SubService> {
-    Boolean checkSubServiceInName(String name);
+    Boolean checkSubServiceByName(String name);
 
     Long addSubService(SubService subService, Service service);
 

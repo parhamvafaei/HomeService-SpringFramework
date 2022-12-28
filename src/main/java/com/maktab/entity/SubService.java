@@ -25,10 +25,11 @@ public class SubService extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private Service service;
 
-    //why use many to many
     @ManyToMany(mappedBy = "subServices", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Expert> experts =new ArrayList<>();
 
-
+@OneToMany(mappedBy = "subService")
+@ToString.Exclude
+private List<Order> orders;
 }

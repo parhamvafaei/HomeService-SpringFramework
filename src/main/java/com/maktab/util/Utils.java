@@ -16,8 +16,6 @@ import java.util.List;
 //why use no args constructor
 public class Utils {
 
-    @Autowired
-    private OrderService orderService;
 
     public static boolean existsSubServiceInService(SubService subService, Service service) {
         boolean equals;
@@ -29,12 +27,5 @@ public class Utils {
         return equals;
     }
 
-    public static List<Order> findOrdersToOffer() {
-        return new Utils().orderService.findAll().stream()
-                .filter(order -> order
-                        .getOrderStatus()
-                        .equals(OrderStatus.WAITING_FOR_EXPERT))
-                        .toList();
 
-    }
 }

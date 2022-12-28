@@ -10,4 +10,6 @@ public interface ServiceService extends BaseService<Service> {
 
 
     List<Service> loadServices();
+
+    Long addService(String name);
 }
