@@ -26,7 +26,7 @@ public abstract class Person extends BaseEntity {
     private String lastName;
 
     @Email  @Column(unique = true)
-    private String Email;
+    private String email;
 
     @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}")
     @NotNull

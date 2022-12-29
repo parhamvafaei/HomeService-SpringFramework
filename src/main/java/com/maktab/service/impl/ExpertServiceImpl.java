@@ -2,23 +2,24 @@ package com.maktab.service.impl;
 
 
 import com.maktab.base.service.impl.BaseServiceImpl;
+import com.maktab.entity.Comment;
+import com.maktab.entity.Order;
+import com.maktab.entity.OrderStatus;
 import com.maktab.entity.SubService;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
-import com.maktab.exception.DeleteExpertException;
-import com.maktab.exception.ExpertAddException;
+import com.maktab.exception.*;
 
-import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.ExpertRepository;
 import com.maktab.service.ExpertService;
+import com.maktab.service.OrderService;
 import com.maktab.service.SubServiceService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
 import java.util.List;
-
-
+import java.util.Optional;
 
 
 @Service
@@ -29,6 +30,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
     public ExpertServiceImpl(ExpertRepository repository, SubServiceService subServiceService) {
         super(repository);
+
         this.subServiceService = subServiceService;
     }
 
@@ -107,9 +109,9 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @Override
     public Long signIn(String firstName, String lastName,String Email, String password, byte[] image) {
 
-        if (repository.existsByEmail(Email)) {
-            throw new PersonSignInException("this expert already exist");
-        }
+//        if (repository.existsByEmail(Email)) {
+//            throw new PersonSignInException("this expert already exist");
+//        }
         Expert expert = new Expert();
         Expert.builder().firstName(firstName).lastName(lastName).Email(Email).password(password)
                 .build();
@@ -118,9 +120,20 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         saveOrUpdate(expert);
         return expert.getId();
     }
+//@Transactional
+//    @Override
+//    public void setComment(Long expertId, Long orderId, Float rating, String description) {
+//        Expert expert = findById(expertId).orElseThrow(NotFoundPersonException::new);
+//        Order order = orderService.findById(orderId).orElseThrow(NullPointerException::new);
+//        if (!(order.getOrderStatus() == OrderStatus.PAID))
+//            throw new OrderStatusConditionException();
+//        if (!(rating >= 0 || rating <= 5))
+//            throw new ValidationException("not in range ");
+//        Comment comment=new Comment(rating,description,order);
+//    }
 
 
- /*   @Transactional
+  /*  @Transactional
     @Override
     public void changeEmail(Long id,String email) {
         Optional<Expert> expert = repository.findById(id);

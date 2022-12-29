@@ -24,4 +24,6 @@ public interface ExpertService extends BaseService<Expert> {
 
     Long signIn(String firstName, String lastName, String Email, String password , byte[] image);
 
+//    void setComment(Long expertId , Long orderId ,Float rating , String description);
+
 }

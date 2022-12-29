@@ -27,7 +27,7 @@ class SubServiceServiceImplTest {
         service.saveOrUpdate(subService1);
         assertEquals(true, service.checkSubServiceByName(subService1.getName()));
     }
-//#
+
     @Test
     void addSubService() {
         Service service1 = new Service();
