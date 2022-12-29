@@ -61,7 +61,7 @@ public class ExpertController {
               ,expert,order );
     }
 
-    @GetMapping("/ind-orders-to-offer")
+    @GetMapping("/find-orders-to-offer")
     List<Order> findOrdersToOffer(Long expertId) {
         return orderService.showRelatedOrdersBySubService(expertId);
     }
