@@ -2,9 +2,6 @@ package com.maktab.service.impl;
 
 
 import com.maktab.base.service.impl.BaseServiceImpl;
-import com.maktab.entity.Comment;
-import com.maktab.entity.Order;
-import com.maktab.entity.OrderStatus;
 import com.maktab.entity.SubService;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
@@ -12,14 +9,14 @@ import com.maktab.exception.*;
 
 import com.maktab.repository.ExpertRepository;
 import com.maktab.service.ExpertService;
-import com.maktab.service.OrderService;
 import com.maktab.service.SubServiceService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ValidationException;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 
 @Service
@@ -72,7 +69,9 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     //show orders to expert
     @Transactional
     @Override
-    public void addExpertToSubService(Expert expert, SubService subService) {
+    public void addExpertToSubService(Long expertId, Long subServiceId) {
+        Expert expert = findById(expertId).orElseThrow(NullPointerException::new);
+        SubService subService = subServiceService.findById(subServiceId).orElseThrow(NullPointerException::new);
         if (subService.getExperts().contains(expert))
             throw new ExpertAddException("expert already added !");
         if (expert.getExpertStatus() == ExpertStatus.CONFIRMED && subServiceService.checkSubServiceByName(subService.getName())) {
@@ -90,7 +89,9 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
     @Transactional
     @Override
-    public void deleteExpertOfSubService(Expert expert, SubService subService) {
+    public void deleteExpertOfSubService(Long expertId, Long subServiceId) {
+        Expert expert = findById(expertId).orElseThrow(NullPointerException::new);
+        SubService subService = subServiceService.findById(subServiceId).orElseThrow(NullPointerException::new);
 
         if (subService.getExperts().stream().anyMatch(expert1 -> expert1.equals(expert))) {
             List<SubService> subServices = expert.getSubServices();
@@ -107,11 +108,11 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
 
     @Override
-    public Long signIn(String firstName, String lastName,String Email, String password, byte[] image) {
+    public Long signIn(String firstName, String lastName, String Email, String password, byte[] image) {
 
-//        if (repository.existsByEmail(Email)) {
-//            throw new PersonSignInException("this expert already exist");
-//        }
+        if (repository.existsByEmail(Email)) {
+            throw new PersonSignInException("this expert already exist");
+        }
         Expert expert = new Expert();
         Expert.builder().firstName(firstName).lastName(lastName).Email(Email).password(password)
                 .build();
@@ -119,6 +120,20 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         setProfileImage(image, expert.getId());
         saveOrUpdate(expert);
         return expert.getId();
+    }
+
+    @Override
+    public boolean checkImage(MultipartFile file) {
+
+        String[] split = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+        if (!(split[split.length - 1].equals("jpg")))
+            throw new FileReaderException("wrong format");
+
+        if (file.getSize() > 300_000)
+            throw new FileReaderException("image size is more than standard");
+
+
+        return true;
     }
 //@Transactional
 //    @Override
