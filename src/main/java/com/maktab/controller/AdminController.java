@@ -70,7 +70,7 @@ public class AdminController {
     void changePassword(@Valid @RequestBody ChangePasswordDTO passwordDTO) {
     adminService.changePassword(passwordDTO.getId(), passwordDTO.getPassword());
     }
-    .
+
 
 
 
