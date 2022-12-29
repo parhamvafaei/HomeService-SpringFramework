@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.time.Duration;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -26,5 +27,14 @@ public class Offer extends BaseEntity {
 
     @ManyToOne
     private Order order;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Offer offer = (Offer) o;
+        return Objects.equals(price, offer.price) && Objects.equals(durationTime, offer.durationTime) && Objects.equals(expert, offer.expert) && Objects.equals(order, offer.order);
+    }
+
 
 }
