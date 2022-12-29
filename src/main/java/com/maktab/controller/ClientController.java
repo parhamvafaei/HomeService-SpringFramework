@@ -73,6 +73,6 @@ public class ClientController {
     public String payment(){
         return "payment";
     }
-    .
+
 }
 
