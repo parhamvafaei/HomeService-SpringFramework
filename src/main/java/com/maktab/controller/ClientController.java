@@ -53,7 +53,7 @@ public class ClientController {
 
     }
 
-    @GetMapping("/sorted-offers-by-price/{order_id}")
+    @GetMapping("/orted-offers-by-price/{order_id}")
     List<Offer> sortedOffersByPrice(@PathVariable Long order_id) {
         return offerService.offersToOrderByPrice(order_id);
     }
