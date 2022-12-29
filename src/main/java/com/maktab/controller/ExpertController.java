@@ -48,12 +48,12 @@ public class ExpertController {
     }
 
 
-    @PutMapping("/hange-password/{id}/{password}")
+    @PutMapping("/change-password/{id}/{password}")
     void changePassword(@Valid @RequestBody ChangePasswordDTO passwordDTO) {
         expertService.changePassword(passwordDTO.getId(), passwordDTO.getPassword());
     }
 
-    @PostMapping("/offer-to-order/{expert_id}/{order_id}")
+    @PostMapping("/ffer-to-order/{expert_id}/{order_id}")
     void addNewOfferToOrder(@RequestBody OfferDTO offerDTO ,@PathVariable Long expert_id, @PathVariable Long order_id) {
         Expert expert = expertService.findById(expert_id).orElseThrow(NullPointerException::new);
         Order order = orderService.findById(order_id).orElseThrow(NullPointerException::new);
