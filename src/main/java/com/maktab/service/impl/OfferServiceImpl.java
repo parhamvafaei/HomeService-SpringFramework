@@ -8,8 +8,10 @@ import com.maktab.entity.OrderStatus;
 
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
-import com.maktab.exception.ExpertNotConfirmedException;
+import com.maktab.exception.ExpertConditionException;
 
+import com.maktab.exception.OrderStatusConditionException;
+import com.maktab.exception.SelectOrderException;
 import com.maktab.repository.OfferRepository;
 import com.maktab.service.OfferService;
 import com.maktab.service.OrderService;
@@ -34,14 +36,22 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
     @Transactional
     @Override
     public Long addNewOfferToOrder(Double price, Duration durationTime, Expert expert, Order order) {
+        if (!(order.getOrderStatus() == OrderStatus.WAITING_FOR_EXPERT))
+            throw new OrderStatusConditionException();
+        if (expert.getSubServices().contains(order.getSubService()))
+            throw new ExpertConditionException();
         if (!(expert.getExpertStatus().equals(ExpertStatus.CONFIRMED)))
-            throw new ExpertNotConfirmedException();
+            throw new ExpertConditionException();
+
         if (order.getSubService().getPrice() > price)
             throw new ValidationException();
+
+
         Offer offer = new Offer(price, durationTime, expert, order);
         order.setOrderStatus(OrderStatus.SELECTING_EXPERT);
         saveOrUpdate(offer);
         return offer.getId();
+
     }
 
     @Override
