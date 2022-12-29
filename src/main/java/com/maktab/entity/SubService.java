@@ -8,6 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -32,4 +33,14 @@ public class SubService extends BaseEntity {
 @OneToMany(mappedBy = "subService")
 @ToString.Exclude
 private List<Order> orders;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubService that = (SubService) o;
+        return Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(description, that.description) && Objects.equals(service, that.service) && Objects.equals(experts, that.experts) && Objects.equals(orders, that.orders);
+    }
+
+
 }
