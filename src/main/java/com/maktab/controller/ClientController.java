@@ -28,7 +28,7 @@ public class ClientController {
     @PostMapping("/save-client")
     void saveClient(@Valid @RequestBody ClientDTO clientDTO) {
         clientService.signIn(clientDTO.getFirstName(), clientDTO.getLastName(), clientDTO.getEmail(), clientDTO.getPassword());
-
+    }
 
     @PutMapping("/change-password/{id}/{password}")
     void changePassword(@Valid @RequestBody ChangePasswordDTO passwordDTO) {
