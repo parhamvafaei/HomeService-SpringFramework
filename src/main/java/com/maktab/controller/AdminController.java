@@ -3,6 +3,7 @@ package com.maktab.controller;
 import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
 import com.maktab.entity.dto.ChangePasswordDTO;
+import com.maktab.entity.dto.EditSubServiceDTO;
 import com.maktab.entity.dto.SubServiceDTO;
 import com.maktab.service.AdminService;
 import com.maktab.service.ExpertService;
@@ -28,12 +29,12 @@ public class AdminController {
 
     @GetMapping("/find-all-services")
     List<Service> findAllServices() {
-        return serviceService.findAll();
+        return serviceService.loadServices();
     }
 
     @GetMapping("/find-all-subServices")
     List<SubService> findAllSubServices() {
-        return subServiceService.findAll();
+        return subServiceService.loadSubServices();
     }
 
     @PostMapping("/save-service/{name}")
@@ -72,6 +73,10 @@ public class AdminController {
     }
 
 
+    @PutMapping("/edit-subService")
+    void editSubService(@RequestBody EditSubServiceDTO subServiceDTO) {
+        subServiceService.editSubService(subServiceDTO.getId(), subServiceDTO.getPrice(), subServiceDTO.getDescription());
+    }
 
 
 
