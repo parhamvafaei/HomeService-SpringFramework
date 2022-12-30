@@ -65,4 +65,10 @@ public class ExpertController {
     List<Order> findOrdersToOffer(Long expertId) {
         return orderService.showRelatedOrdersBySubService(expertId);
     }
+
+    @GetMapping("/show-expert-rate/{order_id}/{expert_id}")
+    Float showExpertRate(@PathVariable Long order_id , @PathVariable Long expert_id) {
+        return orderService.showCommentRatingToOrder(order_id,expert_id);
+    }
+
 }
