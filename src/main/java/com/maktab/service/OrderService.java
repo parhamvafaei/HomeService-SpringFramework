@@ -28,4 +28,7 @@ public interface OrderService extends BaseService<Order> {
     void setComment(Comment comment, Long order_id);
 
     Float showCommentRatingToOrder(Long id, Long expert_id);
+
+    void expertAccountStatus(Long orderId, Long expert_id);
+
 }

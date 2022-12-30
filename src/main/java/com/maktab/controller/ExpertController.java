@@ -4,10 +4,7 @@ package com.maktab.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maktab.entity.Offer;
 import com.maktab.entity.Order;
-import com.maktab.entity.dto.ChangePasswordDTO;
-import com.maktab.entity.dto.ClientDTO;
-import com.maktab.entity.dto.ExpertDTO;
-import com.maktab.entity.dto.OfferDTO;
+import com.maktab.entity.dto.*;
 import com.maktab.entity.person.Expert;
 import com.maktab.exception.FileReaderException;
 import com.maktab.service.ExpertService;
@@ -69,6 +66,11 @@ public class ExpertController {
     @GetMapping("/show-expert-rate/{order_id}/{expert_id}")
     Float showExpertRate(@PathVariable Long order_id , @PathVariable Long expert_id) {
         return orderService.showCommentRatingToOrder(order_id,expert_id);
+    }
+
+    @PutMapping("/check-expert-account-status/{order_id}/{offer_id}")
+    void checkExpertAccountStatus(@PathVariable Long order_id , @PathVariable Long offer_id) {
+   orderService.expertAccountStatus(order_id,offer_id);
     }
 
 }

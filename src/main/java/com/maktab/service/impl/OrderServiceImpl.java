@@ -4,6 +4,7 @@ package com.maktab.service.impl;
 import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.*;
 import com.maktab.entity.person.Expert;
+import com.maktab.entity.person.ExpertStatus;
 import com.maktab.exception.ExpertConditionException;
 import com.maktab.exception.NotFoundPersonException;
 import com.maktab.exception.OrderStatusConditionException;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> implements OrderService {
@@ -106,7 +108,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     //offer.isSet()!
     @Transactional
     @Override
-    public void setComment(Comment comment,  Long expert_id) {
+    public void setComment(Comment comment, Long expert_id) {
         Order order = findById(expert_id).orElseThrow(NullPointerException::new);
         if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
             throw new OrderStatusConditionException();
@@ -140,5 +142,35 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             throw new ValidationException();
 
         return order.getComment().getRating();
+    }
+
+    @Transactional
+    @Override
+    public void expertAccountStatus(Long orderId, Long expert_id) {
+        Order order = findById(orderId).orElseThrow(NullPointerException::new);
+        Expert expert = expertService.findById(expert_id).orElseThrow(NullPointerException::new);
+        if (expert.getRating() < 0) {
+            expert.setExpertStatus(ExpertStatus.AWAITING_CONFIRMATION);
+            expertService.saveOrUpdate(expert);
+            throw new ExpertConditionException();
+        }
+        if (!(order.getOrderStatus() == OrderStatus.DONE))
+            throw new OrderStatusConditionException();
+        Optional<Offer> offer1 = expert.getOffers().stream().filter(offer -> offer.isSet() == true).findAny();
+        if (offer1.isEmpty())
+            throw new NullPointerException();
+
+        long time = offer1.get().getDurationTime().toHours();
+        long actualTime = order.getActualDurationTime().toHours();
+        long between = time - actualTime;
+
+        if (between > 0) {
+            if (expert.getRating() - between > 0) {
+                expert.setRating(expert.getRating() - between);
+            } else {
+                expert.setExpertStatus(ExpertStatus.AWAITING_CONFIRMATION);
+            }
+            expertService.saveOrUpdate(expert);
+        }
     }
 }
