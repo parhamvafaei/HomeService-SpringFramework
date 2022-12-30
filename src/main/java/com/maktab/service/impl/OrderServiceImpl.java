@@ -16,11 +16,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> implements OrderService {
@@ -57,6 +57,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             throw new ExpertConditionException();
         order.setTime(LocalDateTime.now());
         order.setOrderStatus(OrderStatus.WAITING_FOR_EXPERT);
+        offer.setSet(true);
         offerService.saveOrUpdate(offer);
         saveOrUpdate(order);
     }
@@ -102,5 +103,42 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     }
 
+    //offer.isSet()!
+    @Transactional
+    @Override
+    public void setComment(Comment comment,  Long expert_id) {
+        Order order = findById(expert_id).orElseThrow(NullPointerException::new);
+        if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
+            throw new OrderStatusConditionException();
+        if (comment.getRating() == null)
+            throw new NullPointerException();
+        if (comment.getRating() >= 0 || comment.getRating() <= 5)
+            throw new ValidationException("score is not in range");
 
+        order.setComment(comment);
+        saveOrUpdate(order);
+
+        Expert expert = offerService.findAll().stream().filter(offer ->
+                        (offer.isSet()) && (offer.getOrder().equals(order)))
+                .findAny().get().getExpert();
+
+
+    }
+
+
+    @Override
+    public Float showCommentRatingToOrder(Long id, Long expert_id) {
+        Order order = findById(id).orElseThrow(NullPointerException::new);
+        Expert expert = expertService.findById(expert_id).orElseThrow(NullPointerException::new);
+        if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
+            throw new OrderStatusConditionException();
+        boolean empty = expert.getOffers().stream().filter(offer ->
+                Objects.equals(offer.getOrder().getId(), order.getId())
+                        &&
+                        offer.isSet()).findAny().isEmpty();
+        if (empty == true)
+            throw new ValidationException();
+
+        return order.getComment().getRating();
+    }
 }

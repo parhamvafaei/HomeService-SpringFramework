@@ -44,5 +44,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
         return client.getId();
     }
 
+
+
 }
 

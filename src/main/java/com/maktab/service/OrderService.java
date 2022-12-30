@@ -3,8 +3,10 @@ package com.maktab.service;
 
 import com.maktab.base.service.BaseService;
 import com.maktab.entity.Address;
+import com.maktab.entity.Comment;
 import com.maktab.entity.Order;
 import com.maktab.entity.SubService;
+import com.maktab.entity.person.Expert;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -23,4 +25,7 @@ public interface OrderService extends BaseService<Order> {
 
     List<Order> showRelatedOrdersBySubService(Long expertId);
 
+    void setComment(Comment comment, Long order_id);
+
+    Float showCommentRatingToOrder(Long id, Long expert_id);
 }
