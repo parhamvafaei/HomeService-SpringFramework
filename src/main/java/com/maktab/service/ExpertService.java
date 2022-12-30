@@ -30,6 +30,7 @@ public interface ExpertService extends BaseService<Expert> {
 
     boolean checkImage(MultipartFile file);
 
-//    void setComment(Long expertId , Long orderId ,Float rating , String description);
+
+
 
 }
