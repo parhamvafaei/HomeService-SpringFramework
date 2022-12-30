@@ -3,12 +3,10 @@ package com.maktab.service.impl;
 
 import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.*;
+import com.maktab.entity.person.Client;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
-import com.maktab.exception.ExpertConditionException;
-import com.maktab.exception.NotFoundPersonException;
-import com.maktab.exception.OrderStatusConditionException;
-import com.maktab.exception.SelectOrderException;
+import com.maktab.exception.*;
 import com.maktab.repository.OrderRepository;
 import com.maktab.service.ClientService;
 import com.maktab.service.ExpertService;
@@ -185,6 +183,24 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         return offerService.findAll().stream().filter(offer ->
                         (offer.isSet()) && (offer.getOrder().equals(order)))
                 .findAny().get().getExpert();
+
+    }
+    @Transactional
+    @Override
+    public void payFromCredit(Long order_id, Long client_id){
+        Order order = findById(order_id).orElseThrow(NullPointerException::new);
+        Client client = clientService.findById(client_id).orElseThrow(NullPointerException::new);
+        if (client.getCredit().getAmount() <order.getPrice())
+            throw new NotEnoughMoneyException();
+        if (order.getOrderStatus()==OrderStatus.DONE) {
+            order.setOrderStatus(OrderStatus.PAID);
+            Credit credit = client.getCredit();
+            credit.setAmount(credit.getAmount()-order.getPrice());
+
+            saveOrUpdate(order);
+            clientService.saveOrUpdate(client);
+        }else
+            throw new OrderStatusConditionException();
 
     }
 }
