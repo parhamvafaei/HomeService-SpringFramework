@@ -1,11 +1,10 @@
 package com.maktab.controller;
 
 
-import com.maktab.entity.Offer;
-import com.maktab.entity.Service;
-import com.maktab.entity.SubService;
+import com.maktab.entity.*;
 import com.maktab.entity.dto.ChangePasswordDTO;
 import com.maktab.entity.dto.ClientDTO;
+import com.maktab.entity.dto.CommentDTO;
 import com.maktab.entity.dto.OrderDTO;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +36,12 @@ public class ClientController {
 
     @GetMapping("/find-all-services")
     List<Service> findAllServices() {
-        return serviceService.findAll();
+        return serviceService.loadServices();
     }
 
     @GetMapping("/find-all-subServices")
     List<SubService> findAllSubServices() {
-        return subServiceService.findAll();
+        return subServiceService.loadSubServices();
     }
 
     @PostMapping("/add-order/{subService_id}")
@@ -63,10 +62,35 @@ public class ClientController {
         return offerService.offersToOrderByExpertRate(order_id);
     }
 
+    @GetMapping("/show-related-orders/{expert_id}")
+    List<Order> showRelatedOrders(@PathVariable Long expert_id) {
+        return orderService.showRelatedOrdersBySubService(expert_id);
+    }
+
+
+    @PutMapping("/order-to-start/{order_id}")
+    void orderStatusToStarted( @PathVariable Long order_id) {
+        orderService.changeOrderStatusToStarted(order_id);
+    }
+
+    @PutMapping("/order-to-done/{order_id}")
+    void orderStatusToDone( @PathVariable Long order_id) {
+        orderService.changeOrderStatusToDone(order_id);
+    }
+
+
     @PutMapping("/choose-expert/{offer_id}/{order_id}")
     void selectExpertToOrder(@PathVariable Long offer_id, @PathVariable Long order_id) {
         orderService.selectExpertToOrder(offer_id, order_id);
     }
+
+
+    @PostMapping("/save-comment/{order_id}")
+    void setComment(@RequestBody CommentDTO commentDTO, @PathVariable Long order_id) {
+        Comment comment=Comment.builder().rating(commentDTO.getRating()).description(commentDTO.getDescription()).build();
+orderService.setComment(comment,order_id);
+    }
+
 
 
     @GetMapping("/payment")
