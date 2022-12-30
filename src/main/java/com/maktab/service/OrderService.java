@@ -31,4 +31,6 @@ public interface OrderService extends BaseService<Order> {
 
     void expertAccountStatus(Long orderId, Long expert_id);
 
+    Expert findExpert(Long order_id , Long offer_id);
+
 }

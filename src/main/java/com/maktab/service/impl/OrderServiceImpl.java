@@ -10,6 +10,7 @@ import com.maktab.exception.NotFoundPersonException;
 import com.maktab.exception.OrderStatusConditionException;
 import com.maktab.exception.SelectOrderException;
 import com.maktab.repository.OrderRepository;
+import com.maktab.service.ClientService;
 import com.maktab.service.ExpertService;
 import com.maktab.service.OfferService;
 import com.maktab.service.OrderService;
@@ -30,10 +31,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     private final ExpertService expertService;
     private final OfferService offerService;
 
-    public OrderServiceImpl(OrderRepository repository, @Lazy ExpertService expertService, @Lazy OfferService offerService) {
+    private final ClientService clientService;
+
+    public OrderServiceImpl(OrderRepository repository, @Lazy ExpertService expertService, @Lazy OfferService offerService, ClientService clientService) {
         super(repository);
         this.expertService = expertService;
         this.offerService = offerService;
+        this.clientService = clientService;
     }
 
     @Transactional
@@ -172,5 +176,15 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             }
             expertService.saveOrUpdate(expert);
         }
+    }
+
+    @Override
+    public Expert findExpert(Long order_id, Long offer_id) {
+
+        Order order = findById(order_id).orElseThrow(NullPointerException::new);
+        return offerService.findAll().stream().filter(offer ->
+                        (offer.isSet()) && (offer.getOrder().equals(order)))
+                .findAny().get().getExpert();
+
     }
 }
