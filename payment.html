@@ -9,7 +9,7 @@
         type: "POST",
         url: "/client/payment",
         data: {
-            cardNumber: $('.cardNumber').val()
+            order_id: $('.order_id').val()
         },
         success: function (response) {
             alert(response.status);
@@ -41,7 +41,7 @@
             </div>
             <hr/>
             <div class="form-group">
-                <label class="control-label" for="expiry_month">Expiry Date</label>
+                <label class="control-label" for="expiry_month">Expire Date</label>
 
                 <div class="row">
                     <div class="col-sm-4">

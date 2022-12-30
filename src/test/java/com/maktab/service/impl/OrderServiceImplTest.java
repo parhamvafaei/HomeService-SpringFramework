@@ -53,10 +53,10 @@ class OrderServiceImplTest {
         Order order = orderService.findById(2L).get();
         order.setOrderStatus(OrderStatus.SELECTING_EXPERT);
 
-        Offer offer = new Offer(2D, Duration.ofHours(2),false, null, order);
+        Offer offer = new Offer(2D, Duration.ofHours(2), false, null, order);
         offerService.saveOrUpdate(offer);
         orderService.saveOrUpdate(order);
-        orderService.selectExpertToOrder(offer.getId(),order.getId());
+        orderService.selectExpertToOrder(offer.getId(), order.getId());
 
         assertEquals(OrderStatus.WAITING_EXPERT_COME, orderService.findById(order.getId()).get().getOrderStatus());
     }
@@ -86,7 +86,7 @@ class OrderServiceImplTest {
         assertEquals(OrderStatus.DONE, orderService.findById(order.getId()).get().getOrderStatus());
     }
 
-@Transactional
+    @Transactional
     @Test
     @org.junit.jupiter.api.Order(4)
     void showRelatedOrdersBySubService() {
@@ -95,12 +95,13 @@ class OrderServiceImplTest {
         order.setOrderStatus(OrderStatus.WAITING_FOR_EXPERT);
         order.setSubService(subService);
         subServiceService.saveOrUpdate(subService);
-        Expert expert=Expert.builder().password("Parham12").expertStatus(ExpertStatus.CONFIRMED).build();
+        Expert expert = Expert.builder().password("Parham12").expertStatus(ExpertStatus.CONFIRMED).build();
         List<SubService> list = expert.getSubServices();
         list.add(subService);
         expert.setSubServices(list);
         expertService.saveOrUpdate(expert);
 
-assertEquals(1,orderService.showRelatedOrdersBySubService(expert.getId()).size());
+        assertEquals(1, orderService.showRelatedOrdersBySubService(expert.getId()).size());
+
     }
 }
