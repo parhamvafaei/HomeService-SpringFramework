@@ -22,6 +22,8 @@ public class Offer extends BaseEntity {
     private Double price;
     private Duration durationTime;
 
+    private boolean isSet;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     private Expert expert;
 

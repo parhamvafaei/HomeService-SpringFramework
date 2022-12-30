@@ -47,7 +47,7 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
             throw new ValidationException();
 
 
-        Offer offer = new Offer(price, durationTime, expert, order);
+        Offer offer = new Offer(price, durationTime,false, expert, order);
         order.setOrderStatus(OrderStatus.SELECTING_EXPERT);
         saveOrUpdate(offer);
         return offer.getId();

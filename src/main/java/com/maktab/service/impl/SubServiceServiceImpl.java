@@ -49,7 +49,7 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
     }
 
     @Override
-    public List<SubService> LoadSubServices() {
+    public List<SubService> loadSubServices() {
         return findAll();
     }
 

@@ -13,7 +13,7 @@ public interface SubServiceService extends BaseService<SubService> {
 
     Long addSubService(SubService subService, Service service);
 
-    List<SubService> LoadSubServices();
+    List<SubService> loadSubServices();
 
     void editSubService(Long id, Double price, String description);
 

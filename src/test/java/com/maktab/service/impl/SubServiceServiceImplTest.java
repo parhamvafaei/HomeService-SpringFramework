@@ -4,7 +4,6 @@ import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
 import com.maktab.service.ServiceService;
 import com.maktab.service.SubServiceService;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -68,7 +67,7 @@ class SubServiceServiceImplTest {
         service.saveOrUpdate(subService1);
         service.saveOrUpdate(subService2);
 
-        assertEquals(2, service.LoadSubServices().size());
+        assertEquals(2, service.loadSubServices().size());
     }
 
 
