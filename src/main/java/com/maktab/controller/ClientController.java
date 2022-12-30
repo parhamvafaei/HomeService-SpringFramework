@@ -91,7 +91,10 @@ public class ClientController {
 orderService.setComment(comment,order_id);
     }
 
-
+    @PutMapping("/pay-from-credit/{order_id}/{client_id}")
+    void payFromCredit( @PathVariable Long order_id,@PathVariable Long client_id) {
+        orderService.payFromCredit(order_id,client_id);
+    }
 
     @GetMapping("/payment")
     public String payment(){
