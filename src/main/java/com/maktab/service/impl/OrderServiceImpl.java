@@ -56,7 +56,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         if (!(order.getOrderStatus().equals(OrderStatus.SELECTING_EXPERT)))
             throw new ExpertConditionException();
         order.setTime(LocalDateTime.now());
-        order.setOrderStatus(OrderStatus.WAITING_FOR_EXPERT);
+        order.setOrderStatus(OrderStatus.WAITING_EXPERT_COME);
         offer.setSet(true);
         offerService.saveOrUpdate(offer);
         saveOrUpdate(order);

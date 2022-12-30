@@ -43,10 +43,10 @@ class OrderServiceImplTest {
     @Test
     @org.junit.jupiter.api.Order(2)
     void chooseExpert() {
-        Order order = orderService.findById(1L).get();
+        Order order = orderService.findById(2L).get();
         order.setOrderStatus(OrderStatus.SELECTING_EXPERT);
 
-        Offer offer = new Offer(2D, Duration.ofHours(2), null, order);
+        Offer offer = new Offer(2D, Duration.ofHours(2),false, null, order);
         offerService.saveOrUpdate(offer);
         orderService.saveOrUpdate(order);
         orderService.selectExpertToOrder(offer.getId(),order.getId());
@@ -58,7 +58,7 @@ class OrderServiceImplTest {
     @org.junit.jupiter.api.Order(3)
     void changeOrderStatusToStarted() {
 
-        Order order = orderService.findById(1L).get();
+        Order order = orderService.findById(2L).get();
         order.setOrderStatus(OrderStatus.WAITING_EXPERT_COME);
 
         orderService.saveOrUpdate(order);
@@ -70,7 +70,7 @@ class OrderServiceImplTest {
     @Test
     @org.junit.jupiter.api.Order(4)
     void changeOrderStatusToDone() {
-        Order order = orderService.findById(1L).get();
+        Order order = orderService.findById(2L).get();
         order.setOrderStatus(OrderStatus.STARTED);
 
         orderService.saveOrUpdate(order);
@@ -78,4 +78,6 @@ class OrderServiceImplTest {
 
         assertEquals(OrderStatus.DONE, orderService.findById(order.getId()).get().getOrderStatus());
     }
+
+
 }

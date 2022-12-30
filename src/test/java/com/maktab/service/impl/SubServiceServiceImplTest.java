@@ -63,9 +63,7 @@ class SubServiceServiceImplTest {
 
     void loadSubServices() {
         SubService subService1 = new SubService();
-        SubService subService2 = new SubService();
         service.saveOrUpdate(subService1);
-        service.saveOrUpdate(subService2);
 
         assertEquals(2, service.loadSubServices().size());
     }

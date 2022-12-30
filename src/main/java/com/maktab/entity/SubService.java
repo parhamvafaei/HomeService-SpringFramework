@@ -39,7 +39,7 @@ private List<Order> orders;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SubService that = (SubService) o;
-        return Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(description, that.description) && Objects.equals(service, that.service) && Objects.equals(experts, that.experts) && Objects.equals(orders, that.orders);
+        return Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(description, that.description);
     }
 
 

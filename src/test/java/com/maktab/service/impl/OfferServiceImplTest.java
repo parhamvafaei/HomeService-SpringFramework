@@ -57,19 +57,13 @@ class OfferServiceImplTest {
     @Test
 
     void offersToOrderByPrice() {
-        Offer offer = new Offer();
-        offer.setPrice(545D);
-        Offer offer3 = new Offer();
-        offer3.setPrice(85D);
-        Offer offer4 = new Offer();
-        offer4.setPrice(0D);
-        Offer offer2 = new Offer();
-        offer2.setPrice(96D);
         Order order = new Order();
-        offer.setOrder(order);
-        offer2.setOrder(order);
-        offer3.setOrder(order);
-        offer4.setOrder(order);
+
+        Offer offer = Offer.builder().price(545D).order(order).build();
+        Offer offer3 =  Offer.builder().price(85D).order(order).build();
+        Offer offer4 =Offer.builder().price(0D).order(order).build();
+        Offer offer2 =Offer.builder().price(96D).order(order).build();
+
         orderService.saveOrUpdate(order);
         service.saveOrUpdate(offer);
         service.saveOrUpdate(offer2);
@@ -94,18 +88,14 @@ class OfferServiceImplTest {
         expertService.saveOrUpdate(expert2);
         expertService.saveOrUpdate(expert3);
         expertService.saveOrUpdate(expert4);
-
-
-        Offer offer = new Offer();    offer.setPrice(545D);   offer.setExpert(expert1);
-        Offer offer3 = new Offer();   offer3.setPrice(85D);   offer3.setExpert(expert2);
-        Offer offer4 = new Offer();   offer4.setPrice(0D);    offer4.setExpert(expert3);
-        Offer offer2 = new Offer();   offer2.setPrice(96D);   offer2.setExpert(expert4);
-
         Order order = new Order();
-        offer.setOrder(order);
-        offer2.setOrder(order);
-        offer3.setOrder(order);
-        offer4.setOrder(order);
+
+
+        Offer offer = Offer.builder().price(545D).expert(expert1).order(order).build();
+        Offer offer3 =  Offer.builder().price(85D).expert(expert2).order(order).build();
+        Offer offer4 =Offer.builder().price(0D).expert(expert3).order(order).build();
+        Offer offer2 =Offer.builder().price(96D).expert(expert4).order(order).build();
+
         orderService.saveOrUpdate(order);
         service.saveOrUpdate(offer);
         service.saveOrUpdate(offer2);

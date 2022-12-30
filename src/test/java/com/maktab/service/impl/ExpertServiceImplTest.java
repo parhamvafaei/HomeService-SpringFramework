@@ -74,7 +74,8 @@ class ExpertServiceImplTest {
             }
         } else
             throw new FileReaderException("wrong file format !");
-        service.setProfileImage(bytes, 1L);
+        Expert expert = service.findById(1L).get();
+        service.setProfileImage(bytes,expert);
 
 
         assertNotNull(service.findById(1L).get().getImage());
@@ -91,7 +92,7 @@ class ExpertServiceImplTest {
     @Test
     @Order(5)
     void addExpertToSubService() {
-        SubService subService =SubService.builder().name("subservice").build();
+        SubService subService = SubService.builder().name("subservice").build();
         subServiceService.saveOrUpdate(subService);
         service.addExpertToSubService(1L, subService.getId());
 
@@ -102,7 +103,7 @@ class ExpertServiceImplTest {
     @Order(6)
     void deleteExpertOfSubService() {
         Expert expert1 = service.findById(1L).get();
-        service.deleteExpertOfSubService(1L, 1L);
+        service.deleteExpertOfSubService(1L, 2L);
 
         assertNull(expert1.getSubServices().get(0));
 

@@ -16,7 +16,7 @@ public interface ExpertService extends BaseService<Expert> {
     void changePassword(Long id, String password);
 
 
-    void setProfileImage(byte[] image, Long id);
+    void setProfileImage(byte[] image, Expert expert);
 
     Long confirmExpert(Long id);
 

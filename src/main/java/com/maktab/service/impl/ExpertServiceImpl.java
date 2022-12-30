@@ -46,10 +46,9 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     }
 
     //how to check format
-    @Transactional
+
     @Override
-    public void setProfileImage(byte[] image, Long id) {
-        Expert expert = findById(id).orElseThrow(NullPointerException::new);
+    public void setProfileImage(byte[] image, Expert expert ) {
 
         expert.setImage(image);
         saveOrUpdate(expert);
@@ -93,7 +92,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         Expert expert = findById(expertId).orElseThrow(NullPointerException::new);
         SubService subService = subServiceService.findById(subServiceId).orElseThrow(NullPointerException::new);
 
-        if (subService.getExperts().stream().anyMatch(expert1 -> expert1.equals(expert))) {
+        if (subService.getExperts().stream().anyMatch(expert1 -> expert1.getId().equals(expert.getId()))) {
             List<SubService> subServices = expert.getSubServices();
             subServices.remove(subService);
             expert.setSubServices(subServices);
@@ -113,11 +112,10 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         if (repository.existsByEmail(Email)) {
             throw new PersonSignInException("this expert already exist");
         }
-        Expert expert = new Expert();
-        Expert.builder().firstName(firstName).lastName(lastName).Email(Email).password(password)
+        Expert expert = Expert.builder().firstName(firstName).lastName(lastName).Email(Email).password(password)
                 .build();
 
-        setProfileImage(image, expert.getId());
+        setProfileImage(image, expert);
         saveOrUpdate(expert);
         return expert.getId();
     }
@@ -135,33 +133,5 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
         return true;
     }
-//@Transactional
-//    @Override
-//    public void setComment(Long expertId, Long orderId, Float rating, String description) {
-//        Expert expert = findById(expertId).orElseThrow(NotFoundPersonException::new);
-//        Order order = orderService.findById(orderId).orElseThrow(NullPointerException::new);
-//        if (!(order.getOrderStatus() == OrderStatus.PAID))
-//            throw new OrderStatusConditionException();
-//        if (!(rating >= 0 || rating <= 5))
-//            throw new ValidationException("not in range ");
-//        Comment comment=new Comment(rating,description,order);
-//    }
 
-
-  /*  @Transactional
-    @Override
-    public void changeEmail(Long id,String email) {
-        Optional<Expert> expert = repository.findById(id);
-        if (expert.isPresent()) {
-            try {
-                expert.get().setEmail(email);
-            }catch (Exception e) {
-                throw new ValidationException();
-            }
-                saveOrUpdate(expert.get());
-
-        } else
-            throw new NullPointerException();
-
-    }*/
 }
