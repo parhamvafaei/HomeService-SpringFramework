@@ -33,4 +33,6 @@ public interface OrderService extends BaseService<Order> {
 
     Expert findExpert(Long order_id , Long offer_id);
 
+    @Transactional
+    void payFromCredit(Long order_id, Long client_id);
 }
