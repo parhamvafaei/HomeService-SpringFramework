@@ -134,6 +134,10 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         return true;
     }
 
-
+//    Expert filterExpert(String firstname , String lastName , String email , String serviceName , Float rating){
+//        findAll().stream().filter(expert ->
+//                if(firstname!=null){expert.getFirstName().equals(firstname))
+//
+//    }
 
 }
