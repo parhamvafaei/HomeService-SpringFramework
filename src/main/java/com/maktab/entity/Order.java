@@ -5,6 +5,7 @@ import com.maktab.entity.person.Client;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class Order extends BaseEntity {
     private LocalDateTime time;
     private Boolean isDone =false;
 
-    private LocalDateTime setTime;
+    private Duration actualDurationTime;
 
     @ManyToOne
     @JoinColumn(name = "address_id")
@@ -55,7 +56,7 @@ public class Order extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(price, order.price) && Objects.equals(description, order.description) && Objects.equals(time, order.time) && Objects.equals(isDone, order.isDone) && Objects.equals(setTime, order.setTime) && Objects.equals(address, order.address) && Objects.equals(subService, order.subService) && Objects.equals(client, order.client) && orderStatus == order.orderStatus && Objects.equals(comment, order.comment);
+        return Objects.equals(price, order.price) && Objects.equals(description, order.description) && Objects.equals(time, order.time) && Objects.equals(isDone, order.isDone) && Objects.equals(actualDurationTime, order.actualDurationTime);
     }
 
 
