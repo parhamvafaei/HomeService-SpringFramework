@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,11 +81,12 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     @Transactional
     @Override
-    public void changeOrderStatusToDone(Long id) {
+    public void changeOrderStatusToDone(Long id, Duration time) {
         Order order = findById(id).orElseThrow(NullPointerException::new);
         if (order.getOrderStatus().equals(OrderStatus.STARTED)) {
             order.setOrderStatus(OrderStatus.DONE);
             order.setIsDone(true);
+            order.setActualDurationTime(time);
             saveOrUpdate(order);
         } else
             throw new OrderStatusConditionException();

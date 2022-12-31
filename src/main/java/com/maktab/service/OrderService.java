@@ -9,6 +9,7 @@ import com.maktab.entity.SubService;
 import com.maktab.entity.person.Expert;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface OrderService extends BaseService<Order> {
 
     void changeOrderStatusToStarted(Long id);
 
-    void changeOrderStatusToDone(Long id);
+    void changeOrderStatusToDone(Long id, Duration time);
 
     List<Order> showRelatedOrdersBySubService(Long expertId);
 

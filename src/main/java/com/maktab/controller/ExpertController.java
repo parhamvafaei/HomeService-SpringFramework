@@ -45,7 +45,7 @@ public class ExpertController {
     }
 
 
-    @PutMapping("/change-password/{id}/{password}")
+    @PutMapping("/change-password")
     void changePassword(@Valid @RequestBody ChangePasswordDTO passwordDTO) {
         expertService.changePassword(passwordDTO.getId(), passwordDTO.getPassword());
     }

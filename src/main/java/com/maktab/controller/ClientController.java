@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.Duration;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -73,9 +74,9 @@ public class ClientController {
         orderService.changeOrderStatusToStarted(order_id);
     }
 
-    @PutMapping("/order-to-done/{order_id}")
-    void orderStatusToDone( @PathVariable Long order_id) {
-        orderService.changeOrderStatusToDone(order_id);
+    @PutMapping("/order-to-done/{order_id}/{duration_time}")
+    void orderStatusToDone( @PathVariable Long order_id ,@PathVariable Long duration_time) {
+        orderService.changeOrderStatusToDone(order_id, Duration.ofHours(duration_time));
     }
 
 

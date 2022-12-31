@@ -42,7 +42,7 @@ class OrderServiceImplTest {
     void addOrder() {
         SubService subService1 = SubService.builder().name("subService").price(45D).build();
         subServiceService.saveOrUpdate(subService1);
-        Long sf = orderService.addOrder(46D, "none", LocalDateTime.now(), null, subService1);
+        Long sf = orderService.addOrder(46D, "none", LocalDateTime.now(), null, subServiceService.findById(5L).get());
 
         assertEquals(subService1.getName(), orderService.findById(sf).get().getSubService().getName());
     }
@@ -81,7 +81,7 @@ class OrderServiceImplTest {
         order.setOrderStatus(OrderStatus.STARTED);
 
         orderService.saveOrUpdate(order);
-        orderService.changeOrderStatusToDone(order.getId());
+        orderService.changeOrderStatusToDone(order.getId(),null);
 
         assertEquals(OrderStatus.DONE, orderService.findById(order.getId()).get().getOrderStatus());
     }
