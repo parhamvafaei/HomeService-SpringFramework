@@ -1,6 +1,7 @@
 package com.maktab.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maktab.base.entity.BaseEntity;
 import com.maktab.entity.person.Expert;
 import lombok.*;
@@ -22,10 +23,11 @@ public class SubService extends BaseEntity {
     private Double price;
     private String description;
 
-
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     private Service service;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "subServices", cascade = CascadeType.PERSIST)
     @ToString.Exclude
     private List<Expert> experts = new ArrayList<>();
