@@ -4,6 +4,7 @@ import com.maktab.base.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 @ToString
 @Builder
 public class Service extends BaseEntity {
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "service",cascade = CascadeType.ALL)

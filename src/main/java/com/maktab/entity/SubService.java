@@ -26,13 +26,13 @@ public class SubService extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private Service service;
 
-    @ManyToMany(mappedBy = "subServices", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "subServices", cascade = CascadeType.PERSIST)
     @ToString.Exclude
-    private List<Expert> experts =new ArrayList<>();
+    private List<Expert> experts = new ArrayList<>();
 
-@OneToMany(mappedBy = "subService")
-@ToString.Exclude
-private List<Order> orders;
+    @OneToMany(mappedBy = "subService")
+    @ToString.Exclude
+    private List<Order> orders;
 
     @Override
     public boolean equals(Object o) {

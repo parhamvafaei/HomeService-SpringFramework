@@ -35,8 +35,8 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
 
         serviceService.findById(service.getId()).orElseThrow(NotFoundServiceException::new);
 
-        if (!(isExistsById(subService.getId())))
-            throw new NotFoundServiceException("this SubService doesnt exist !");
+        if (checkSubServiceByName(subService.getName()))
+            throw new NotFoundServiceException("this SubService was already added!");
 
         if (Utils.existsSubServiceInService(subService, service))
             throw new NotFoundServiceException("this SubService was already added!");

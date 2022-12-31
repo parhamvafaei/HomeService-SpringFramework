@@ -32,7 +32,7 @@ class SubServiceServiceImplTest {
         service1.setName("work");
         serviceService.saveOrUpdate(service1);
         SubService subService1 = SubService.builder().name("subService").price(2D).description("none").build();
-        service.saveOrUpdate(subService1);
+
 
         Long aLong = service.addSubService(subService1, service1);
 

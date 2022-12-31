@@ -45,10 +45,11 @@ public class AdminController {
     @PostMapping("/save-subService/{service_id}")
     void addSubService(@RequestBody SubServiceDTO subServiceDTO, @PathVariable Long service_id) {
         Service service = serviceService.findById(service_id).orElseThrow(NullPointerException::new);
-        subServiceService.addSubService(SubService.builder().name(subServiceDTO.getName())
+        SubService subService = SubService.builder().name(subServiceDTO.getName())
                 .description(subServiceDTO.getDescription())
                 .price(subServiceDTO.getPrice())
-                .build(), service);
+                .build();
+        subServiceService.addSubService(subService, service);
     }
 
 

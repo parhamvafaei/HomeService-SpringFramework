@@ -12,3 +12,7 @@
 //why contains method doesn't work ?
 
 /why in update dont use transactional
+
+//how to inject static field
+
+//why use no args constructor

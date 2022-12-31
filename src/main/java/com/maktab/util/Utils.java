@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-//how to inject static field
-//why use no args constructor
+
 public class Utils {
 
 
