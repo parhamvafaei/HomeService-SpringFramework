@@ -58,7 +58,7 @@ public class AdminController {
         expertService.addExpertToSubService(expert_id, subService_id);
     }
 
-    @DeleteMapping("/add-expert-to-subService/{expert_id}/{subService_id}")
+    @DeleteMapping("/delete-expert-from-subService/{expert_id}/{subService_id}")
     void deleteExpertFromSubService(@PathVariable Long expert_id, @PathVariable Long subService_id) {
         expertService.deleteExpertOfSubService(expert_id, subService_id);
     }

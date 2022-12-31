@@ -94,18 +94,18 @@ class ExpertServiceImplTest {
     void addExpertToSubService() {
         SubService subService = SubService.builder().name("subservice").build();
         subServiceService.saveOrUpdate(subService);
-        service.addExpertToSubService(1L, subService.getId());
+        service.addExpertToSubService(11L, subService.getId());
 
-        assertEquals(subService.getName(), service.findById(1L).get().getSubServices().get(0).getName());
+        assertEquals(subService.getName(), service.findById(11L).get().getSubServices().get(0).getName());
     }
 
     @Test
     @Order(6)
     void deleteExpertOfSubService() {
-        Expert expert1 = service.findById(1L).get();
-        service.deleteExpertOfSubService(1L, 2L);
+        Expert expert1 = service.findById(16L).get();
+        service.deleteExpertOfSubService(16L, 6L);
 
-        assertNull(expert1.getSubServices().get(0));
+        assertThrows(IndexOutOfBoundsException.class,() -> service.findById(11L).get().getSubServices().get(0));
 
 
     }

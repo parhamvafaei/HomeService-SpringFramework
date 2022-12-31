@@ -92,7 +92,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         Expert expert = findById(expertId).orElseThrow(NullPointerException::new);
         SubService subService = subServiceService.findById(subServiceId).orElseThrow(NullPointerException::new);
 
-        if (subService.getExperts().stream().anyMatch(expert1 -> expert1.getId().equals(expert.getId()))) {
+        if (subService.getExperts().stream().anyMatch(expert1 -> expert1.getEmail().equals(expert.getEmail()))) {
             List<SubService> subServices = expert.getSubServices();
             subServices.remove(subService);
             expert.setSubServices(subServices);
