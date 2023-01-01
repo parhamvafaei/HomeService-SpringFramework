@@ -2,7 +2,6 @@ package com.maktab.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maktab.entity.Offer;
 import com.maktab.entity.Order;
 import com.maktab.entity.dto.*;
 import com.maktab.entity.person.Expert;
@@ -15,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -54,18 +52,18 @@ public class ExpertController {
     void addNewOfferToOrder(@RequestBody OfferDTO offerDTO ,@PathVariable Long expert_id, @PathVariable Long order_id) {
         Expert expert = expertService.findById(expert_id).orElseThrow(NullPointerException::new);
         Order order = orderService.findById(order_id).orElseThrow(NullPointerException::new);
-        offerService.addNewOfferToOrder(offerDTO.getPrice(), offerDTO.getDurationTime()
+        offerService.addNewOfferToOrder(offerDTO.getPrice(), Duration.ofHours( offerDTO.getDurationTime())
               ,expert,order );
     }
 
-    @GetMapping("/find-orders-to-offer")
-    List<Order> findOrdersToOffer(Long expertId) {
-        return orderService.showRelatedOrdersBySubService(expertId);
+    @GetMapping("/find-orders-to-offer/{expert_id}")
+    List<Order> findOrdersToOffer(@PathVariable Long expert_id) {
+        return orderService.showRelatedOrdersBySubService(expert_id);
     }
 
     @GetMapping("/show-expert-rate/{order_id}/{expert_id}")
     Float showExpertRate(@PathVariable Long order_id , @PathVariable Long expert_id) {
-        return orderService.showCommentRatingToOrder(order_id,expert_id);
+        return orderService.showCommentRatingToExpert(order_id,expert_id);
     }
 
     @PutMapping("/check-expert-account-status/{order_id}/{offer_id}")
