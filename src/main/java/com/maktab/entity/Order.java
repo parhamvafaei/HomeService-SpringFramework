@@ -36,7 +36,6 @@ public class Order extends BaseEntity {
     private Duration actualDurationTime;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "address_id")
     private Address address;
 
     @ManyToOne
