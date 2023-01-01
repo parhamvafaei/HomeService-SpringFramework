@@ -1,6 +1,7 @@
 package com.maktab.service.impl;
 
 import com.maktab.entity.*;
+import com.maktab.entity.dto.AddressDTO;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
 import com.maktab.service.ExpertService;
@@ -42,7 +43,7 @@ class OrderServiceImplTest {
     void addOrder() {
         SubService subService1 = SubService.builder().name("subService").price(45D).build();
         subServiceService.saveOrUpdate(subService1);
-        Long sf = orderService.addOrder(46D, "none", LocalDateTime.now(), null, subService1);
+        Long sf = orderService.addOrder(46D, "none", LocalDateTime.now(), new AddressDTO(), subService1);
 
         assertEquals(subService1.getName(), orderService.findById(sf).get().getSubService().getName());
     }
