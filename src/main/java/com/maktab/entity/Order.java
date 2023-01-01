@@ -1,5 +1,6 @@
 package com.maktab.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maktab.base.entity.BaseEntity;
 import com.maktab.entity.person.Client;
 import lombok.*;
@@ -31,16 +32,16 @@ public class Order extends BaseEntity {
     private Double price;
     private String description;
     private LocalDateTime time;
-    private Boolean isDone =false;
+    private Boolean isDone = false;
 
     private Duration actualDurationTime;
-
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
-
+    @JsonIgnore
     @ManyToOne
     private SubService subService;
-
+    @JsonIgnore
     @ManyToOne
     private Client client;
 
