@@ -123,16 +123,11 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         order.setComment(comment);
         saveOrUpdate(order);
 
-        Expert expert = offerService.findAll().stream().filter(offer ->
-                        (offer.isSet()) && (offer.getOrder().equals(order)))
-                .findAny().get().getExpert();
-
-
     }
 
 
     @Override
-    public Float showCommentRatingToOrder(Long id, Long expert_id) {
+    public Float showCommentRatingToExpert(Long id, Long expert_id) {
         Order order = findById(id).orElseThrow(NullPointerException::new);
         Expert expert = expertService.findById(expert_id).orElseThrow(NullPointerException::new);
         if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
