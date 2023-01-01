@@ -8,10 +8,7 @@ import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
 import com.maktab.exception.*;
 import com.maktab.repository.OrderRepository;
-import com.maktab.service.ClientService;
-import com.maktab.service.ExpertService;
-import com.maktab.service.OfferService;
-import com.maktab.service.OrderService;
+import com.maktab.service.*;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -187,21 +184,22 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
                 .findAny().get().getExpert();
 
     }
+
     @Transactional
     @Override
-    public void payFromCredit(Long order_id, Long client_id){
+    public void payFromCredit(Long order_id, Long client_id) {
         Order order = findById(order_id).orElseThrow(NullPointerException::new);
         Client client = clientService.findById(client_id).orElseThrow(NullPointerException::new);
-        if (client.getCredit().getAmount() <order.getPrice())
+        if (client.getCredit().getAmount() < order.getPrice())
             throw new NotEnoughMoneyException();
-        if (order.getOrderStatus()==OrderStatus.DONE) {
+        if (order.getOrderStatus() == OrderStatus.DONE) {
             order.setOrderStatus(OrderStatus.PAID);
             Credit credit = client.getCredit();
-            credit.setAmount(credit.getAmount()-order.getPrice());
+            credit.setAmount(credit.getAmount() - order.getPrice());
 
             saveOrUpdate(order);
             clientService.saveOrUpdate(client);
-        }else
+        } else
             throw new OrderStatusConditionException();
 
     }
