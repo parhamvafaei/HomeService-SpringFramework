@@ -3,6 +3,7 @@ package com.maktab.service.impl;
 
 import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.*;
+import com.maktab.entity.dto.AddressDTO;
 import com.maktab.entity.person.Client;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
@@ -38,8 +39,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     @Transactional
     @Override
-    public Long addOrder(Double price, String description, LocalDateTime time, Address address, SubService subService) {
-        Order order = new Order(price, description, time, address);
+    public Long addOrder(Double price, String description, LocalDateTime time, AddressDTO address, SubService subService) {
+        Address address1= Address.builder().address(address.getAddress()).phoneNumber(address.getPhoneNumber()).build();
+        Order order = new Order(price, description, time, address1);
         order.setOrderStatus(OrderStatus.WAITING_FOR_EXPERT);
         order.setSubService(subService);
 
