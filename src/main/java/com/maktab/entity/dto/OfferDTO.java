@@ -12,5 +12,5 @@ import java.time.Duration;
 @Builder
 public class OfferDTO {
     private Double price;
-    private Duration durationTime;
+    private long durationTime;
 }
