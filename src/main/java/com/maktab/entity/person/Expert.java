@@ -56,7 +56,8 @@ public class Expert extends Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Expert expert = (Expert) o;
-        return Objects.equals(rating, expert.rating) && expertStatus == expert.expertStatus;
+        return Objects.equals(rating, expert.rating) && getId().equals(expert.getId()) && expertStatus == expert.expertStatus && Arrays.equals(image, expert.image);
     }
+
 
 }
