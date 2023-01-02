@@ -108,11 +108,10 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     }
 
-    //offer.isSet()!
     @Transactional
     @Override
-    public void setComment(Comment comment, Long expert_id) {
-        Order order = findById(expert_id).orElseThrow(NullPointerException::new);
+    public void setComment(Comment comment, Long order_id) {
+        Order order = findById(order_id).orElseThrow(NullPointerException::new);
         if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
             throw new OrderStatusConditionException();
         if (comment.getRating() == null)
