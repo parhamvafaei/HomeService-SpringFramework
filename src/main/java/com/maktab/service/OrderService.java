@@ -33,8 +33,10 @@ public interface OrderService extends BaseService<Order> {
 
     void expertAccountStatus(Long orderId, Long expert_id);
 
-    Expert findExpert(Long order_id , Long offer_id);
+    Expert findExpert(Long order_id);
 
-    @Transactional
+
     void payFromCredit(Long order_id, Long client_id);
+
+    void setExpertScore(Long order_id, Float rating);
 }
