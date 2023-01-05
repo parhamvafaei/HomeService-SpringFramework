@@ -3,6 +3,7 @@ package com.maktab.service.impl;
 
 import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.SubService;
+import com.maktab.entity.dto.ExpertFilterDTO;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
 import com.maktab.exception.*;
@@ -14,7 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +32,9 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
 
     private final SubServiceService subServiceService;
+
+    @PersistenceContext
+    private EntityManager em;
 
     public ExpertServiceImpl(ExpertRepository repository, SubServiceService subServiceService) {
         super(repository);
@@ -45,7 +56,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
     }
 
-    //how to check format
+
 
     @Override
     public void setProfileImage(byte[] image, Expert expert ) {
@@ -65,7 +76,6 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         return expert.getId();
     }
 
-    //show orders to expert
     @Transactional
     @Override
     public void addExpertToSubService(Long expertId, Long subServiceId) {
@@ -132,6 +142,32 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
 
         return true;
+    }
+
+    @Override
+    public List<Expert> filterExpert(ExpertFilterDTO expertDTO) {
+        List<Predicate> predicateList = new ArrayList<>();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Expert> query = criteriaBuilder.createQuery(Expert.class);
+        Root<Expert> root = query.from(Expert.class);
+
+        if (expertDTO.getFirstname() != null)
+            predicateList.add(criteriaBuilder.like(root.get("firstname"), "%" + expertDTO.getFirstname() + "%"));
+
+        if (expertDTO.getLastname() != null)
+            predicateList.add(criteriaBuilder.like(root.get("lastname"), "%" + expertDTO.getLastname() + "%"));
+
+        if (expertDTO.getEmail() != null)
+            predicateList.add(criteriaBuilder.like(root.get("email"),  "%" + expertDTO.getEmail() + "%"));
+
+        if (expertDTO.getScore() != null )
+            predicateList.add(criteriaBuilder.equal(root.get("rating"),expertDTO.getScore()));
+
+
+        Predicate[] predicates = new Predicate[predicateList.size()];
+        predicateList.toArray(predicates);
+        query.select(root).where(predicates);
+        return em.createQuery(query).getResultList();
     }
 //criteria
 //specification
