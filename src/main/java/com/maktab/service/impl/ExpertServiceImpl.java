@@ -169,12 +169,6 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         query.select(root).where(predicates);
         return em.createQuery(query).getResultList();
     }
-//criteria
-//specification
-//    Expert filterExpert(String firstname , String lastName , String email , String serviceName , Float rating){
-//        findAll().stream().filter(expert ->
-//                if(firstname!=null){expert.getFirstName().equals(firstname))
-//
-//    }
+
 
 }
