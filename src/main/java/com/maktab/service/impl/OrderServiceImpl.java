@@ -40,7 +40,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Transactional
     @Override
     public Long addOrder(Double price, String description, LocalDateTime time, AddressDTO address, SubService subService) {
-        Address address1= Address.builder().address(address.getAddress()).phoneNumber(address.getPhoneNumber()).build();
+        Address address1 = Address.builder().address(address.getAddress()).phoneNumber(address.getPhoneNumber()).build();
         Order order = new Order(price, description, time, address1);
         order.setOrderStatus(OrderStatus.WAITING_FOR_EXPERT);
         order.setSubService(subService);
@@ -112,6 +112,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Override
     public void setComment(Comment comment, Long order_id) {
         Order order = findById(order_id).orElseThrow(NullPointerException::new);
+        Expert expert = findExpert(order_id);
         if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
             throw new OrderStatusConditionException();
         if (comment.getRating() == null)
@@ -119,6 +120,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         if (comment.getRating() >= 0 || comment.getRating() <= 5)
             throw new ValidationException("score is not in range");
 
+        expertAccountStatus(order_id, expert.getId());
+        setExpertScore(order_id, comment.getRating());
         order.setComment(comment);
         saveOrUpdate(order);
 
@@ -172,7 +175,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     }
 
     @Override
-    public Expert findExpert(Long order_id, Long offer_id) {
+    public Expert findExpert(Long order_id) {
 
         Order order = findById(order_id).orElseThrow(NullPointerException::new);
         return offerService.findAll().stream().filter(offer ->
@@ -198,5 +201,20 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         } else
             throw new OrderStatusConditionException();
 
+    }
+
+    @Override
+    public void setExpertScore(Long order_id, Float rating) {
+        Expert expert = findExpert(order_id);
+
+        int size = offerService.findAll().stream().filter(offer ->
+                (offer.isSet())
+                        && offer.getExpert().equals(expert)
+                        && offer.getOrder().getComment().getRating() != null).toList().size();
+        if (size != 0) {
+            float calculate = (expert.getRating() * size) + rating;
+            expert.setRating(calculate / size + 1);
+            expertService.saveOrUpdate(expert);
+        }
     }
 }

@@ -39,4 +39,5 @@ public interface OrderService extends BaseService<Order> {
     void payFromCredit(Long order_id, Long client_id);
 
     void setExpertScore(Long order_id, Float rating);
+
 }
