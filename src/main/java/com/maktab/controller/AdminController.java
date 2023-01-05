@@ -2,11 +2,9 @@ package com.maktab.controller;
 
 import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
-import com.maktab.entity.dto.ChangePasswordDTO;
-import com.maktab.entity.dto.ClientFilterDTO;
-import com.maktab.entity.dto.EditSubServiceDTO;
-import com.maktab.entity.dto.SubServiceDTO;
+import com.maktab.entity.dto.*;
 import com.maktab.entity.person.Client;
+import com.maktab.entity.person.Expert;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -82,6 +80,11 @@ public class AdminController {
     @GetMapping("/filter-client")
     List<Client> filterCustomer(@RequestBody ClientFilterDTO clientDTO){
         return clientService.filterClient(clientDTO);
+    }
+
+    @GetMapping("/filter-expert")
+    List<Expert> filterExpert(@RequestBody ExpertFilterDTO expertDTO){
+        return expertService.filterExpert(expertDTO);
     }
 
 }
