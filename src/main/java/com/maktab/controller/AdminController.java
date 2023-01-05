@@ -3,12 +3,11 @@ package com.maktab.controller;
 import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
 import com.maktab.entity.dto.ChangePasswordDTO;
+import com.maktab.entity.dto.ClientFilterDTO;
 import com.maktab.entity.dto.EditSubServiceDTO;
 import com.maktab.entity.dto.SubServiceDTO;
-import com.maktab.service.AdminService;
-import com.maktab.service.ExpertService;
-import com.maktab.service.ServiceService;
-import com.maktab.service.SubServiceService;
+import com.maktab.entity.person.Client;
+import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +25,7 @@ public class AdminController {
     private final SubServiceService subServiceService;
 
     private final ExpertService expertService;
+    private final ClientService clientService;
 
     @GetMapping("/find-all-services")
     List<Service> findAllServices() {
@@ -79,6 +79,9 @@ public class AdminController {
         subServiceService.editSubService(subServiceDTO.getId(), subServiceDTO.getPrice(), subServiceDTO.getDescription());
     }
 
-
+    @GetMapping("/filter-client")
+    List<Client> filterCustomer(@RequestBody ClientFilterDTO clientDTO){
+        return clientService.filterClient(clientDTO);
+    }
 
 }
