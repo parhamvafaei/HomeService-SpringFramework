@@ -8,12 +8,14 @@ import com.maktab.entity.person.Client;
 import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.ClientRepository;
 import com.maktab.service.ClientService;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,28 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
     }
 
 
+    @Override
+    public List<Client> filterClient(ClientFilterDTO clientDTO) {
+        List<Predicate> predicateList = new ArrayList<>();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Client> query = criteriaBuilder.createQuery(Client.class);
+        Root<Client> root = query.from(Client.class);
+
+        if (clientDTO.getFirstname() != null) {
+            predicateList.add(criteriaBuilder.like(root.get("firstname"), "%" + clientDTO.getFirstname() + "%"));
+        }
+        if (clientDTO.getLastname() != null) {
+            predicateList.add(criteriaBuilder.like(root.get("lastname"), "%" + clientDTO.getLastname() + "%"));
+        }
+        if (clientDTO.getEmail() != null) {
+            predicateList.add(criteriaBuilder.like(root.get("email"), "%" + clientDTO.getEmail() + "%"));
+        }
+
+        Predicate[] predicateArray = new Predicate[predicateList.size()];
+        predicateList.toArray(predicateArray);
+        query.select(root).where(predicateArray);
+        return em.createQuery(query).getResultList();
+    }
 
 }
 
