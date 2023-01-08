@@ -195,9 +195,12 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             order.setOrderStatus(OrderStatus.PAID);
             Credit credit = client.getCredit();
             credit.setAmount(credit.getAmount() - order.getPrice());
+            Expert expert = findExpert(order_id);
+            expert.setTotalMoney(expert.getTotalMoney()+((order.getPrice()*70)/100));
 
             saveOrUpdate(order);
             clientService.saveOrUpdate(client);
+            expertService.saveOrUpdate(expert);
         } else
             throw new OrderStatusConditionException();
 
