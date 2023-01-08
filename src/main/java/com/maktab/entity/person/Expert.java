@@ -24,6 +24,7 @@ import java.util.Objects;
 public class Expert extends Person {
 
     private Float rating = 0F;
+    private Double totalMoney;
 
     @Enumerated(EnumType.STRING)
     private ExpertStatus expertStatus;
