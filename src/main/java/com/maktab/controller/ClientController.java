@@ -9,7 +9,9 @@ import com.maktab.entity.dto.OrderDTO;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.time.Duration;
@@ -25,6 +27,8 @@ public class ClientController {
     private final OrderService orderService;
     private final OfferService offerService;
     private final ModelMapper mapper;
+    private final RestTemplate restTemplate;
+
 
 
     @PostMapping("/save-client")
@@ -105,5 +109,18 @@ orderService.setComment(comment,order_id);
         return "payment";
     }
 
+
+        @PostMapping("/payment")
+    public String test(Long order_id, @RequestParam("g-recaptcha-response") String captcha){
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+        String params = "?secret=6Lf53N4jAAAAAAH2qeDC50aHrbxVb97JgKgsq3GT&response=" + captcha;
+        System.out.println(order_id);
+        ReCaptchaResponse reCaptchaResponse = restTemplate.exchange(url + params, HttpMethod.POST,
+                null,ReCaptchaResponse.class).getBody();
+        if(reCaptchaResponse.getSuccess()){
+            return "done";
+        }
+        return "invalid captcha";
+    }
 }
 
