@@ -7,6 +7,7 @@ import com.maktab.entity.person.Client;
 import com.maktab.entity.person.Expert;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,9 +22,9 @@ public class AdminController {
     private final AdminService adminService;
     private final ServiceService serviceService;
     private final SubServiceService subServiceService;
-
     private final ExpertService expertService;
     private final ClientService clientService;
+    private final ModelMapper mapper;
 
     @GetMapping("/find-all-services")
     List<Service> findAllServices() {
@@ -43,10 +44,7 @@ public class AdminController {
     @PostMapping("/save-subService/{service_id}")
     void addSubService(@RequestBody SubServiceDTO subServiceDTO, @PathVariable Long service_id) {
         Service service = serviceService.findById(service_id).orElseThrow(NullPointerException::new);
-        SubService subService = SubService.builder().name(subServiceDTO.getName())
-                .description(subServiceDTO.getDescription())
-                .price(subServiceDTO.getPrice())
-                .build();
+        SubService subService=mapper.map(subServiceDTO,SubService.class);
         subServiceService.addSubService(subService, service);
     }
 

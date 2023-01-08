@@ -8,6 +8,7 @@ import com.maktab.entity.dto.CommentDTO;
 import com.maktab.entity.dto.OrderDTO;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ public class ClientController {
     private final SubServiceService subServiceService;
     private final OrderService orderService;
     private final OfferService offerService;
+    private final ModelMapper mapper;
 
 
     @PostMapping("/save-client")
@@ -89,7 +91,7 @@ public class ClientController {
 
     @PostMapping("/save-comment/{order_id}")
     void setComment(@RequestBody CommentDTO commentDTO, @PathVariable Long order_id) {
-        Comment comment=Comment.builder().rating(commentDTO.getRating()).description(commentDTO.getDescription()).build();
+        Comment comment=mapper.map(commentDTO,Comment.class);
 orderService.setComment(comment,order_id);
     }
 
