@@ -1,9 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="600">
+    <title>Title</title>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 
-<script>
+
+
+        <script>
 
     const request = $.ajax({
         type: "POST",
@@ -23,7 +32,9 @@
 
 
 
-<div class="container">
+</head>
+<body>
+<div class="container"  th:action="@{/client/payment}" method="post">
     <div class="row">
         <div class="col-sm-6">
             <div class="alert alert-info" role="alert">
@@ -35,7 +46,7 @@
                 <label class="control-label" for="card_number">Card Number</label>
 
                 <div class="controls">
-                    <input type="text" id="card_number" name="card_number" placeholder=""
+                    <input type="text" maxlength="16"  pattern="[0-9]{16}" id="card_number" name="card_number"
                            class="form-control">
                 </div>
             </div>
@@ -82,7 +93,7 @@
                         <label class="control-label" for="password_confirm">Card CVV</label>
 
 
-                        <input type="password" id="password_confirm"
+                        <input type="password" maxlength="5" minlength="3" id="password_confirm"
                                name="password_confirm" placeholder=""
                                class="form-control">
                     </div>
@@ -95,12 +106,14 @@
                         <label class="control-label" for="password_confirm">encrypt</label>
 
 
-                        <input type="password" id="encrypt_confirm"
+                        <input type="password" maxlength="8" minlength="3" id="encrypt_confirm"
                                name="password_confirm" placeholder=""
                                class="form-control">
                     </div>
                 </div>
             </div>
+            <div class="g-recaptcha" data-sitekey="6Lf53N4jAAAAAOkR31rbNhmhgeHplvo_Q2yidvUa"></div>
+
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
@@ -117,3 +130,4 @@
     </div>
 
 </div>
+</body>
