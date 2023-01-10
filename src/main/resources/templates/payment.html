@@ -13,12 +13,12 @@
 
 
         <script>
-
-    const request = $.ajax({
+            const orderId = document.getElementById("order");
+            const request = $.ajax({
         type: "POST",
         url: "/client/payment",
         data: {
-            order_id: $('.order_id').val()
+            order_id: 'orderId'
         },
         success: function (response) {
             alert(response.status);
@@ -39,6 +39,9 @@
         <div class="col-sm-6">
             <div class="alert alert-info" role="alert">
                 <p>Maktab Payment</p>
+                <div th:with="someVariable=${orderPrice}"> </div>
+                <p id="order" th:text="'price, ' + ${orderPrice} " >someVariable</p>
+
             </div>
             <hr/>
 
@@ -112,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            <div class="g-recaptcha" data-sitekey="6Lf53N4jAAAAAOkR31rbNhmhgeHplvo_Q2yidvUa"></div>
+            <div class="g-recaptcha" align="center" data-sitekey="6Lf53N4jAAAAAOkR31rbNhmhgeHplvo_Q2yidvUa"></div>
 
             <div class="row">
                 <div class="col-sm-3">
