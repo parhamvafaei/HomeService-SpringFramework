@@ -196,7 +196,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             Credit credit = client.getCredit();
             credit.setAmount(credit.getAmount() - order.getPrice());
             Expert expert = findExpert(order_id);
-            expert.setTotalMoney(expert.getTotalMoney()+((order.getPrice()*70)/100));
+            expert.setTotalMoney(expert.getTotalMoney() + ((order.getPrice() * 70) / 100));
 
             saveOrUpdate(order);
             clientService.saveOrUpdate(client);
@@ -204,6 +204,19 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         } else
             throw new OrderStatusConditionException();
 
+    }
+
+    @Transactional
+    @Override
+    public void payFromCard(Long order_id) {
+        Order order = findById(order_id).orElseThrow(NullPointerException::new);
+        if (order.getOrderStatus() == OrderStatus.DONE) {
+            order.setOrderStatus(OrderStatus.PAID);
+            Expert expert = findExpert(order_id);
+            expert.setTotalMoney(expert.getTotalMoney() + ((order.getPrice() * 70) / 100));
+            saveOrUpdate(order);
+            expertService.saveOrUpdate(expert);
+        }
     }
 
     @Override
