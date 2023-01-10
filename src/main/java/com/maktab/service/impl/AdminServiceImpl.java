@@ -6,21 +6,22 @@ import com.maktab.entity.person.Admin;
 import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.AdminRepository;
 import com.maktab.service.AdminService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-
 
 
 @Service
 public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> implements AdminService {
 
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminServiceImpl(AdminRepository repository) {
+    public AdminServiceImpl(AdminRepository repository, PasswordEncoder passwordEncoder) {
         super(repository);
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -44,7 +45,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> im
             throw new PersonSignInException("this admin already exist");
         }
 
-        Admin admin=new Admin(firstName,lastName,null,Email,password);
+        Admin admin=new Admin(firstName,lastName,null,Email,passwordEncoder.encode(password));
         saveOrUpdate(admin);
     return admin.getId();
     }

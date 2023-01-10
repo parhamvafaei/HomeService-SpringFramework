@@ -8,6 +8,7 @@ import com.maktab.entity.person.Client;
 import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.ClientRepository;
 import com.maktab.service.ClientService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -26,9 +27,12 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
 
     @PersistenceContext
     private EntityManager em;
+    private final PasswordEncoder passwordEncoder;
 
-    public ClientServiceImpl(ClientRepository repository) {
+
+    public ClientServiceImpl(ClientRepository repository, PasswordEncoder passwordEncoder) {
         super(repository);
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -51,7 +55,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
             throw new PersonSignInException("this client already exist");
         }
         Credit credit = new Credit(0D);
-        Client client = new Client(firstName, lastName,null, Email, password, credit);
+        Client client = new Client(firstName, lastName,null, Email,passwordEncoder.encode( password), credit);
         saveOrUpdate(client);
 
         return client.getId();

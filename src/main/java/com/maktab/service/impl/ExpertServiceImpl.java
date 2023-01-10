@@ -11,6 +11,7 @@ import com.maktab.exception.*;
 import com.maktab.repository.ExpertRepository;
 import com.maktab.service.ExpertService;
 import com.maktab.service.SubServiceService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,10 +37,12 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @PersistenceContext
     private EntityManager em;
 
-    public ExpertServiceImpl(ExpertRepository repository, SubServiceService subServiceService) {
+    private final PasswordEncoder passwordEncoder;
+    public ExpertServiceImpl(ExpertRepository repository, SubServiceService subServiceService, PasswordEncoder passwordEncoder) {
         super(repository);
 
         this.subServiceService = subServiceService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -122,7 +125,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         if (repository.existsByEmail(Email)) {
             throw new PersonSignInException("this expert already exist");
         }
-        Expert expert = Expert.builder().firstName(firstName).lastName(lastName).email(Email).password(password)
+        Expert expert = Expert.builder().firstName(firstName).lastName(lastName).email(Email).password(passwordEncoder.encode(password))
                 .build();
 
         setProfileImage(image, expert);
