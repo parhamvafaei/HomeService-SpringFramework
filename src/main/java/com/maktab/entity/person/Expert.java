@@ -41,16 +41,6 @@ public class Expert extends Person {
     @ToString.Exclude
     private List<Offer> offers = new ArrayList<>();
 
-    @Builder
-    public Expert(String firstName, String lastName, String Email,  String password
-            , Float rating, ExpertStatus expertStatus, byte[] image) {
-
-        super(firstName, lastName, Email, password);
-        this.rating = rating;
-        this.expertStatus = expertStatus;
-        this.image = image;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -58,6 +48,13 @@ public class Expert extends Person {
         if (o == null || getClass() != o.getClass()) return false;
         Expert expert = (Expert) o;
         return Objects.equals(rating, expert.rating) && getId().equals(expert.getId()) && expertStatus == expert.expertStatus && Arrays.equals(image, expert.image);
+    }
+    @Builder
+    public Expert(String firstName, String lastName, String username, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password, Float rating, ExpertStatus expertStatus, @Size(max = 300_000) byte[] image) {
+        super(firstName, lastName, username, email, password);
+        this.rating = rating;
+        this.expertStatus = expertStatus;
+        this.image = image;
     }
 
 
