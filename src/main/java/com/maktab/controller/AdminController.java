@@ -8,6 +8,7 @@ import com.maktab.entity.person.Expert;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public class AdminController {
     private final ExpertService expertService;
     private final ClientService clientService;
     private final ModelMapper mapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/find-all-services")
     List<Service> findAllServices() {
@@ -66,7 +68,7 @@ public class AdminController {
 
     @PutMapping("/change-password/{id}/{password}")
     void changePassword(@Valid @RequestBody ChangePasswordDTO passwordDTO) {
-    adminService.changePassword(passwordDTO.getId(), passwordDTO.getPassword());
+    adminService.changePassword(passwordDTO.getId(), passwordEncoder.encode(passwordDTO.getPassword()));
     }
 
 
