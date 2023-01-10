@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
 //                .roles("USER", "ADMIN")
 //                .build();
 //
-//        return new InMemoryUserDetailsManager(user, admin,)
+//        return new InMemoryUserDetailsManager(user, admin,);
         return null;
     }
 
