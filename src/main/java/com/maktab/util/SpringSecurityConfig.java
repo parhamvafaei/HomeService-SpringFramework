@@ -12,7 +12,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SpringSecurityConfig {
 
 //    @Bean
@@ -32,17 +32,21 @@ public class SpringSecurityConfig {
 //    }
 
 
-    @Bean
-    public void configureGlobal(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.inMemoryAuthentication().withUser("user")
-                .password(passwordEncoder().encode("password")).roles("USER");
-    }
+//    @Bean
+//    public void configureGlobal(AuthenticationManagerBuilder auth)
+//            throws Exception {
+//        auth.inMemoryAuthentication().withUser("user")
+//                .password(passwordEncoder().encode("password")).roles("USER");
+//    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-                .mvcMatchers(HttpMethod.POST,"api/v1/client/**").permitAll()
+                .mvcMatchers(HttpMethod.POST,"api/v1/**").permitAll()
+                .mvcMatchers("api/v1/admin/**").hasRole("ADMIN")
+                .mvcMatchers("api/v1/client/**").hasRole("CLIENT")
+                .mvcMatchers("api/v1/expert/**").hasRole("EXPERT")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
