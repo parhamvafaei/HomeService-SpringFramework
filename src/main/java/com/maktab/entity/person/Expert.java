@@ -3,16 +3,15 @@ package com.maktab.entity.person;
 import com.maktab.entity.Offer;
 import com.maktab.entity.SubService;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Entity
@@ -21,7 +20,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-public class Expert extends Person {
+public class Expert extends Person implements UserDetails {
 
     private Float rating = 0F;
     private Double totalMoney;
@@ -57,5 +56,29 @@ public class Expert extends Person {
         this.image = image;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 }
