@@ -10,6 +10,7 @@ import com.maktab.service.ExpertService;
 import com.maktab.service.OfferService;
 import com.maktab.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,8 @@ public class ExpertController {
     private final ExpertService expertService;
     private final OfferService offerService;
     private final OrderService orderService;
+    private final BCryptPasswordEncoder passwordEncoder;
+
 
     @PostMapping("/save-expert")
     void saveExpert(@Valid @RequestParam("expert") String expertJSON, @RequestParam("image") MultipartFile multipartFile) {
@@ -45,7 +48,7 @@ public class ExpertController {
 
     @PutMapping("/change-password")
     void changePassword(@Valid @RequestBody ChangePasswordDTO passwordDTO) {
-        expertService.changePassword(passwordDTO.getId(), passwordDTO.getPassword());
+        expertService.changePassword(passwordDTO.getId(), passwordEncoder.encode(passwordDTO.getPassword()));
     }
 
     @PostMapping("/offer-to-order/{expert_id}/{order_id}")
