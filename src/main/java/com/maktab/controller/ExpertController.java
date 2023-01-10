@@ -11,6 +11,7 @@ import com.maktab.service.OfferService;
 import com.maktab.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +27,7 @@ public class ExpertController {
     private final ExpertService expertService;
     private final OfferService offerService;
     private final OrderService orderService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     @PostMapping("/save-expert")
