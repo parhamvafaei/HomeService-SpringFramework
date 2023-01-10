@@ -44,7 +44,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> im
             throw new PersonSignInException("this admin already exist");
         }
 
-        Admin admin=new Admin(firstName,lastName,Email,password);
+        Admin admin=new Admin(firstName,lastName,null,Email,password);
         saveOrUpdate(admin);
     return admin.getId();
     }
