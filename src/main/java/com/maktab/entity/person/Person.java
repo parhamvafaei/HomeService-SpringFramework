@@ -24,6 +24,7 @@ import javax.validation.constraints.Pattern;
 public abstract class Person extends BaseEntity {
     private String firstName;
     private String lastName;
+    private String username;
 
     @Email  @Column(unique = true)
     private String email;
