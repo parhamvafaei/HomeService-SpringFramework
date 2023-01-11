@@ -228,7 +228,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             expertService.saveOrUpdate(expert);
         }
     }
-@Transactional
+
+    @Transactional
     @Override
     public void setExpertScore(Long order_id, Float rating) {
         Expert expert = findExpert(order_id);
@@ -253,16 +254,16 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         CriteriaQuery<Order> query = criteriaBuilder.createQuery(Order.class);
         Root<Order> root = query.from(Order.class);
 
-        predicateList.add(criteriaBuilder.equal(root.get("isDone"),true));
-        if (orderFilter.getStartTime() == null && orderFilter.getEndTime()!=null) {
+        predicateList.add(criteriaBuilder.equal(root.get("isDone"), true));
+        if (orderFilter.getStartTime() == null && orderFilter.getEndTime() != null) {
             predicateList.add(criteriaBuilder.between(root.get("time"), LocalDateTime.MIN, orderFilter.getEndTime()));
         }
 
-        if (orderFilter.getStartTime() != null && orderFilter.getEndTime()==null) {
+        if (orderFilter.getStartTime() != null && orderFilter.getEndTime() == null) {
             predicateList.add(criteriaBuilder.between(root.get("time"), orderFilter.getStartTime(), LocalDateTime.now()));
         }
 
-        if (orderFilter.getStartTime() != null && orderFilter.getEndTime()!=null) {
+        if (orderFilter.getStartTime() != null && orderFilter.getEndTime() != null) {
             predicateList.add(criteriaBuilder.between(root.get("time"), orderFilter.getStartTime(), orderFilter.getEndTime()));
         }
 
@@ -273,12 +274,12 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
         if (orderFilter.getSubService() != null) {
 
-            predicateList.add(criteriaBuilder.like(root.get("subService"),"%" + orderFilter.getSubService()+ "%" ));
+            predicateList.add(criteriaBuilder.like(root.get("subService"), "%" + orderFilter.getSubService() + "%"));
         }
 
         if (orderFilter.getService() != null) {
 
-            predicateList.add(criteriaBuilder.like(root.get("service"), "%" + orderFilter.getService()+ "%" ));
+            predicateList.add(criteriaBuilder.like(root.get("service"), "%" + orderFilter.getService() + "%"));
         }
 
         Predicate[] predicateArray = new Predicate[predicateList.size()];
@@ -287,4 +288,14 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         return em.createQuery(query).getResultList();
     }
 
+    @Override
+    public List<Order> expertOrders(Long expert_id, OrderStatus orderStatus) {
+
+        return repository.expertOrders(expert_id, orderStatus);
+    }
+
+    @Override
+    public List<Order> clientOrders(Long client_id, OrderStatus orderStatus) {
+        return repository.clientOrders(client_id, orderStatus);
+    }
 }

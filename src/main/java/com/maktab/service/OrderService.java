@@ -4,6 +4,7 @@ package com.maktab.service;
 import com.maktab.base.service.BaseService;
 import com.maktab.entity.Comment;
 import com.maktab.entity.Order;
+import com.maktab.entity.OrderStatus;
 import com.maktab.entity.SubService;
 import com.maktab.entity.dto.AddressDTO;
 import com.maktab.entity.dto.OrderFilter;
@@ -41,4 +42,8 @@ public interface OrderService extends BaseService<Order> {
     void setExpertScore(Long order_id, Float rating);
 
     List<Order> filterOrderHistory(OrderFilter orderFilter);
+
+    List<Order> expertOrders(Long expert_id, OrderStatus orderStatus);
+
+    List<Order> clientOrders(Long client_id, OrderStatus orderStatus);
 }
