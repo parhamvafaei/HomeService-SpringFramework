@@ -23,34 +23,28 @@ import java.util.Objects;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
-    public Order(Double price, String description, LocalDateTime time, Address address) {
-        this.price = price;
-        this.description = description;
-        this.time = time;
-        this.address = address;
-    }
-
     private Double price;
+
     private String description;
     private LocalDateTime time;
+    @Builder.Default
     private Boolean isDone = false;
-
     private Duration actualDurationTime;
+
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
     @JsonIgnore
     @ManyToOne
     private SubService subService;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "service_id")
     private Service service;
+
     @JsonIgnore
     @ManyToOne
     private Client client;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Expert expert;
@@ -58,8 +52,18 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @OneToMany(mappedBy = "order")
+    private List<Offer> offers;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Comment comment;
+
+    public Order(Double price, String description, LocalDateTime time, Address address) {
+        this.price = price;
+        this.description = description;
+        this.time = time;
+        this.address = address;
+    }
 
     @Override
     public boolean equals(Object o) {

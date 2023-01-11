@@ -25,9 +25,11 @@ public class Offer extends BaseEntity {
     private boolean isSet;
 
     @ManyToOne(cascade = CascadeType.MERGE)
+    @ToString.Exclude
     private Expert expert;
 
     @ManyToOne
+    @ToString.Exclude
     private Order order;
 
     @Override
