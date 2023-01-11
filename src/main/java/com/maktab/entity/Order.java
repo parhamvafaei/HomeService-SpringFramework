@@ -42,6 +42,11 @@ public class Order extends BaseEntity {
     @JsonIgnore
     @ManyToOne
     private SubService subService;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private Service service;
     @JsonIgnore
     @ManyToOne
     private Client client;
