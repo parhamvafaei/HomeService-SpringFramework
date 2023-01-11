@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -92,8 +93,11 @@ public class AdminController {
     }
 
     @GetMapping("/filter-expert")
-    List<Expert> filterExpert(@RequestBody ExpertFilterDTO expertDTO){
-        return expertService.filterExpert(expertDTO);
+    List<ExpertFilterResponse> filterExpert(@RequestBody ExpertFilterDTO expertDTO){
+        List<Expert> expertList = expertService.filterExpert(expertDTO);
+        List<ExpertFilterResponse> expertDTOResponse=new ArrayList<>();
+        expertList.forEach(expert -> expertDTOResponse.add(mapper.map(expert,ExpertFilterResponse.class)));
+        return expertDTOResponse;
     }
 
 }
