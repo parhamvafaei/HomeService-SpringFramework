@@ -16,34 +16,13 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
-public class Admin extends Person implements UserDetails {
+public class Admin extends Person{
     @Builder
-    public Admin(String firstName, String lastName, String username, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password) {
-        super(firstName, lastName, username, email, password);
+    public Admin(String firstName, String lastName, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password, Boolean enabled, Role role) {
+        super(firstName, lastName, email, password, enabled, role);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public Admin(String firstName, String lastName, String email, String password, Role role) {
+        super(firstName, lastName, email, password, role);
     }
 }

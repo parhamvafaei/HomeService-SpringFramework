@@ -24,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Client extends Person implements UserDetails {
+public class Client extends Person  {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Credit credit;
@@ -34,34 +34,13 @@ public class Client extends Person implements UserDetails {
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-
-    public Client(String firstName, String lastName, String username, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password, Credit credit) {
-        super(firstName, lastName, username, email, password);
+    public Client(String firstName, String lastName, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password, Boolean enabled, Role role, Credit credit) {
+        super(firstName, lastName, email, password, enabled, role);
         this.credit = credit;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public Client(String firstName, String lastName, String email, String password, Role role, Credit credit) {
+        super(firstName, lastName, email, password, role);
+        this.credit = credit;
     }
 }

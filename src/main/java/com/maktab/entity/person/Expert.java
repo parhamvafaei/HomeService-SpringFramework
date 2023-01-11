@@ -20,7 +20,7 @@ import java.util.*;
 @Getter
 @Setter
 @ToString
-public class Expert extends Person implements UserDetails {
+public class Expert extends Person {
 
     private Float rating = 0F;
     private Double totalMoney;
@@ -49,36 +49,11 @@ public class Expert extends Person implements UserDetails {
         return Objects.equals(rating, expert.rating) && getId().equals(expert.getId()) && expertStatus == expert.expertStatus && Arrays.equals(image, expert.image);
     }
     @Builder
-    public Expert(String firstName, String lastName, String username, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password, Float rating, ExpertStatus expertStatus, @Size(max = 300_000) byte[] image) {
-        super(firstName, lastName, username, email, password);
+    public Expert(String firstName, String lastName, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password, Boolean enabled, Role role, Float rating, Double totalMoney, ExpertStatus expertStatus, @Size(max = 300_000) byte[] image) {
+        super(firstName, lastName, email, password, enabled, role);
         this.rating = rating;
+        this.totalMoney = totalMoney;
         this.expertStatus = expertStatus;
         this.image = image;
     }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
 }
