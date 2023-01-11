@@ -59,7 +59,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     }
 
 
-
+    @Transactional
     @Override
     public void setProfileImage(byte[] image, Expert expert ) {
 
@@ -117,7 +117,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
             throw new DeleteExpertException("delete expert of subService failed!");
     }
 
-
+    @Transactional
     @Override
     public Long signIn(String firstName, String lastName, String Email, String password, byte[] image) {
 

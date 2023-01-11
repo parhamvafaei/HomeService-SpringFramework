@@ -10,6 +10,7 @@ import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.ClientRepository;
 import com.maktab.service.ClientService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,7 +34,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
     public ClientServiceImpl(ClientRepository repository) {
         super(repository);
     }
-
+    @Transactional
     @Override
     public void changePassword(Long id, String password) {
         Client client = findById(id).orElseThrow(NullPointerException::new);
@@ -46,7 +47,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
 
 
     }
-
+    @Transactional
     @Override
     public Long signIn(String firstName, String lastName, String Email, String password) {
 

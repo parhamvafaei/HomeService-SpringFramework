@@ -218,7 +218,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             expertService.saveOrUpdate(expert);
         }
     }
-
+@Transactional
     @Override
     public void setExpertScore(Long order_id, Float rating) {
         Expert expert = findExpert(order_id);

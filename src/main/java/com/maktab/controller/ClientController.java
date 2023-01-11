@@ -34,7 +34,7 @@ public class ClientController {
     private final RestTemplate restTemplate;
     private final PasswordEncoder passwordEncoder;
 
-
+//enable
     @PostMapping("/save-client")
     @ResponseBody
     void saveClient(@Valid @RequestBody ClientDTO clientDTO) {
