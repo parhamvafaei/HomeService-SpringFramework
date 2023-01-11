@@ -4,6 +4,7 @@ package com.maktab.service.impl;
 import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.*;
 import com.maktab.entity.dto.AddressDTO;
+import com.maktab.entity.dto.OrderFilter;
 import com.maktab.entity.person.Client;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
@@ -14,6 +15,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.ValidationException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -24,6 +31,9 @@ import java.util.Optional;
 
 @Service
 public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> implements OrderService {
+
+    @PersistenceContext
+    private EntityManager em;
 
     private final ExpertService expertService;
     private final OfferService offerService;
@@ -233,4 +243,48 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             expertService.saveOrUpdate(expert);
         }
     }
+
+
+    @Override
+    public List<Order> filterOrderHistory(OrderFilter orderFilter) {
+
+        List<Predicate> predicateList = new ArrayList<>();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Order> query = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = query.from(Order.class);
+
+        predicateList.add(criteriaBuilder.equal(root.get("isDone"),true));
+        if (orderFilter.getStartTime() == null && orderFilter.getEndTime()!=null) {
+            predicateList.add(criteriaBuilder.between(root.get("time"), LocalDateTime.MIN, orderFilter.getEndTime()));
+        }
+
+        if (orderFilter.getStartTime() != null && orderFilter.getEndTime()==null) {
+            predicateList.add(criteriaBuilder.between(root.get("time"), orderFilter.getStartTime(), LocalDateTime.now()));
+        }
+
+        if (orderFilter.getStartTime() != null && orderFilter.getEndTime()!=null) {
+            predicateList.add(criteriaBuilder.between(root.get("time"), orderFilter.getStartTime(), orderFilter.getEndTime()));
+        }
+
+        if (orderFilter.getOrderStatus() != null) {
+
+            predicateList.add(criteriaBuilder.like(root.get("orderStatus"), "%" + orderFilter.getOrderStatus() + "%"));
+        }
+
+        if (orderFilter.getSubService() != null) {
+
+            predicateList.add(criteriaBuilder.like(root.get("subService"),"%" + orderFilter.getSubService()+ "%" ));
+        }
+
+        if (orderFilter.getService() != null) {
+
+            predicateList.add(criteriaBuilder.like(root.get("service"), "%" + orderFilter.getService()+ "%" ));
+        }
+
+        Predicate[] predicateArray = new Predicate[predicateList.size()];
+        predicateList.toArray(predicateArray);
+        query.select(root).where(predicateArray);
+        return em.createQuery(query).getResultList();
+    }
+
 }

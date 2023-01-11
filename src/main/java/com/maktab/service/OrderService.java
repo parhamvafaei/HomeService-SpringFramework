@@ -2,13 +2,12 @@ package com.maktab.service;
 
 
 import com.maktab.base.service.BaseService;
-import com.maktab.entity.Address;
 import com.maktab.entity.Comment;
 import com.maktab.entity.Order;
 import com.maktab.entity.SubService;
 import com.maktab.entity.dto.AddressDTO;
+import com.maktab.entity.dto.OrderFilter;
 import com.maktab.entity.person.Expert;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -41,4 +40,5 @@ public interface OrderService extends BaseService<Order> {
 
     void setExpertScore(Long order_id, Float rating);
 
+    List<Order> filterOrderHistory(OrderFilter orderFilter);
 }
