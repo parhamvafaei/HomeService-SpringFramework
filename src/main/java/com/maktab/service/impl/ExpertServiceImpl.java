@@ -12,7 +12,6 @@ import com.maktab.exception.*;
 import com.maktab.repository.ExpertRepository;
 import com.maktab.service.ExpertService;
 import com.maktab.service.SubServiceService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,12 +37,11 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @PersistenceContext
     private EntityManager em;
 
-    private final PasswordEncoder passwordEncoder;
-    public ExpertServiceImpl(ExpertRepository repository, SubServiceService subServiceService, PasswordEncoder passwordEncoder) {
+    public ExpertServiceImpl(ExpertRepository repository, SubServiceService subServiceService) {
         super(repository);
 
         this.subServiceService = subServiceService;
-        this.passwordEncoder = passwordEncoder;
+
     }
 
     @Transactional
@@ -126,7 +124,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         if (repository.existsByEmail(Email)) {
             throw new PersonSignInException("this expert already exist");
         }
-        Expert expert = Expert.builder().firstName(firstName).lastName(lastName).email(Email).password(passwordEncoder.encode(password))
+        Expert expert = Expert.builder().firstName(firstName).lastName(lastName).email(Email).password(password)
                 .role(Role.ROLE_EXPERT).build();
 
         setProfileImage(image, expert);
@@ -156,16 +154,16 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         Root<Expert> root = query.from(Expert.class);
 
         if (expertDTO.getFirstname() != null)
-            predicateList.add(criteriaBuilder.like(root.get("firstname"), "%" + expertDTO.getFirstname() + "%"));
+            predicateList.add(criteriaBuilder.like(root.get("firstName"), "%" + expertDTO.getFirstname() + "%"));
 
         if (expertDTO.getLastname() != null)
-            predicateList.add(criteriaBuilder.like(root.get("lastname"), "%" + expertDTO.getLastname() + "%"));
+            predicateList.add(criteriaBuilder.like(root.get("lastName"), "%" + expertDTO.getLastname() + "%"));
 
         if (expertDTO.getEmail() != null)
             predicateList.add(criteriaBuilder.like(root.get("email"),  "%" + expertDTO.getEmail() + "%"));
 
-        if (expertDTO.getScore() != null )
-            predicateList.add(criteriaBuilder.equal(root.get("rating"),expertDTO.getScore()));
+        if (expertDTO.getRating() != null )
+            predicateList.add(criteriaBuilder.equal(root.get("rating"),expertDTO.getRating()));
 
 
         Predicate[] predicates = new Predicate[predicateList.size()];

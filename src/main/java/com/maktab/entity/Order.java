@@ -3,6 +3,7 @@ package com.maktab.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maktab.base.entity.BaseEntity;
 import com.maktab.entity.person.Client;
+import com.maktab.entity.person.Expert;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,6 +45,10 @@ public class Order extends BaseEntity {
     @JsonIgnore
     @ManyToOne
     private Client client;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Expert expert;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

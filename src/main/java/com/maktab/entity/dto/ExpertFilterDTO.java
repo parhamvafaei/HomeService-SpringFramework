@@ -12,7 +12,7 @@ public class ExpertFilterDTO {
     private String firstname;
     private String lastname;
     private String email;
-    private Double score;
+    private Double rating;
 
 
 }
