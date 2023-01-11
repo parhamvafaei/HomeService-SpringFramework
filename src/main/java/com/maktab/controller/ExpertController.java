@@ -39,7 +39,7 @@ public class ExpertController {
 
 
                 expertService.signIn(expertDTO.getFirstName(), expertDTO.getLastName(), expertDTO.getEmail()
-                        , expertDTO.getPassword(), multipartFile.getBytes());
+                        , passwordEncoder.encode(expertDTO.getPassword()), multipartFile.getBytes());
             }
         } catch (Exception e) {
             throw new FileReaderException();

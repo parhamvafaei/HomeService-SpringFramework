@@ -2,7 +2,9 @@ package com.maktab.service.impl;
 
 
 import com.maktab.base.service.impl.BaseServiceImpl;
+import com.maktab.entity.dto.ClientFilterDTO;
 import com.maktab.entity.person.Admin;
+import com.maktab.entity.person.Client;
 import com.maktab.entity.person.Role;
 import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.AdminRepository;
@@ -12,17 +14,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.ValidationException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
 public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> implements AdminService {
 
-    private final PasswordEncoder passwordEncoder;
+    @PersistenceContext
+    private EntityManager em;
 
-    public AdminServiceImpl(AdminRepository repository, PasswordEncoder passwordEncoder) {
+
+    public AdminServiceImpl(AdminRepository repository) {
         super(repository);
-        this.passwordEncoder = passwordEncoder;
+
     }
 
     @Transactional
@@ -46,10 +58,12 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> im
             throw new PersonSignInException("this admin already exist");
         }
 
-        Admin admin=new Admin(firstName,lastName,Email,passwordEncoder.encode(password),Role.ROLE_ADMIN);
+        Admin admin=new Admin(firstName,lastName,Email,password,Role.ROLE_ADMIN);
         saveOrUpdate(admin);
     return admin.getId();
     }
+
+
 
 
 }

@@ -3,6 +3,7 @@ package com.maktab.entity.person;
 import com.maktab.entity.Offer;
 import com.maktab.entity.SubService;
 import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -49,8 +50,17 @@ public class Expert extends Person {
         return Objects.equals(rating, expert.rating) && getId().equals(expert.getId()) && expertStatus == expert.expertStatus && Arrays.equals(image, expert.image);
     }
     @Builder
-    public Expert(String firstName, String lastName,@Email  String email, @NotNull String password, Boolean enabled, Role role, Float rating, Double totalMoney, ExpertStatus expertStatus, @Size(max = 300_000) byte[] image) {
+
+    public Expert(String firstName, String lastName, String email, @NotNull String password, Boolean enabled, Role role, Float rating, Double totalMoney, ExpertStatus expertStatus, @Size(max = 300_000) byte[] image) {
         super(firstName, lastName, email, password, enabled, role);
+        this.rating = rating;
+        this.totalMoney = totalMoney;
+        this.expertStatus = expertStatus;
+        this.image = image;
+    }
+
+    public Expert(String firstName, String lastName, String email, String password, Role role, Float rating, Double totalMoney, ExpertStatus expertStatus, @Size(max = 300_000) byte[] image) {
+        super(firstName, lastName, email, password, role);
         this.rating = rating;
         this.totalMoney = totalMoney;
         this.expertStatus = expertStatus;

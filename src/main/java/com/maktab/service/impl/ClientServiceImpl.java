@@ -9,7 +9,6 @@ import com.maktab.entity.person.Role;
 import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.ClientRepository;
 import com.maktab.service.ClientService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -28,12 +27,11 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
 
     @PersistenceContext
     private EntityManager em;
-    private final PasswordEncoder passwordEncoder;
 
 
-    public ClientServiceImpl(ClientRepository repository, PasswordEncoder passwordEncoder) {
+
+    public ClientServiceImpl(ClientRepository repository) {
         super(repository);
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -56,7 +54,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
             throw new PersonSignInException("this client already exist");
         }
         Credit credit = new Credit(0D);
-        Client client = new Client(firstName, lastName, Email,passwordEncoder.encode( password), Role.ROLE_CUSTOMER, credit);
+        Client client = new Client(firstName, lastName, Email,password, Role.ROLE_CUSTOMER, credit);
         saveOrUpdate(client);
 
         return client.getId();
@@ -70,11 +68,11 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
         CriteriaQuery<Client> query = criteriaBuilder.createQuery(Client.class);
         Root<Client> root = query.from(Client.class);
 
-        if (clientDTO.getFirstname() != null) {
-            predicateList.add(criteriaBuilder.like(root.get("firstname"), "%" + clientDTO.getFirstname() + "%"));
+        if (clientDTO.getFirstName() != null) {
+            predicateList.add(criteriaBuilder.like(root.get("firstName"), "%" + clientDTO.getFirstName() + "%"));
         }
-        if (clientDTO.getLastname() != null) {
-            predicateList.add(criteriaBuilder.like(root.get("lastname"), "%" + clientDTO.getLastname() + "%"));
+        if (clientDTO.getLastName() != null) {
+            predicateList.add(criteriaBuilder.like(root.get("lastName"), "%" + clientDTO.getLastName() + "%"));
         }
         if (clientDTO.getEmail() != null) {
             predicateList.add(criteriaBuilder.like(root.get("email"), "%" + clientDTO.getEmail() + "%"));
