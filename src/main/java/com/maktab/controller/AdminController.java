@@ -8,7 +8,7 @@ import com.maktab.entity.person.Expert;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +28,14 @@ public class AdminController {
     private final ClientService clientService;
     private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
+
+
+
+    @PostMapping("/save-admin")
+    void saveAdmin(@Valid @RequestBody AdminSignInDTO adminDTO) {
+        adminService.createAdmin(adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getEmail(), passwordEncoder.encode(adminDTO.getPassword()));
+    }
+
 
     @GetMapping("/find-all-services")
     List<Service> findAllServices() {
