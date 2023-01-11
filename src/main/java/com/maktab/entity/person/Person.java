@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -27,10 +27,8 @@ public class Person extends BaseEntity implements UserDetails {
     private String firstName;
     private String lastName;
 
-    @Email  @Column(unique = true)
+    @Column(unique = true)
     private String email;
-
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}")
     @NotNull
     private String password;
     private Boolean enabled=false;

@@ -18,7 +18,7 @@ import java.util.Collection;
 @ToString
 public class Admin extends Person{
     @Builder
-    public Admin(String firstName, String lastName, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password, Boolean enabled, Role role) {
+    public Admin(String firstName, String lastName, @Email String email, @NotNull String password, Boolean enabled, Role role) {
         super(firstName, lastName, email, password, enabled, role);
     }
 

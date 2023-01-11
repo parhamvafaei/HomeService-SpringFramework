@@ -34,7 +34,7 @@ public class Client extends Person  {
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    public Client(String firstName, String lastName, @Email String email, @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}") @NotNull String password, Boolean enabled, Role role, Credit credit) {
+    public Client(String firstName, String lastName,@Email  String email, @NotNull String password, Boolean enabled, Role role, Credit credit) {
         super(firstName, lastName, email, password, enabled, role);
         this.credit = credit;
     }
