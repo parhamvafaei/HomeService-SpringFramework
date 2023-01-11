@@ -17,7 +17,7 @@ public class ExpertDetailService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return expertRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("Expert not present"));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return expertRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("Expert not present"));
     }
 }

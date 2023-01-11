@@ -3,6 +3,7 @@ package com.maktab.service.impl;
 
 import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.person.Admin;
+import com.maktab.entity.person.Role;
 import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.AdminRepository;
 import com.maktab.service.AdminService;
@@ -45,7 +46,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> im
             throw new PersonSignInException("this admin already exist");
         }
 
-        Admin admin=new Admin(firstName,lastName,null,Email,passwordEncoder.encode(password));
+        Admin admin=new Admin(firstName,lastName,Email,passwordEncoder.encode(password),Role.ROLE_ADMIN);
         saveOrUpdate(admin);
     return admin.getId();
     }

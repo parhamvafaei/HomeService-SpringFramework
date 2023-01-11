@@ -5,6 +5,7 @@ import com.maktab.base.service.impl.BaseServiceImpl;
 import com.maktab.entity.Credit;
 import com.maktab.entity.dto.ClientFilterDTO;
 import com.maktab.entity.person.Client;
+import com.maktab.entity.person.Role;
 import com.maktab.exception.PersonSignInException;
 import com.maktab.repository.ClientRepository;
 import com.maktab.service.ClientService;
@@ -55,7 +56,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
             throw new PersonSignInException("this client already exist");
         }
         Credit credit = new Credit(0D);
-        Client client = new Client(firstName, lastName,null, Email,passwordEncoder.encode( password), credit);
+        Client client = new Client(firstName, lastName, Email,passwordEncoder.encode( password), Role.ROLE_CUSTOMER, credit);
         saveOrUpdate(client);
 
         return client.getId();

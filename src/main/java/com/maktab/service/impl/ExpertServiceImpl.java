@@ -6,6 +6,7 @@ import com.maktab.entity.SubService;
 import com.maktab.entity.dto.ExpertFilterDTO;
 import com.maktab.entity.person.Expert;
 import com.maktab.entity.person.ExpertStatus;
+import com.maktab.entity.person.Role;
 import com.maktab.exception.*;
 
 import com.maktab.repository.ExpertRepository;
@@ -126,7 +127,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
             throw new PersonSignInException("this expert already exist");
         }
         Expert expert = Expert.builder().firstName(firstName).lastName(lastName).email(Email).password(passwordEncoder.encode(password))
-                .build();
+                .role(Role.ROLE_EXPERT).build();
 
         setProfileImage(image, expert);
         saveOrUpdate(expert);

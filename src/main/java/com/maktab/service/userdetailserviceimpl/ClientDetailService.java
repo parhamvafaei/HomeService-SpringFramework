@@ -16,7 +16,7 @@ public class ClientDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return clientRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("Client not present"));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return clientRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("Client not present"));
     }
 }
