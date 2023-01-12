@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class RegistrationController {
 
-    private final RegistrationService registrationService;
+    private final ExpertRegistrationService expertRegistrationService;
 
     @PostMapping
     public String register(@RequestBody RegistrationRequest request) {
-        return registrationService.register(request);
+        return expertRegistrationService.register(request);
     }
 
     @GetMapping(path = "confirm")
     public String confirm(@RequestParam("token") String token) {
-        return registrationService.confirmToken(token);
+        return expertRegistrationService.confirmToken(token);
     }
 
 }

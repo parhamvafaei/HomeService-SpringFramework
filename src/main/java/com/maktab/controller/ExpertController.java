@@ -31,16 +31,17 @@ public class ExpertController {
 
 
     @PostMapping("/save-expert")
-    void saveExpert(@Valid @RequestParam("expert") String expertJSON, @RequestParam("image") MultipartFile multipartFile) {
+    String saveExpert(@Valid @RequestParam("expert") String expertJSON, @RequestParam("image") MultipartFile multipartFile) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             ExpertDTO expertDTO = objectMapper.readValue(expertJSON, ExpertDTO.class);
-            if (expertService.checkImage(multipartFile)) {
+            if (expertService.checkImage(multipartFile))
+                throw new FileReaderException();
 
 
-                expertService.signIn(expertDTO.getFirstName(), expertDTO.getLastName(), expertDTO.getEmail()
+              return  expertService.signIn(expertDTO.getFirstName(), expertDTO.getLastName(), expertDTO.getEmail()
                         , passwordEncoder.encode(expertDTO.getPassword()), multipartFile.getBytes());
-            }
+
         } catch (Exception e) {
             throw new FileReaderException();
         }

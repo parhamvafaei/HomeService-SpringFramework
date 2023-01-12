@@ -35,9 +35,10 @@ public class ClientController {
 //enable
     @PostMapping("/save-client")
     @ResponseBody
-    void saveClient(@Valid @RequestBody ClientDTO clientDTO) {
-        clientService.signIn(clientDTO.getFirstName(), clientDTO.getLastName(), clientDTO.getEmail(), passwordEncoder.encode(clientDTO.getPassword()));
+    String  saveClient(@Valid @RequestBody ClientDTO clientDTO) {
+       return clientService.signIn(clientDTO.getFirstName(), clientDTO.getLastName(), clientDTO.getEmail(), passwordEncoder.encode(clientDTO.getPassword()));
     }
+
 
     @PutMapping("/change-password")
     @ResponseBody

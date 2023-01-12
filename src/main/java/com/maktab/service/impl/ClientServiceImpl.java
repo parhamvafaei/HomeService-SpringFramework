@@ -2,6 +2,8 @@ package com.maktab.service.impl;
 
 
 import com.maktab.base.service.impl.BaseServiceImpl;
+import com.maktab.email.registration.token.ConfirmationToken;
+import com.maktab.email.registration.token.ConfirmationTokenService;
 import com.maktab.entity.Credit;
 import com.maktab.entity.dto.ClientFilterDTO;
 import com.maktab.entity.person.Client;
@@ -22,6 +24,7 @@ import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -30,10 +33,12 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
     @PersistenceContext
     private EntityManager em;
 
+    private final ConfirmationTokenService confirmationTokenService;
 
 
-    public ClientServiceImpl(ClientRepository repository) {
+    public ClientServiceImpl(ClientRepository repository, ConfirmationTokenService confirmationTokenService) {
         super(repository);
+        this.confirmationTokenService = confirmationTokenService;
     }
     @Transactional
     @Override
@@ -50,7 +55,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
     }
     @Transactional
     @Override
-    public Long signIn(String firstName, String lastName, String Email, String password) {
+    public String signIn(String firstName, String lastName, String Email, String password) {
 
         if (repository.existsByEmail(Email)) {
             throw new PersonSignInException("this client already exist");
@@ -59,8 +64,23 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
         Client client = new Client(firstName, lastName, Email,password, Role.ROLE_CLIENT, credit);
         saveOrUpdate(client);
 
-        return client.getId();
+        String token = UUID.randomUUID().toString();
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                client
+        );
+
+        confirmationTokenService.saveConfirmationToken(
+                confirmationToken);
+
+
+        return token;
     }
+
+
 
 
     @Override

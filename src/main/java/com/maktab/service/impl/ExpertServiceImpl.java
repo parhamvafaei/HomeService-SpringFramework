@@ -2,6 +2,8 @@ package com.maktab.service.impl;
 
 
 import com.maktab.base.service.impl.BaseServiceImpl;
+import com.maktab.email.registration.token.ConfirmationToken;
+import com.maktab.email.registration.token.ConfirmationTokenService;
 import com.maktab.entity.SubService;
 import com.maktab.entity.dto.ExpertFilterDTO;
 import com.maktab.entity.person.Expert;
@@ -27,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Service
@@ -34,15 +37,16 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
 
     private final SubServiceService subServiceService;
-
+    private final ConfirmationTokenService confirmationTokenService;
     @PersistenceContext
     private EntityManager em;
 
-    public ExpertServiceImpl(ExpertRepository repository, SubServiceService subServiceService) {
+    public ExpertServiceImpl(ExpertRepository repository, SubServiceService subServiceService, ConfirmationTokenService confirmationTokenService) {
         super(repository);
 
         this.subServiceService = subServiceService;
 
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     @Transactional
@@ -120,7 +124,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
     @Transactional
     @Override
-    public Long signIn(String firstName, String lastName, String Email, String password, byte[] image) {
+    public String signIn(String firstName, String lastName, String Email, String password, byte[] image) {
 
         if (repository.existsByEmail(Email)) {
             throw new PersonSignInException("this expert already exist");
@@ -130,7 +134,22 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
         setProfileImage(image, expert);
         saveOrUpdate(expert);
-        return expert.getId();
+
+        String token = UUID.randomUUID().toString();
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                expert
+        );
+
+        confirmationTokenService.saveConfirmationToken(
+                confirmationToken);
+
+
+        return token;
+
     }
 
     @Override

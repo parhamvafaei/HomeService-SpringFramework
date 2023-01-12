@@ -4,7 +4,10 @@ package com.maktab.email.registration;
 import com.maktab.email.email.EmailSender;
 import com.maktab.email.registration.token.ConfirmationToken;
 import com.maktab.email.registration.token.ConfirmationTokenService;
+import com.maktab.entity.person.Expert;
+import com.maktab.repository.PersonRepository;
 import com.maktab.service.AdminService;
+import com.maktab.service.ExpertService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,20 +16,23 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class RegistrationService {
+public class ExpertRegistrationService {
 
-    private final AdminService adminService;
+    private final ExpertService expertService;
+
+    private final PersonRepository<Expert> personRepository;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
     public String register(RegistrationRequest request) {
 
 
-        String token =String.valueOf(adminService.createAdmin(
+        String token =expertService.signIn(
                         request.getFirstName(),
                         request.getLastName(),
                         request.getEmail(),
-                        request.getPassword())
+                        request.getPassword(),
+                null
         );
 
         String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
@@ -55,8 +61,8 @@ public class RegistrationService {
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        admin.enableAppUser(
-                confirmationToken.getAppUser().getEmail());
+        personRepository.enableAppUser(
+                confirmationToken.getPerson().getEmail());
         return "confirmed";
     }
 
@@ -128,4 +134,5 @@ public class RegistrationService {
                 "\n" +
                 "</div></div>";
     }
+
 }
