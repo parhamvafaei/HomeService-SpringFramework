@@ -2,6 +2,7 @@ package com.maktab.repository;
 
 
 import com.maktab.entity.person.Expert;
+import com.maktab.entity.person.ExpertStatus;
 import com.maktab.entity.person.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,8 +22,8 @@ public interface ExpertRepository  extends JpaRepository<Expert,Long> {
     @Transactional
     @Modifying
     @Query("UPDATE Expert a " +
-            "SET a.enabled = TRUE WHERE a.email = ?1")
-    int enableAppUser(String email);
+            "SET  a.expertStatus = :status WHERE  a.email = :email")
+    int confirmedExpert(ExpertStatus status,String email);
 
     @Modifying
     @Query("select p from Expert p where p.createTime= :signInTime or p.offers.size= :offers or p.ordersDone.size= :orders ")

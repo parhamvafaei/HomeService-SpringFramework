@@ -5,6 +5,8 @@ import com.maktab.email.email.EmailSender;
 import com.maktab.email.registration.token.ConfirmationToken;
 import com.maktab.email.registration.token.ConfirmationTokenService;
 import com.maktab.entity.person.Expert;
+import com.maktab.entity.person.ExpertStatus;
+import com.maktab.repository.ExpertRepository;
 import com.maktab.repository.PersonRepository;
 import com.maktab.service.AdminService;
 import com.maktab.service.ExpertService;
@@ -23,6 +25,8 @@ public class ExpertRegistrationService {
     private final PersonRepository<Expert> personRepository;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+
+    private final ExpertRepository expertRepository;
 
     public String register(RegistrationRequest request) {
 
@@ -63,6 +67,7 @@ public class ExpertRegistrationService {
         confirmationTokenService.setConfirmedAt(token);
         personRepository.enableAppUser(
                 confirmationToken.getPerson().getEmail());
+expertRepository.confirmedExpert(ExpertStatus.CONFIRMED, confirmationToken.getPerson().getEmail());
         return "confirmed";
     }
 

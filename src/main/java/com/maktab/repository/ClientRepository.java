@@ -18,11 +18,6 @@ public interface ClientRepository extends JpaRepository<Client,Long> {
 
     Optional<Client> findByEmail(String email);
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE Client a " +
-            "SET a.enabled = TRUE WHERE a.email = ?1")
-    int enableAppUser(String email);
 
     @Modifying
     @Query("select p from Client p where p.createTime= :signInTime or p.orders.size= :ordersSet ")

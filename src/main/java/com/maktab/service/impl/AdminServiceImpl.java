@@ -59,6 +59,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> im
         }
 
         Admin admin=new Admin(firstName,lastName,Email,password,Role.ROLE_ADMIN);
+        admin.setEnabled(true);
         saveOrUpdate(admin);
     return admin.getId();
     }

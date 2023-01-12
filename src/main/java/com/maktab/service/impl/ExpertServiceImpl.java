@@ -130,7 +130,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
             throw new PersonSignInException("this expert already exist");
         }
         Expert expert = Expert.builder().firstName(firstName).lastName(lastName).email(Email).password(password)
-                .role(Role.ROLE_EXPERT).build();
+                .role(Role.ROLE_EXPERT).expertStatus(ExpertStatus.AWAITING_CONFIRMATION).build();
 
         setProfileImage(image, expert);
         saveOrUpdate(expert);
