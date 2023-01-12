@@ -1,5 +1,6 @@
 package com.maktab.controller;
 
+import com.maktab.entity.Order;
 import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
 import com.maktab.entity.dto.*;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class AdminController {
     private final ClientService clientService;
     private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
 
 
 
@@ -99,6 +102,22 @@ public class AdminController {
         expertList.forEach(expert -> expertDTOResponse.add(mapper.map(expert,ExpertFilterResponse.class)));
         return expertDTOResponse;
 
+    }
+
+
+    @GetMapping("/filter-order-history")
+    List<Order> filterOrderHistory(@RequestBody OrderFilter orderFilter){
+        return orderService.filterOrderHistory(orderFilter);
+    }
+
+    @GetMapping("/expert-reporter")
+    public List<Expert> filterExpert(@RequestBody PersonDTO personDTO){
+        return expertService.expertReporter(personDTO.getSignInTime(),personDTO.getOrdersSet(),personDTO.getOrdersSet());
+    }
+
+    @GetMapping("/client-reporter")
+    public List<Client> clientExpert(@RequestBody PersonDTO personDTO){
+        return clientService.clientReporter(personDTO.getSignInTime(),personDTO.getOrdersDone());
     }
 
 }
