@@ -25,4 +25,5 @@
 //specification
 
 //            "having (select o from Order o where o.isDone=true)")
+// builder set null if not exist
 
