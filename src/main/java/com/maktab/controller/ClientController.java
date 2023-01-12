@@ -38,7 +38,7 @@ public class ClientController {
         clientService.signIn(clientDTO.getFirstName(), clientDTO.getLastName(), clientDTO.getEmail(), passwordEncoder.encode(clientDTO.getPassword()));
     }
 
-    @PutMapping("/change-password/{id}/{password}")
+    @PutMapping("/change-password")
     @ResponseBody
     void changePassword(@Valid @RequestBody ChangePasswordDTO passwordDTO) {
         clientService.changePassword(passwordDTO.getId(), passwordEncoder.encode(passwordDTO.getPassword()));

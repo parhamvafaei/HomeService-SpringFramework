@@ -4,6 +4,7 @@ import com.maktab.entity.Offer;
 import com.maktab.entity.Order;
 import com.maktab.entity.SubService;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ public class Expert extends Person {
     @Enumerated(EnumType.STRING)
     private ExpertStatus expertStatus;
 
+    @Type(type = "org.hibernate.type.ImageType")
     @Lob
     @Size(max = 300_000)
     private byte[] image;
