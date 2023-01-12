@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.validation.ValidationException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +84,11 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
         predicateList.toArray(predicateArray);
         query.select(root).where(predicateArray);
         return em.createQuery(query).getResultList();
+    }
+
+    @Override
+    public List<Client> clientReporter(LocalDateTime signInTime, Integer orderDone) {
+        return repository.filterClient(signInTime,orderDone);
     }
 
 }

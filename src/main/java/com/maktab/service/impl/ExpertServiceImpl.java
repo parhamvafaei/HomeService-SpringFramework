@@ -23,6 +23,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.validation.ValidationException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -172,6 +173,8 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         return em.createQuery(query).getResultList();
     }
 
-
-
+@Override
+    public List<Expert> expertReporter(LocalDateTime signInTime, Integer ordersSet, Integer ordersDone) {
+return repository.filterExpert(signInTime,ordersSet,ordersDone);
+    }
 }

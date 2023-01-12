@@ -2,13 +2,11 @@ package com.maktab.service;
 
 
 import com.maktab.base.service.BaseService;
-import com.maktab.entity.SubService;
 import com.maktab.entity.dto.ExpertFilterDTO;
 import com.maktab.entity.person.Expert;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -34,4 +32,6 @@ public interface ExpertService extends BaseService<Expert> {
 
 
     List<Expert> filterExpert(ExpertFilterDTO expertDTO);
+
+    List<Expert> expertReporter(LocalDateTime signInTime, Integer ordersSet, Integer ordersDone);
 }
