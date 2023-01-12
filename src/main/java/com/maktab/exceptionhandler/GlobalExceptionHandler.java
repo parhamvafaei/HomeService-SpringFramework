@@ -60,4 +60,8 @@ public class GlobalExceptionHandler {
     }
 
 
+        @ExceptionHandler(value = IllegalArgumentException.class)
+        public ResponseEntity<Object> IllegalArgumentException(Exception ex, WebRequest request) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
 }

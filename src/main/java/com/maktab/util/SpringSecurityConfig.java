@@ -31,10 +31,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http
             .csrf().disable()
             .authorizeHttpRequests()
-            .mvcMatchers(HttpMethod.POST,"/api/v1/**").permitAll()
-            .mvcMatchers("/admin/**").hasRole("ADMIN")
-            .mvcMatchers("/expert/**").hasRole("EXPERT")
-            .mvcMatchers("/client/**").hasRole("CLIENT")
+            .antMatchers(HttpMethod.POST,"/api/v1/**").permitAll()
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/expert/**").hasRole("EXPERT")
+            .antMatchers("/client/**").hasRole("CLIENT")
             .anyRequest()
             .authenticated()
             .and().httpBasic();

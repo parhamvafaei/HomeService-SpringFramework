@@ -22,4 +22,5 @@ public interface PersonRepository<E extends Person> extends JpaRepository<E,Long
     @Modifying
     @Query("update Person p set p.enabled=true where p.email=:email")
     int enableAppUser(String email);
+
 }
