@@ -9,7 +9,6 @@ import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -138,10 +137,10 @@ public class ClientController {
                 null, ReCaptchaResponse.class).getBody();
         ObjectMapper objectMapper = new ObjectMapper();
 
-           OrderIdDTO orderIdDTO = objectMapper.readValue(orderId, OrderIdDTO.class);
+           OrderDTOPay orderDTOPay = objectMapper.readValue(orderId, OrderDTOPay.class);
 
         if (reCaptchaResponse.getSuccess()) {
-            orderService.payFromCard(orderIdDTO.getOrder_id());
+            orderService.payFromCard(orderDTOPay.getOrder_id());
             return "done";
         }
         return "invalid captcha";
