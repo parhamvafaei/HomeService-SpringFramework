@@ -38,7 +38,7 @@ public class Client extends Person  {
         super(firstName, lastName, email, password, enabled, role);
         this.credit = credit;
     }
-
+    @Builder
     public Client(String firstName, String lastName, String email, String password, Role role, Credit credit) {
         super(firstName, lastName, email, password, role);
         this.credit = credit;
