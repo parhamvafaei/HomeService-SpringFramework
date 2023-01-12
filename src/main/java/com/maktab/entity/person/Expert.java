@@ -1,16 +1,12 @@
 package com.maktab.entity.person;
 
 import com.maktab.entity.Offer;
+import com.maktab.entity.Order;
 import com.maktab.entity.SubService;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.*;
 
@@ -40,6 +36,10 @@ public class Expert extends Person {
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Offer> offers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "expert")
+    @ToString.Exclude
+    private List<Order> ordersDone = new ArrayList<>();
 
 
     @Override
