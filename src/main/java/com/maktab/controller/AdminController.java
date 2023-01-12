@@ -1,5 +1,7 @@
 package com.maktab.controller;
 
+import com.maktab.email.registration.ClientRegistrationService;
+import com.maktab.email.registration.ExpertRegistrationService;
 import com.maktab.entity.Order;
 import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
@@ -14,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,9 @@ public class AdminController {
     private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
+
+    private final ExpertRegistrationService expertRegistrationService;
+    private final ClientRegistrationService clientRegistrationService;
 
 
 
@@ -120,4 +124,14 @@ public class AdminController {
         return clientService.clientReporter(personDTO.getSignInTime(),personDTO.getOrdersDone());
     }
 
+
+    @GetMapping(path = "expert-confirm")
+    public String expertEmailConfirm(@RequestParam("token") String token) {
+        return expertRegistrationService.confirmToken(token);
+    }
+
+    @GetMapping(path = "client-confirm")
+    public String clientEmailConfirm(@RequestParam("token") String token) {
+        return clientRegistrationService.confirmToken(token);
+    }
 }
