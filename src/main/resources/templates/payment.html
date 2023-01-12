@@ -13,21 +13,28 @@
 
 
         <script>
-            const orderId = document.getElementById("order");
-            const request = $.ajax({
-        type: "POST",
-        url: "/client/payment",
-        data: {
-            order_id: 'orderId'
-        },
-        success: function (response) {
-            alert(response.status);
-        },
-        error: function () {
-            alert("error");
-        },
-    });
+            $("#submitPay").on('click',function() {
 
+
+                const orderId = $("#order_id").val();
+
+                let json = JSON.stringify(orderId);
+                const request = $.ajax({
+                    type: "POST",
+                    url: "/client/payment",
+                    dataType: 'json',
+                    data: {
+                        order_id: json
+
+                    },
+                    success: function (response) {
+                        alert(response.status);
+                    },
+                    error: function () {
+                        alert("error");
+                    },
+                });
+            })
 </script>
 
 
@@ -39,7 +46,7 @@
         <div class="col-sm-6">
             <div class="alert alert-info" role="alert">
                 <p>Maktab Payment</p>
-                <div th:with="someVariable=${orderPrice}"> </div>
+               
                 <p id="order" th:text="'price, ' + ${orderPrice} " ></p>
 
             </div>
@@ -114,13 +121,24 @@
                                class="form-control">
                     </div>
                 </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="control-label" for="order_id">order_id</label>
+
+
+                        <input type="password" maxlength="4"  id="order_id"
+                              placeholder="order_id"
+                               class="form-control">
+                    </div>
+                </div>
             </div>
             <div class="g-recaptcha" align="center" data-sitekey="6Lf53N4jAAAAAOkR31rbNhmhgeHplvo_Q2yidvUa"></div>
 
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <button class="btn btn-success">Pay Now</button>
+                        <button id="submitPay" type="submit" value="submit" class="btn btn-success">Pay Now</button>
                     </div>
                 </div>
                 <div class="col-sm-4"></div>
