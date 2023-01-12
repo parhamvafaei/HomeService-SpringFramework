@@ -26,7 +26,7 @@ public interface ExpertService extends BaseService<Expert> {
 
     void deleteExpertOfSubService(Long expertId, Long subServiceId);
 
-    Long signIn(String firstName, String lastName, String Email, String password, byte[] image);
+    String signIn(String firstName, String lastName, String Email, String password, byte[] image);
 
     boolean checkImage(MultipartFile file);
 

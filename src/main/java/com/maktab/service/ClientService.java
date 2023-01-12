@@ -12,7 +12,7 @@ public interface ClientService extends BaseService<Client> {
 
     void changePassword(Long id, String password);
 
-    Long signIn(String firstName, String lastName, String Email, String password);
+    String signIn(String firstName, String lastName, String Email, String password);
 
     List<Client> filterClient(ClientFilterDTO clientDTO);
 
