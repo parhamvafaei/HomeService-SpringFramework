@@ -2,10 +2,7 @@ package com.maktab.controller;
 
 
 import com.maktab.entity.*;
-import com.maktab.entity.dto.ChangePasswordDTO;
-import com.maktab.entity.dto.ClientDTO;
-import com.maktab.entity.dto.CommentDTO;
-import com.maktab.entity.dto.OrderDTO;
+import com.maktab.entity.dto.*;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -142,6 +139,13 @@ public class ClientController {
             return "done";
         }
         return "invalid captcha";
+    }
+
+
+    @GetMapping("/client-orders/{client_id}/{orderStatus}")
+    @ResponseBody
+    List<Order> clientOrders(@PathVariable Long client_id,@PathVariable String orderStatus){
+        return orderService.clientOrders(client_id,orderStatus);
     }
 }
 
