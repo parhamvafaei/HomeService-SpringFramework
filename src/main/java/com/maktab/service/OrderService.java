@@ -43,7 +43,7 @@ public interface OrderService extends BaseService<Order> {
 
     List<Order> filterOrderHistory(OrderFilter orderFilter);
 
-    List<Order> expertOrders(Long expert_id, OrderStatus orderStatus);
+    List<Order> expertOrders(Long expert_id, String orderStatus);
 
-    List<Order> clientOrders(Long client_id, OrderStatus orderStatus);
+    List<Order> clientOrders(Long client_id, String orderStatus);
 }

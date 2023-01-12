@@ -75,4 +75,8 @@ public class ExpertController {
    orderService.expertAccountStatus(order_id,offer_id);
     }
 
+    @GetMapping("/expert-orders/{expert_id}/{orderStatus}")
+    List<Order> expertOrders(@PathVariable Long expert_id,@PathVariable String orderStatus){
+        return orderService.expertOrders(expert_id,orderStatus);
+    }
 }

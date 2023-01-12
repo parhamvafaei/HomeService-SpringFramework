@@ -289,13 +289,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     }
 
     @Override
-    public List<Order> expertOrders(Long expert_id, OrderStatus orderStatus) {
+    public List<Order> expertOrders(Long expert_id, String orderStatus) {
 
         return repository.expertOrders(expert_id, orderStatus);
     }
 
     @Override
-    public List<Order> clientOrders(Long client_id, OrderStatus orderStatus) {
+    public List<Order> clientOrders(Long client_id, String orderStatus) {
         return repository.clientOrders(client_id, orderStatus);
     }
 }
