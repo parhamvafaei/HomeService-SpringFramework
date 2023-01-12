@@ -56,7 +56,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
             throw new PersonSignInException("this client already exist");
         }
         Credit credit = new Credit(0D);
-        Client client = new Client(firstName, lastName, Email,password, Role.ROLE_CUSTOMER, credit);
+        Client client = new Client(firstName, lastName, Email,password, Role.ROLE_CLIENT, credit);
         saveOrUpdate(client);
 
         return client.getId();

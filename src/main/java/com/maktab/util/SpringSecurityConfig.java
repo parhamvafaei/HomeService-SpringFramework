@@ -34,7 +34,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .mvcMatchers(HttpMethod.POST,"/api/v1/**").permitAll()
             .mvcMatchers("/admin/**").hasRole("ADMIN")
             .mvcMatchers("/expert/**").hasRole("EXPERT")
-            .mvcMatchers("/customer/**").hasRole("CUSTOMER")
+            .mvcMatchers("/client/**").hasRole("CLIENT")
             .anyRequest()
             .authenticated()
             .and().httpBasic();

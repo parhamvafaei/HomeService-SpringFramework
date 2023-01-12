@@ -1,6 +1,7 @@
 package com.maktab.entity.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class PersonDTO {
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime signInTime;
     private Integer ordersSet;
     private Integer ordersDone;
