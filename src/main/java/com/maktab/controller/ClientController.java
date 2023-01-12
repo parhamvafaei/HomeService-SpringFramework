@@ -1,6 +1,8 @@
 package com.maktab.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maktab.entity.*;
 import com.maktab.entity.dto.*;
 import com.maktab.service.*;
@@ -128,14 +130,18 @@ public class ClientController {
 
     @PostMapping("/payment")
     @ResponseBody
-    public String test(@RequestParam("order_id") String order_id, @RequestParam("g-recaptcha-response") String captcha) {
+    public String test(@RequestBody String orderId, @RequestParam("g-recaptcha-response") String captcha) throws JsonProcessingException {
         String url = "https://www.google.com/recaptcha/api/siteverify";
         String params = "?secret=6Lf53N4jAAAAAAH2qeDC50aHrbxVb97JgKgsq3GT&response=" + captcha;
 
         ReCaptchaResponse reCaptchaResponse = restTemplate.exchange(url + params, HttpMethod.POST,
                 null, ReCaptchaResponse.class).getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+           OrderIdDTO orderIdDTO = objectMapper.readValue(orderId, OrderIdDTO.class);
+
         if (reCaptchaResponse.getSuccess()) {
-            orderService.payFromCard(Long.valueOf(order_id));
+            orderService.payFromCard(orderIdDTO.getOrder_id());
             return "done";
         }
         return "invalid captcha";
