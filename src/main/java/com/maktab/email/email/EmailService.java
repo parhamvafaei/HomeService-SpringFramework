@@ -2,11 +2,11 @@ package com.maktab.email.email;
 
 
 import lombok.AllArgsConstructor;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -29,7 +29,7 @@ public class EmailService implements EmailSender {
             helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject("Confirm your email");
-            helper.setFrom("parhamvafaei@gmail.com");
+            helper.setFrom("p.vafaeei@gmail.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
 
