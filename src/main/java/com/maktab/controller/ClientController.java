@@ -3,6 +3,8 @@ package com.maktab.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maktab.email.registration.ClientRegistrationService;
+import com.maktab.email.registration.RegistrationRequest;
 import com.maktab.entity.*;
 import com.maktab.entity.dto.*;
 import com.maktab.service.*;
@@ -32,11 +34,13 @@ public class ClientController {
     private final RestTemplate restTemplate;
     private final PasswordEncoder passwordEncoder;
 
-//enable
+    private final ClientRegistrationService registrationService;
+
     @PostMapping("/save-client")
     @ResponseBody
-    String  saveClient(@Valid @RequestBody ClientDTO clientDTO) {
-       return clientService.signIn(clientDTO.getFirstName(), clientDTO.getLastName(), clientDTO.getEmail(), passwordEncoder.encode(clientDTO.getPassword()));
+    String  saveClient(@Valid @RequestBody RegistrationRequest registrationRequest) {
+        registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+       return registrationService.register(registrationRequest);
     }
 
 

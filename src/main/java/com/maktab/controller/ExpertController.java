@@ -2,6 +2,8 @@ package com.maktab.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maktab.email.registration.ExpertRegistrationService;
+import com.maktab.email.registration.RegistrationRequest;
 import com.maktab.entity.Order;
 import com.maktab.entity.dto.*;
 import com.maktab.entity.person.Expert;
@@ -28,19 +30,19 @@ public class ExpertController {
     private final OfferService offerService;
     private final OrderService orderService;
     private final PasswordEncoder passwordEncoder;
+    private final ExpertRegistrationService registrationService;
 
 
     @PostMapping("/save-expert")
     String saveExpert(@Valid @RequestParam("expert") String expertJSON, @RequestParam("image") MultipartFile multipartFile) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            ExpertDTO expertDTO = objectMapper.readValue(expertJSON, ExpertDTO.class);
+            RegistrationRequest registrationRequest = objectMapper.readValue(expertJSON, RegistrationRequest.class);
             if (expertService.checkImage(multipartFile))
                 throw new FileReaderException();
 
-
-              return  expertService.signIn(expertDTO.getFirstName(), expertDTO.getLastName(), expertDTO.getEmail()
-                        , passwordEncoder.encode(expertDTO.getPassword()), multipartFile.getBytes());
+            registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+              return  registrationService.register(registrationRequest,multipartFile.getBytes());
 
         } catch (Exception e) {
             throw new FileReaderException();

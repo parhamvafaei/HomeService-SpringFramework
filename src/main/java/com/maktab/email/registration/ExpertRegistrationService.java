@@ -13,6 +13,7 @@ import com.maktab.service.ExpertService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +29,8 @@ public class ExpertRegistrationService {
 
     private final ExpertRepository expertRepository;
 
-    public String register(RegistrationRequest request) {
+
+    public String register(RegistrationRequest request, byte[] image) {
 
 
         String token =expertService.signIn(
@@ -36,10 +38,10 @@ public class ExpertRegistrationService {
                         request.getLastName(),
                         request.getEmail(),
                         request.getPassword(),
-                null
+                image
         );
 
-        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
+        String link = "http://localhost:8080/api/v1/admin/expert-confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
                 buildEmail(request.getFirstName(), link));

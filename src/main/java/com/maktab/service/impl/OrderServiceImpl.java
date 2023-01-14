@@ -269,7 +269,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
         if (orderFilter.getOrderStatus() != null) {
 
-            predicateList.add(criteriaBuilder.like(root.get("orderStatus"), "%" + orderFilter.getOrderStatus() + "%"));
+            predicateList.add(criteriaBuilder.equal(root.get("orderStatus"),  orderFilter.getOrderStatus() ));
         }
 
         if (orderFilter.getSubService() != null) {

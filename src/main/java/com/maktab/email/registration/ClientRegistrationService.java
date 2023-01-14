@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
                     request.getPassword()
             );
 
-            String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
+            String link = "http://localhost:8080/api/v1/admin/client-confirm?token=" + token;
             emailSender.send(
                     request.getEmail(),
                     buildEmail(request.getFirstName(), link));
