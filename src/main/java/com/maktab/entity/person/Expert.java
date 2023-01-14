@@ -43,6 +43,13 @@ public class Expert extends Person {
     @ToString.Exclude
     private List<Order> ordersDone = new ArrayList<>();
 
+    @Builder
+    public Expert(String firstName, String lastName, String email, String password, Role role, ExpertStatus expertStatus) {
+        super(firstName, lastName, email, password, role);
+
+        this.expertStatus = expertStatus;
+
+    }
 
     @Override
     public boolean equals(Object o) {

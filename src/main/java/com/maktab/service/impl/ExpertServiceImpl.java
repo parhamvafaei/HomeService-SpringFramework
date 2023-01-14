@@ -66,7 +66,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
     @Transactional
     @Override
-    public void setProfileImage(byte[] image, Expert expert ) {
+    public void setProfileImage(byte[] image, Expert expert) {
 
         expert.setImage(image);
         saveOrUpdate(expert);
@@ -129,9 +129,8 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         if (repository.existsByEmail(Email)) {
             throw new PersonSignInException("this expert already exist");
         }
-        Expert expert = Expert.builder().firstName(firstName).lastName(lastName).email(Email).password(password)
-                .role(Role.ROLE_EXPERT).expertStatus(ExpertStatus.AWAITING_CONFIRMATION).build();
 
+        Expert expert = new Expert(firstName, lastName, Email, password, Role.ROLE_EXPERT, ExpertStatus.AWAITING_CONFIRMATION);
         setProfileImage(image, expert);
         saveOrUpdate(expert);
 
@@ -180,10 +179,10 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
             predicateList.add(criteriaBuilder.like(root.get("lastName"), "%" + expertDTO.getLastname() + "%"));
 
         if (expertDTO.getEmail() != null)
-            predicateList.add(criteriaBuilder.like(root.get("email"),  "%" + expertDTO.getEmail() + "%"));
+            predicateList.add(criteriaBuilder.like(root.get("email"), "%" + expertDTO.getEmail() + "%"));
 
-        if (expertDTO.getRating() != null )
-            predicateList.add(criteriaBuilder.equal(root.get("rating"),expertDTO.getRating()));
+        if (expertDTO.getRating() != null)
+            predicateList.add(criteriaBuilder.equal(root.get("rating"), expertDTO.getRating()));
 
 
         Predicate[] predicates = new Predicate[predicateList.size()];
@@ -192,8 +191,8 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         return em.createQuery(query).getResultList();
     }
 
-@Override
+    @Override
     public List<Expert> expertReporter(LocalDateTime signInTime, Integer ordersSet, Integer ordersDone) {
-return repository.filterExpert(signInTime,ordersSet,ordersDone);
+        return repository.filterExpert(signInTime, ordersSet, ordersDone);
     }
 }
