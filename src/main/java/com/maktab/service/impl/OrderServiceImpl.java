@@ -66,9 +66,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         Order order = findById(orderId).orElseThrow(NullPointerException::new);
         Offer offer = offerService.findById(offerId).orElseThrow(NullPointerException::new);
         if (!(offer.getOrder().getId().equals(order.getId())))
-            throw new SelectOrderException();
+            throw new SelectOrderException("offer doesnt match this order");
         if (!(order.getOrderStatus().equals(OrderStatus.SELECTING_EXPERT)))
-            throw new ExpertConditionException();
+            throw new ExpertConditionException("wrong order status");
         order.setTime(LocalDateTime.now());
         order.setOrderStatus(OrderStatus.WAITING_EXPERT_COME);
         offer.setSet(true);
@@ -85,7 +85,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             order.setOrderStatus(OrderStatus.STARTED);
             saveOrUpdate(order);
         } else
-            throw new OrderStatusConditionException();
+            throw new OrderStatusConditionException("wrong order status");
     }
 
     @Transactional
@@ -98,7 +98,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             order.setActualDurationTime(time);
             saveOrUpdate(order);
         } else
-            throw new OrderStatusConditionException();
+            throw new OrderStatusConditionException("wrong order status");
     }
 
     @Override
@@ -124,9 +124,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         Order order = findById(order_id).orElseThrow(NullPointerException::new);
         Expert expert = findExpert(order_id);
         if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
-            throw new OrderStatusConditionException();
+            throw new OrderStatusConditionException("wrong order status");
         if (comment.getRating() == null)
-            throw new NullPointerException();
+            throw new NullPointerException("found rating null for commenting");
         if (comment.getRating() >= 0 || comment.getRating() <= 5)
             throw new ValidationException("score is not in range");
 
@@ -143,13 +143,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         Order order = findById(id).orElseThrow(NullPointerException::new);
         Expert expert = expertService.findById(expert_id).orElseThrow(NullPointerException::new);
         if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
-            throw new OrderStatusConditionException();
+            throw new OrderStatusConditionException("wrong order status");
         boolean empty = expert.getOffers().stream().filter(offer ->
                 Objects.equals(offer.getOrder().getId(), order.getId())
                         &&
                         offer.isSet()).findAny().isEmpty();
         if (empty == true)
-            throw new ValidationException();
+            throw new ValidationException("not found any suitable offer");
 
         return order.getComment().getRating();
     }
@@ -162,13 +162,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         if (expert.getRating() < 0) {
             expert.setExpertStatus(ExpertStatus.AWAITING_CONFIRMATION);
             expertService.saveOrUpdate(expert);
-            throw new ExpertConditionException();
+            throw new ExpertConditionException("expert status become from start because of minus rating");
         }
         if (!(order.getOrderStatus() == OrderStatus.DONE))
-            throw new OrderStatusConditionException();
+            throw new OrderStatusConditionException("wrong order status");
         Optional<Offer> offer1 = expert.getOffers().stream().filter(offer -> offer.isSet() == true).findAny();
         if (offer1.isEmpty())
-            throw new NullPointerException();
+            throw new NullPointerException("not found any done offer");
 
         long time = offer1.get().getDurationTime().toHours();
         long actualTime = order.getActualDurationTime().toHours();
@@ -200,7 +200,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
         Order order = findById(order_id).orElseThrow(NullPointerException::new);
         Client client = clientService.findById(client_id).orElseThrow(NullPointerException::new);
         if (client.getCredit().getAmount() < order.getPrice())
-            throw new NotEnoughMoneyException();
+            throw new NotEnoughMoneyException("not enough budget");
         if (order.getOrderStatus() == OrderStatus.DONE) {
             order.setOrderStatus(OrderStatus.PAID);
             Credit credit = client.getCredit();
@@ -212,7 +212,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             clientService.saveOrUpdate(client);
             expertService.saveOrUpdate(expert);
         } else
-            throw new OrderStatusConditionException();
+            throw new OrderStatusConditionException("wrong order status");
 
     }
 

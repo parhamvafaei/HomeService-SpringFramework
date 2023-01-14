@@ -32,6 +32,7 @@ public class SubService extends BaseEntity {
     @ToString.Exclude
     private List<Expert> experts = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "subService")
     @ToString.Exclude
     private List<Order> orders;

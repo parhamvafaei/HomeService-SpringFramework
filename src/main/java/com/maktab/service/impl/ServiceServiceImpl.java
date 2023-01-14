@@ -26,7 +26,7 @@ public class ServiceServiceImpl extends BaseServiceImpl<Service, ServiceReposito
     @Override
     public Long addService(String name) {
         if (repository.existsByName(name) )
-            throw new DuplicateServiceException();
+            throw new DuplicateServiceException("Service already exist");
         Service service=Service.builder().name(name).build();
         saveOrUpdate(service);
         return service.getId();

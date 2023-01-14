@@ -37,11 +37,11 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
     @Override
     public Long addNewOfferToOrder(Double price, Duration durationTime, Expert expert, Order order) {
         if (!(order.getOrderStatus() == OrderStatus.WAITING_FOR_EXPERT))
-            throw new OrderStatusConditionException();
-        if (expert.getSubServices().contains(order.getSubService()))
-            throw new ExpertConditionException();
+            throw new OrderStatusConditionException("wrong order status");
+        if (!(expert.getSubServices().contains(order.getSubService())))
+            throw new ExpertConditionException("order is not in your subService");
         if (!(expert.getExpertStatus().equals(ExpertStatus.CONFIRMED)))
-            throw new ExpertConditionException();
+            throw new ExpertConditionException("wrong expert status");
 
         if (order.getSubService().getPrice() > price)
             throw new ValidationException();
@@ -57,7 +57,7 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
     @Override
     public List<Offer> offersToOrderByPrice(Long orderId) {
         if (orderService.findById(orderId).isEmpty())
-            throw new NullPointerException();
+            throw new NullPointerException("given order not found");
         List<Offer> offerList = repository.findByOrderId(orderId);
 
         offerList.sort(Comparator.comparingDouble(Offer::getPrice));
@@ -67,7 +67,7 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
     @Override
     public List<Offer> offersToOrderByExpertRate(Long orderId) {
         if (orderService.findById(orderId).isEmpty())
-            throw new NullPointerException();
+            throw new NullPointerException("given order not found");
         List<Offer> offerList = repository.findByOrderId(orderId);
         offerList.sort((o1, o2) -> (int) (o1.getExpert().getRating() - o2.getExpert().getRating()));
         return offerList;
