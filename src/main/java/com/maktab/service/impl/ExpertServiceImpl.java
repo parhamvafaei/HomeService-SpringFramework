@@ -99,7 +99,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
             saveOrUpdate(expert);
 
         } else
-            throw new ExpertAddException();
+            throw new ExpertAddException("add expert to subService exception");
     }
 
 

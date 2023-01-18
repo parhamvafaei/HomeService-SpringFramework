@@ -60,5 +60,11 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(value = NotFoundServiceException.class)
+    public ResponseEntity<Object> NotFoundServiceException(Exception ex, WebRequest request) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+
 
 }
