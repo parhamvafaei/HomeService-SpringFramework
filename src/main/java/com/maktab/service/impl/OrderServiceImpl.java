@@ -269,7 +269,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
         if (orderFilter.getOrderStatus() != null) {
 
-            predicateList.add(criteriaBuilder.equal(root.get("orderStatus"),  orderFilter.getOrderStatus() ));
+            predicateList.add(criteriaBuilder.equal(root.get("orderStatus"), orderFilter.getOrderStatus()));
         }
 
         if (orderFilter.getSubService() != null) {
@@ -290,12 +290,11 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     @Override
     public List<Order> expertOrders(Long expert_id, String orderStatus) {
-
-        return repository.expertOrders(expert_id, orderStatus);
+        return repository.expertOrders(expert_id, OrderStatus.valueOf(orderStatus.toUpperCase()));
     }
 
     @Override
     public List<Order> clientOrders(Long client_id, String orderStatus) {
-        return repository.clientOrders(client_id, orderStatus);
+        return repository.clientOrders(client_id, OrderStatus.valueOf(orderStatus.toUpperCase()));
     }
 }

@@ -12,6 +12,7 @@ import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -126,12 +127,13 @@ public class AdminController {
 
     }
 
-
+@PreAuthorize(value = "permitAll()")
     @GetMapping(path = "expert-confirm")
     public String expertEmailConfirm(@RequestParam("token") String token) {
         return expertRegistrationService.confirmToken(token);
     }
 
+    @PreAuthorize(value = "permitAll()")
     @GetMapping(path = "client-confirm")
     public String clientEmailConfirm(@RequestParam("token") String token) {
         return clientRegistrationService.confirmToken(token);

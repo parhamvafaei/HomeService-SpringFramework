@@ -13,9 +13,9 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
 
 @Modifying
 @Query("select e from Order e where e.client.id= :client_id and e.isDone=true and e.orderStatus= :orderStatus")
-    List<Order> clientOrders(Long client_id, String orderStatus);
+    List<Order> clientOrders(Long client_id, OrderStatus orderStatus);
 
 @Modifying
 @Query("select e from Order e where e.expert.id= :expert_id and e.isDone=true and e.orderStatus= :orderStatus")
-    List<Order> expertOrders(Long expert_id, String orderStatus);
+    List<Order> expertOrders(Long expert_id, OrderStatus orderStatus);
 }
