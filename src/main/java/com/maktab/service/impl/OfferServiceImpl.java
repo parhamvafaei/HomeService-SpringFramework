@@ -44,7 +44,7 @@ public class OfferServiceImpl extends BaseServiceImpl<Offer, OfferRepository> im
             throw new ExpertConditionException("wrong expert status");
 
         if (order.getSubService().getPrice() > price)
-            throw new ValidationException();
+            throw new ValidationException("less than subService price ");
 
 
         Offer offer = new Offer(price, durationTime,false, expert, order);

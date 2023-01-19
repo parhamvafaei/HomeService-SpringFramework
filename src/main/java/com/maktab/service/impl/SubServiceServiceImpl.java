@@ -34,7 +34,7 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
     @Override
     public Long addSubService(SubService subService, Service service) {
 
-        serviceService.findById(service.getId()).orElseThrow(NotFoundServiceException::new);
+        serviceService.findById(service.getId()).orElseThrow(() ->new NotFoundServiceException("service not found"));
 
         if (checkSubServiceByName(subService.getName()))
             throw new NotFoundServiceException("this SubService was already added!");
@@ -57,7 +57,7 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
     @Transactional
     @Override
     public void editSubService(Long id, Double price, String description) {
-        SubService subService = findById(id).orElseThrow(NullPointerException::new);
+        SubService subService = findById(id).orElseThrow(() ->new NotFoundServiceException("subService not found"));
 
         boolean condition = (price == null && description == null);
         while (!(condition)) {

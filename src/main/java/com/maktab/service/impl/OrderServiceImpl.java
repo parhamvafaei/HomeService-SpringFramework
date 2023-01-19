@@ -63,8 +63,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Override
     public void selectExpertToOrder(Long offerId, Long orderId) {
 
-        Order order = findById(orderId).orElseThrow(NullPointerException::new);
-        Offer offer = offerService.findById(offerId).orElseThrow(NullPointerException::new);
+        Order order = findById(orderId).orElseThrow(() -> new NullPointerException("cant invoke order"));
+        Offer offer = offerService.findById(offerId).orElseThrow(() -> new NullPointerException("cant invoke order"));
         if (!(offer.getOrder().getId().equals(order.getId())))
             throw new SelectOrderException("offer doesnt match this order");
         if (!(order.getOrderStatus().equals(OrderStatus.SELECTING_EXPERT)))
@@ -80,7 +80,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Transactional
     @Override
     public void changeOrderStatusToStarted(Long id) {
-        Order order = findById(id).orElseThrow(NullPointerException::new);
+        Order order = findById(id).orElseThrow(() -> new NullPointerException("cant invoke order"));
         if (order.getOrderStatus().equals(OrderStatus.WAITING_EXPERT_COME)) {
             order.setOrderStatus(OrderStatus.STARTED);
             saveOrUpdate(order);
@@ -91,7 +91,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Transactional
     @Override
     public void changeOrderStatusToDone(Long id, Duration time) {
-        Order order = findById(id).orElseThrow(NullPointerException::new);
+        Order order = findById(id).orElseThrow(() -> new NullPointerException("cant invoke order"));
         if (order.getOrderStatus().equals(OrderStatus.STARTED)) {
             order.setOrderStatus(OrderStatus.DONE);
             order.setIsDone(true);
@@ -103,7 +103,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     @Override
     public List<Order> showRelatedOrdersBySubService(Long expertId) {
-        Expert expert = expertService.findById(expertId).orElseThrow(NotFoundPersonException::new);
+        Expert expert = expertService.findById(expertId).orElseThrow(() -> new NotFoundPersonException("cant invoke expert"));
 
         List<Order> relatedList = new ArrayList<>();
         List<SubService> subServices = expert.getSubServices();
@@ -121,7 +121,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Transactional
     @Override
     public void setComment(Comment comment, Long order_id) {
-        Order order = findById(order_id).orElseThrow(NullPointerException::new);
+        Order order = findById(order_id).orElseThrow(() -> new NullPointerException("cant invoke order"));
         Expert expert = findExpert(order_id);
         if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
             throw new OrderStatusConditionException("wrong order status");
@@ -140,8 +140,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     @Override
     public Float showCommentRatingToExpert(Long id, Long expert_id) {
-        Order order = findById(id).orElseThrow(NullPointerException::new);
-        Expert expert = expertService.findById(expert_id).orElseThrow(NullPointerException::new);
+        Order order = findById(id).orElseThrow(() -> new NullPointerException("cant invoke order"));
+        Expert expert = expertService.findById(expert_id).orElseThrow(() -> new NullPointerException("cant invoke expert"));
         if (!(order.getOrderStatus() == OrderStatus.DONE || order.getOrderStatus() == OrderStatus.PAID))
             throw new OrderStatusConditionException("wrong order status");
         boolean empty = expert.getOffers().stream().filter(offer ->
@@ -157,8 +157,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Transactional
     @Override
     public void expertAccountStatus(Long orderId, Long expert_id) {
-        Order order = findById(orderId).orElseThrow(NullPointerException::new);
-        Expert expert = expertService.findById(expert_id).orElseThrow(NullPointerException::new);
+        Order order = findById(orderId).orElseThrow(() -> new NullPointerException("cant invoke order"));
+        Expert expert = expertService.findById(expert_id).orElseThrow(() -> new NullPointerException("cant invoke expert"));
         if (expert.getRating() < 0) {
             expert.setExpertStatus(ExpertStatus.AWAITING_CONFIRMATION);
             expertService.saveOrUpdate(expert);
@@ -187,7 +187,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Override
     public Expert findExpert(Long order_id) {
 
-        Order order = findById(order_id).orElseThrow(NullPointerException::new);
+        Order order = findById(order_id).orElseThrow(() -> new NullPointerException("cant invoke order"));
         return offerService.findAll().stream().filter(offer ->
                         (offer.isSet()) && (offer.getOrder().equals(order)))
                 .findAny().get().getExpert();
@@ -197,8 +197,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Transactional
     @Override
     public void payFromCredit(Long order_id, Long client_id) {
-        Order order = findById(order_id).orElseThrow(NullPointerException::new);
-        Client client = clientService.findById(client_id).orElseThrow(NullPointerException::new);
+        Order order = findById(order_id).orElseThrow(() -> new NullPointerException("cant invoke order"));
+        Client client = clientService.findById(client_id).orElseThrow(() -> new NullPointerException("cant invoke client"));
         if (client.getCredit().getAmount() < order.getPrice())
             throw new NotEnoughMoneyException("not enough budget");
         if (order.getOrderStatus() == OrderStatus.DONE) {
@@ -219,7 +219,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Transactional
     @Override
     public void payFromCard(Long order_id) {
-        Order order = findById(order_id).orElseThrow(NullPointerException::new);
+        Order order = findById(order_id).orElseThrow(() -> new NullPointerException("cant invoke order"));
         if (order.getOrderStatus() == OrderStatus.DONE) {
             order.setOrderStatus(OrderStatus.PAID);
             Expert expert = findExpert(order_id);

@@ -49,12 +49,12 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @Transactional
     @Override
     public void changePassword(Long id, String password) {
-        Expert expert = findById(id).orElseThrow(NullPointerException::new);
+        Expert expert = findById(id).orElseThrow(() -> new NullPointerException("cant invoke expert"));
 
         try {
             expert.setPassword(password);
         } catch (Exception e) {
-            throw new ValidationException();
+            throw new ValidationException("change password failed");
         }
         saveOrUpdate(expert);
 
@@ -64,7 +64,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @Transactional
     @Override
     public void setProfileImage(byte[] image, Long expert_id) {
-        Expert expert = findById(expert_id).orElseThrow(NullPointerException::new);
+        Expert expert = findById(expert_id).orElseThrow(() -> new NullPointerException("cant invoke expert"));
         expert.setImage(image);
         saveOrUpdate(expert);
 
@@ -74,7 +74,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @Transactional
     @Override
     public Long confirmExpert(Long id) {
-        Expert expert = findById(id).orElseThrow(NullPointerException::new);
+        Expert expert = findById(id).orElseThrow(() -> new NullPointerException("cant invoke expert"));
         expert.setExpertStatus(ExpertStatus.CONFIRMED);
         saveOrUpdate(expert);
         return expert.getId();
@@ -83,8 +83,8 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @Transactional
     @Override
     public void addExpertToSubService(Long expertId, Long subServiceId) {
-        Expert expert = findById(expertId).orElseThrow(NullPointerException::new);
-        SubService subService = subServiceService.findById(subServiceId).orElseThrow(NullPointerException::new);
+        Expert expert = findById(expertId).orElseThrow(() -> new NullPointerException("cant invoke expert"));
+        SubService subService = subServiceService.findById(subServiceId).orElseThrow(() -> new NullPointerException("cant invoke expert"));
         if (subService.getExperts().contains(expert))
             throw new ExpertAddException("expert already added !");
         if (expert.getExpertStatus() == ExpertStatus.CONFIRMED && subServiceService.checkSubServiceByName(subService.getName())) {
@@ -104,7 +104,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @Override
     public void deleteExpertOfSubService(Long expertId, Long subServiceId) {
         Expert expert = findById(expertId).orElseThrow(NullPointerException::new);
-        SubService subService = subServiceService.findById(subServiceId).orElseThrow(NullPointerException::new);
+        SubService subService = subServiceService.findById(subServiceId).orElseThrow(() -> new NullPointerException("cant invoke expert"));
 
         if (subService.getExperts().stream().anyMatch(expert1 -> expert1.getEmail().equals(expert.getEmail()))) {
             List<SubService> subServices = expert.getSubServices();
@@ -200,7 +200,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
     @Override
     public Double showBudget(Long expert_id){
-        Expert expert = findById(expert_id).orElseThrow(NullPointerException::new);
+        Expert expert = findById(expert_id).orElseThrow(() -> new NullPointerException("cant invoke expert"));
         return expert.getTotalMoney();
     }
 }

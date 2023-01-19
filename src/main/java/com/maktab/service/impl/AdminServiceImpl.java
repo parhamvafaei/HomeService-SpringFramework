@@ -40,12 +40,12 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, AdminRepository> im
     @Transactional
     @Override
     public void changePassword(Long id, String password) {
-        Admin admin = findById(id).orElseThrow(NullPointerException::new);
+        Admin admin = findById(id).orElseThrow(() -> new NullPointerException("cant invoke admin"));
         try {
             admin.setPassword(password);
 
         } catch (Exception e) {
-            throw new ValidationException();
+            throw new ValidationException("set password fail");
         }
         saveOrUpdate(admin);
     }

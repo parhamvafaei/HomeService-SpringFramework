@@ -43,11 +43,11 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
     @Transactional
     @Override
     public void changePassword(Long id, String password) {
-        Client client = findById(id).orElseThrow(NullPointerException::new);
+        Client client = findById(id).orElseThrow(() -> new NullPointerException("cant invoke client"));
         try {
             client.setPassword(password);
         } catch (Exception e) {
-            throw new ValidationException();
+            throw new ValidationException("change password failed");
         }
         saveOrUpdate(client);
 
@@ -114,7 +114,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
 
     @Override
     public Double showBudget(Long client_id){
-        Client client = findById(client_id).orElseThrow(NullPointerException::new);
+        Client client = findById(client_id).orElseThrow(() -> new NullPointerException("cant invoke client"));
         return client.getCredit().getAmount();
     }
 
