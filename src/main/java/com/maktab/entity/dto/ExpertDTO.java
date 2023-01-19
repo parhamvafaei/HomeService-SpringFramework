@@ -20,7 +20,7 @@ public class ExpertDTO {
     @Email
     @Column(unique = true)
     private String email;
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8}")
+
     @NotNull
     private String password;
 

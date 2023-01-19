@@ -63,8 +63,8 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
     @Transactional
     @Override
-    public void setProfileImage(byte[] image, Expert expert) {
-
+    public void setProfileImage(byte[] image, Long expert_id) {
+        Expert expert = findById(expert_id).orElseThrow(NullPointerException::new);
         expert.setImage(image);
         saveOrUpdate(expert);
 
@@ -121,14 +121,14 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
 
     @Transactional
     @Override
-    public String signIn(String firstName, String lastName, String Email, String password, byte[] image) {
+    public String signIn(String firstName, String lastName, String Email, String password) {
 
         if (repository.existsByEmail(Email)) {
             throw new PersonSignInException("this expert already exist");
         }
 
         Expert expert = new Expert(firstName, lastName, Email, password, Role.ROLE_EXPERT, ExpertStatus.AWAITING_CONFIRMATION);
-        setProfileImage(image, expert);
+        expert.setImage(null);
         saveOrUpdate(expert);
 
         String token = UUID.randomUUID().toString();
@@ -159,7 +159,7 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
             throw new FileReaderException("image size is more than standard");
 
 
-        return true;
+        return false;
     }
 
     @Override

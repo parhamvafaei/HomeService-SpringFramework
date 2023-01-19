@@ -41,7 +41,7 @@ class ExpertServiceImplTest {
     @Test
     @Order(1)
     void signIn() {
-        String s = service.signIn("parham", "vafaei", "parhm@gmail.com", "Parham12", null);
+        String s = service.signIn("parham", "vafaei", "parhm@gmail.com", "Parham12");
         assertEquals(1L, s);
 //unDone
     }
@@ -75,7 +75,7 @@ class ExpertServiceImplTest {
         } else
             throw new FileReaderException("wrong file format !");
         Expert expert = service.findById(1L).get();
-        service.setProfileImage(bytes,expert);
+        service.setProfileImage(bytes,expert.getId());
 
 
         assertNotNull(service.findById(1L).get().getImage());

@@ -16,7 +16,7 @@ public interface ExpertService extends BaseService<Expert> {
     void changePassword(Long id, String password);
 
 
-    void setProfileImage(byte[] image, Expert expert);
+    void setProfileImage(byte[] image, Long expert_id);
 
     Long confirmExpert(Long id);
 
@@ -26,7 +26,7 @@ public interface ExpertService extends BaseService<Expert> {
 
     void deleteExpertOfSubService(Long expertId, Long subServiceId);
 
-    String signIn(String firstName, String lastName, String Email, String password, byte[] image);
+    String signIn(String firstName, String lastName, String Email, String password);
 
     boolean checkImage(MultipartFile file);
 

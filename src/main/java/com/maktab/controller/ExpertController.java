@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
@@ -34,19 +35,24 @@ public class ExpertController {
 
 
     @PostMapping("/save-expert")
-    String saveExpert(@Valid @RequestParam("expert") String expertJSON, @RequestParam("image") MultipartFile multipartFile) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            RegistrationRequest registrationRequest = objectMapper.readValue(expertJSON, RegistrationRequest.class);
-            if (expertService.checkImage(multipartFile))
-                throw new FileReaderException();
-
+    String saveExpert(@Valid @RequestBody RegistrationRequest registrationRequest) {
             registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-              return  registrationService.register(registrationRequest,multipartFile.getBytes());
+              return  registrationService.register(registrationRequest);
 
-        } catch (Exception e) {
+    }
+
+    @PutMapping("/set-image/{expert_id}")
+    void setImage(@PathVariable Long expert_id ,@RequestParam("image") MultipartFile multipartFile){
+        if (expertService.checkImage(multipartFile))
             throw new FileReaderException();
+
+        try {
+            byte[]   image = multipartFile.getBytes();
+            expertService.setProfileImage(image, expert_id);
+        } catch (IOException e) {
+            throw new FileReaderException(e.getMessage());
         }
+
     }
 
 

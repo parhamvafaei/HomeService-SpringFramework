@@ -30,15 +30,14 @@ public class ExpertRegistrationService {
     private final ExpertRepository expertRepository;
 
 
-    public String register(RegistrationRequest request, byte[] image) {
+    public String register(RegistrationRequest request) {
 
 
         String token =expertService.signIn(
                         request.getFirstName(),
                         request.getLastName(),
                         request.getEmail(),
-                        request.getPassword(),
-                image
+                        request.getPassword()
         );
 
         String link = "http://localhost:8080/api/v1/admin/expert-confirm?token=" + token;

@@ -26,7 +26,7 @@ public class Expert extends Person {
     @Enumerated(EnumType.STRING)
     private ExpertStatus expertStatus;
 
-    @Type(type = "org.hibernate.type.ImageType")
+    @Type(type="org.hibernate.type.BinaryType")
     @Lob
     @Size(max = 300_000)
     private byte[] image;
