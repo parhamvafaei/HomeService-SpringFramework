@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.validation.ValidationException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -19,6 +21,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
+ @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<Object> NullPointerException(Exception ex, WebRequest request) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+ @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<Object> IllegalArgumentException(Exception ex, WebRequest request) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(value = IllegalStateException.class)
+    public ResponseEntity<Object> IllegalStateException(Exception ex, WebRequest request) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+
     @ExceptionHandler(value = ExpertAddException.class)
     public ResponseEntity<Object> ExpertAddException(Exception ex, WebRequest request) {
         return ResponseEntity.badRequest().body(ex.getMessage());
@@ -26,6 +44,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ExpertConditionException.class)
     public ResponseEntity<Object> ExpertConditionException(Exception ex, WebRequest request) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+
+ @ExceptionHandler(value = ValidationException.class)
+    public ResponseEntity<Object> ValidationException(Exception ex, WebRequest request) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

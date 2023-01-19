@@ -128,7 +128,6 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         }
 
         Expert expert = new Expert(firstName, lastName, Email, password, Role.ROLE_EXPERT, ExpertStatus.AWAITING_CONFIRMATION);
-        expert.setImage(null);
         saveOrUpdate(expert);
 
         String token = UUID.randomUUID().toString();

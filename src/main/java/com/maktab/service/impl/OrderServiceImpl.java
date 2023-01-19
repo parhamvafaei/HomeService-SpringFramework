@@ -127,7 +127,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
             throw new OrderStatusConditionException("wrong order status");
         if (comment.getRating() == null)
             throw new NullPointerException("found rating null for commenting");
-        if (comment.getRating() >= 0 || comment.getRating() <= 5)
+        if (!(comment.getRating() >= 0 || comment.getRating() <= 5))
             throw new ValidationException("score is not in range");
 
         expertAccountStatus(order_id, expert.getId());
