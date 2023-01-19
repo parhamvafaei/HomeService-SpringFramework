@@ -34,4 +34,6 @@ public interface ExpertService extends BaseService<Expert> {
     List<Expert> filterExpert(ExpertFilterDTO expertDTO);
 
     List<Expert> expertReporter(LocalDateTime signInTime, Integer ordersSet, Integer ordersDone);
+
+    Double showBudget(Long expert_id);
 }

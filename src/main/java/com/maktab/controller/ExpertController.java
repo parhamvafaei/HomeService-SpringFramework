@@ -82,4 +82,9 @@ public class ExpertController {
     List<Order> expertOrders(@PathVariable Long expert_id,@PathVariable String orderStatus){
         return orderService.expertOrders(expert_id,orderStatus);
     }
+
+    @GetMapping("/show-Budget/{expert_id}")
+    public Double showBudget(@PathVariable Long expert_id){
+        return expertService.showBudget(expert_id);
+    }
 }

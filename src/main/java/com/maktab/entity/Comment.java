@@ -1,5 +1,6 @@
 package com.maktab.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maktab.base.entity.BaseEntity;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class Comment extends BaseEntity {
     private String description;
 
     @OneToOne(mappedBy = "comment",cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private Order order;
 }

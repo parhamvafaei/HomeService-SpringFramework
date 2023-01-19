@@ -6,6 +6,7 @@ import com.maktab.entity.Service;
 import com.maktab.entity.SubService;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface SubServiceService extends BaseService<SubService> {
@@ -17,6 +18,6 @@ public interface SubServiceService extends BaseService<SubService> {
 
     void editSubService(Long id, Double price, String description);
 
-
+Optional<SubService> findByName(String name );
 
 }

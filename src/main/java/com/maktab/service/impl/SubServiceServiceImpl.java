@@ -13,6 +13,7 @@ import com.maktab.util.Utils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServiceRepository> implements SubServiceService {
@@ -73,6 +74,11 @@ public class SubServiceServiceImpl extends BaseServiceImpl<SubService, SubServic
 
         saveOrUpdate(subService);
 
+    }
+
+    @Override
+    public Optional<SubService> findByName(String name) {
+        return repository.findByName(name);
     }
 
 }

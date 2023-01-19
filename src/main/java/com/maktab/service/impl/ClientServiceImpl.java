@@ -111,5 +111,12 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, ClientRepository>
         return repository.filterClient(signInTime,orderDone);
     }
 
+
+    @Override
+    public Double showBudget(Long client_id){
+        Client client = findById(client_id).orElseThrow(NullPointerException::new);
+        return client.getCredit().getAmount();
+    }
+
 }
 

@@ -47,12 +47,14 @@ public class Order extends BaseEntity {
     private Client client;
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
+    @JsonIgnore
     private Expert expert;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order")
+    @JsonIgnore
     private List<Offer> offers;
 
     @OneToOne(cascade = CascadeType.ALL)

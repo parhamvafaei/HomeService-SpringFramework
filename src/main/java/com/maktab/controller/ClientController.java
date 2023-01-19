@@ -7,6 +7,7 @@ import com.maktab.email.registration.ClientRegistrationService;
 import com.maktab.email.registration.RegistrationRequest;
 import com.maktab.entity.*;
 import com.maktab.entity.dto.*;
+import com.maktab.entity.person.Expert;
 import com.maktab.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -156,6 +157,13 @@ public class ClientController {
     @ResponseBody
     List<Order> clientOrders(@PathVariable Long client_id,@PathVariable String orderStatus){
         return orderService.clientOrders(client_id,orderStatus);
+    }
+
+
+    @GetMapping("/show-Budget/{client_id}")
+    @ResponseBody
+    public Double showBudget(@PathVariable Long client_id){
+    return clientService.showBudget(client_id);
     }
 }
 

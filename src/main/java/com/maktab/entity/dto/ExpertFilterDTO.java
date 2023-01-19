@@ -13,6 +13,7 @@ public class ExpertFilterDTO {
     private String lastname;
     private String email;
     private Double rating;
+    private String subService;
 
 
 }

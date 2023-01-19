@@ -17,4 +17,6 @@ public interface ClientService extends BaseService<Client> {
     List<Client> filterClient(ClientFilterDTO clientDTO);
 
     List<Client> clientReporter(LocalDateTime signInTime, Integer ordersDone);
+
+    Double showBudget(Long client_id);
 }

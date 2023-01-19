@@ -26,10 +26,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.validation.ValidationException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -184,6 +181,12 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         if (expertDTO.getRating() != null)
             predicateList.add(criteriaBuilder.equal(root.get("rating"), expertDTO.getRating()));
 
+        Optional<SubService> subServiceOptional = subServiceService.findByName(expertDTO.getSubService());
+        if (subServiceOptional.isPresent()) {
+            if (expertDTO.getSubService() != null)
+                predicateList.add(criteriaBuilder.in(root.get("subServices")).value(subServiceOptional.get()));
+        }
+
 
         Predicate[] predicates = new Predicate[predicateList.size()];
         predicateList.toArray(predicates);
@@ -194,5 +197,11 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
     @Override
     public List<Expert> expertReporter(LocalDateTime signInTime, Integer ordersSet, Integer ordersDone) {
         return repository.filterExpert(signInTime, ordersSet, ordersDone);
+    }
+
+    @Override
+    public Double showBudget(Long expert_id){
+        Expert expert = findById(expert_id).orElseThrow(NullPointerException::new);
+        return expert.getTotalMoney();
     }
 }
