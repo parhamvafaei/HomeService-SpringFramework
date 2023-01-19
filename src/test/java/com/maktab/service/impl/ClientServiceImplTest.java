@@ -22,9 +22,9 @@ class ClientServiceImplTest {
     @Test
     @Order(1)
     void signIn() {
-        Long id = service.signIn("parham", "vafaei", "parhm@gmail.com", "Parham12");
-        assertEquals(1L, id);
-
+        String s = service.signIn("parham", "vafaei", "parhm@gmail.com", "Parham12");
+        assertEquals("token",s );
+// unDone
     }
 
     @Test

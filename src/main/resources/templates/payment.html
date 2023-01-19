@@ -47,7 +47,7 @@
             <div class="alert alert-info" role="alert">
                 <p>Maktab Payment</p>
                
-                <p id="order" th:text="'price, ' + ${orderPrice} " ></p>
+                <p id="order" th:utext="'price ' + ${orderPrice} " ></p>
 
             </div>
             <hr/>
@@ -124,7 +124,7 @@
 
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label class="control-label" for="order_id">order_id</label>
+                        <label class="control-label" for="order_id">number</label>
 
 
                         <input type="password" maxlength="4"  id="order_id"
