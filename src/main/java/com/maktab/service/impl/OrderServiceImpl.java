@@ -256,7 +256,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
         predicateList.add(criteriaBuilder.equal(root.get("isDone"), true));
         if (orderFilter.getStartTime() == null && orderFilter.getEndTime() != null) {
-            predicateList.add(criteriaBuilder.between(root.get("time"), LocalDateTime.MIN, orderFilter.getEndTime()));
+            predicateList.add(criteriaBuilder.between(root.get("time"), LocalDateTime.of(2000, 2, 7,2,2), orderFilter.getEndTime()));
         }
 
         if (orderFilter.getStartTime() != null && orderFilter.getEndTime() == null) {
@@ -274,12 +274,12 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
         if (orderFilter.getSubService() != null) {
 
-            predicateList.add(criteriaBuilder.like(root.get("subService"), "%" + orderFilter.getSubService() + "%"));
+            predicateList.add(criteriaBuilder.like(root.get("subService").get("name"), "%" + orderFilter.getSubService() + "%"));
         }
 
         if (orderFilter.getService() != null) {
 
-            predicateList.add(criteriaBuilder.like(root.get("service"), "%" + orderFilter.getService() + "%"));
+            predicateList.add(criteriaBuilder.like(root.get("service").get("name"), "%" + orderFilter.getService() + "%"));
         }
 
         Predicate[] predicateArray = new Predicate[predicateList.size()];

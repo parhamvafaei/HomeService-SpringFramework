@@ -100,7 +100,7 @@ public class AdminController {
     List<Client> filterCustomer(@RequestBody ClientFilterDTO clientDTO){
         return clientService.filterClient(clientDTO);
     }
-//
+
     @GetMapping("/filter-expert")
     List<ExpertFilterResponse> filterExpert(@RequestBody ExpertFilterDTO expertDTO){
         List<Expert> expertList = expertService.filterExpert(expertDTO);
@@ -110,17 +110,17 @@ public class AdminController {
 
     }
 
-//
+
     @GetMapping("/filter-order-history")
     List<Order> filterOrderHistory(@RequestBody OrderFilter orderFilter){
         return orderService.filterOrderHistory(orderFilter);
     }
-//
+
     @GetMapping("/expert-reporter")
     public List<Expert> filterExpert(@RequestBody PersonDTO personDTO){
         return expertService.expertReporter(personDTO.getSignInTime(),personDTO.getOrdersSet(),personDTO.getOrdersSet());
     }
-//
+
     @GetMapping("/client-reporter")
     public List<Client> clientExpert(@RequestBody PersonDTO personDTO){
         return clientService.clientReporter(personDTO.getSignInTime(),personDTO.getOrdersDone());
@@ -133,7 +133,7 @@ public class AdminController {
         return expertRegistrationService.confirmToken(token);
     }
 
-    @PreAuthorize(value = "permitAll()")
+
     @GetMapping(path = "client-confirm")
     public String clientEmailConfirm(@RequestParam("token") String token) {
         return clientRegistrationService.confirmToken(token);

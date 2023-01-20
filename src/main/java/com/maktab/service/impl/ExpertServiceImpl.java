@@ -183,7 +183,8 @@ public class ExpertServiceImpl extends BaseServiceImpl<Expert, ExpertRepository>
         Optional<SubService> subServiceOptional = subServiceService.findByName(expertDTO.getSubService());
         if (subServiceOptional.isPresent()) {
             if (expertDTO.getSubService() != null)
-                predicateList.add(criteriaBuilder.in(root.get("subServices")).value(subServiceOptional.get()));
+                predicateList.add(criteriaBuilder.in(root.get("subServices").get("name")).value(subServiceOptional.get().getName()));
+
         }
 
 
