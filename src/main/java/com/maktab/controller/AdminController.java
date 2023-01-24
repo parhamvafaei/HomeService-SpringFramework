@@ -96,12 +96,12 @@ public class AdminController {
         subServiceService.editSubService(subServiceDTO.getId(), subServiceDTO.getPrice(), subServiceDTO.getDescription());
     }
 
-    @GetMapping("/filter-client")
+    @PostMapping("/filter-client")
     List<Client> filterCustomer(@RequestBody ClientFilterDTO clientDTO){
         return clientService.filterClient(clientDTO);
     }
 
-    @GetMapping("/filter-expert")
+    @PostMapping("/filter-expert")
     List<ExpertFilterResponse> filterExpert(@RequestBody ExpertFilterDTO expertDTO){
         List<Expert> expertList = expertService.filterExpert(expertDTO);
         List<ExpertFilterResponse> expertDTOResponse=new ArrayList<>();
@@ -111,17 +111,17 @@ public class AdminController {
     }
 
 
-    @GetMapping("/filter-order-history")
+    @PostMapping("/filter-order-history")
     List<Order> filterOrderHistory(@RequestBody OrderFilter orderFilter){
         return orderService.filterOrderHistory(orderFilter);
     }
 
-    @GetMapping("/expert-reporter")
+    @PostMapping("/expert-reporter")
     public List<Expert> filterExpert(@RequestBody PersonDTO personDTO){
         return expertService.expertReporter(personDTO.getSignInTime(),personDTO.getOrdersSet(),personDTO.getOrdersSet());
     }
 
-    @GetMapping("/client-reporter")
+    @PostMapping("/client-reporter")
     public List<Client> clientExpert(@RequestBody PersonDTO personDTO){
         return clientService.clientReporter(personDTO.getSignInTime(),personDTO.getOrdersDone());
 
