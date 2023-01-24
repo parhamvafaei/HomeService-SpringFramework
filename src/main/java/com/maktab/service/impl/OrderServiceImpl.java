@@ -256,15 +256,15 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
         predicateList.add(criteriaBuilder.equal(root.get("isDone"), true));
         if (orderFilter.getStartTime() == null && orderFilter.getEndTime() != null) {
-            predicateList.add(criteriaBuilder.between(root.get("time"), LocalDateTime.of(2000, 2, 7,2,2), orderFilter.getEndTime()));
+            predicateList.add(criteriaBuilder.between(root.get("createTime"), LocalDateTime.of(2000, 2, 7,2,2), orderFilter.getEndTime()));
         }
 
         if (orderFilter.getStartTime() != null && orderFilter.getEndTime() == null) {
-            predicateList.add(criteriaBuilder.between(root.get("time"), orderFilter.getStartTime(), LocalDateTime.now()));
+            predicateList.add(criteriaBuilder.between(root.get("createTime"), orderFilter.getStartTime(), LocalDateTime.now()));
         }
 
         if (orderFilter.getStartTime() != null && orderFilter.getEndTime() != null) {
-            predicateList.add(criteriaBuilder.between(root.get("time"), orderFilter.getStartTime(), orderFilter.getEndTime()));
+            predicateList.add(criteriaBuilder.between(root.get("createTime"), orderFilter.getStartTime(), orderFilter.getEndTime()));
         }
 
         if (orderFilter.getOrderStatus() != null) {

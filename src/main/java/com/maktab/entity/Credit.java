@@ -13,5 +13,5 @@ import javax.persistence.Entity;
 @Setter
 @Builder
 public class Credit extends BaseEntity {
-    private Double amount;
+    private Double amount = 0D;
 }
