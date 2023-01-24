@@ -194,19 +194,31 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
 
     }
 
+
+
+    private Optional<Offer> findEnabledOffer(Long order_id) {
+
+        Order order = findById(order_id).orElseThrow(() -> new NullPointerException("cant invoke order"));
+        return offerService.findAll().stream().filter(offer ->
+                        (offer.isSet()==true) && (offer.getOrder().equals(order)))
+                .findAny();
+
+    }
+
     @Transactional
     @Override
     public void payFromCredit(Long order_id, Long client_id) {
         Order order = findById(order_id).orElseThrow(() -> new NullPointerException("cant invoke order"));
         Client client = clientService.findById(client_id).orElseThrow(() -> new NullPointerException("cant invoke client"));
-        if (client.getCredit().getAmount() < order.getPrice())
+        Offer offer=findEnabledOffer(order_id).orElseThrow(() -> new NullPointerException("cant find offer"));
+        if (client.getCredit().getAmount() < offer.getPrice())
             throw new NotEnoughMoneyException("not enough budget");
         if (order.getOrderStatus() == OrderStatus.DONE) {
             order.setOrderStatus(OrderStatus.PAID);
             Credit credit = client.getCredit();
-            credit.setAmount(credit.getAmount() - order.getPrice());
+            credit.setAmount(credit.getAmount() - offer.getPrice());
             Expert expert = findExpert(order_id);
-            expert.setTotalMoney(expert.getTotalMoney() + ((order.getPrice() * 70) / 100));
+            expert.setTotalMoney(expert.getTotalMoney() + ((offer.getPrice() * 70) / 100));
 
             saveOrUpdate(order);
             clientService.saveOrUpdate(client);
@@ -219,11 +231,14 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> im
     @Transactional
     @Override
     public void payFromCard(Long order_id) {
+
         Order order = findById(order_id).orElseThrow(() -> new NullPointerException("cant invoke order"));
+        Offer offer=findEnabledOffer(order_id).orElseThrow(() -> new NullPointerException("cant find offer"));
+
         if (order.getOrderStatus() == OrderStatus.DONE) {
             order.setOrderStatus(OrderStatus.PAID);
             Expert expert = findExpert(order_id);
-            expert.setTotalMoney(expert.getTotalMoney() + ((order.getPrice() * 70) / 100));
+            expert.setTotalMoney(expert.getTotalMoney() + ((offer.getPrice() * 70) / 100));
             saveOrUpdate(order);
             expertService.saveOrUpdate(expert);
         }
