@@ -69,7 +69,7 @@ public class ExpertRegistrationService {
         personRepository.enableAppUser(
                 confirmationToken.getPerson().getEmail());
 expertRepository.confirmedExpert(ExpertStatus.CONFIRMED, confirmationToken.getPerson().getEmail());
-        return "confirmed";
+        return "your email confirmed";
     }
 
     private String buildEmail(String name, String link) {

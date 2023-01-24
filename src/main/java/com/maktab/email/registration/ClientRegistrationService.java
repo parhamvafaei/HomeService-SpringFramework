@@ -61,7 +61,7 @@ import java.time.LocalDateTime;
             confirmationTokenService.setConfirmedAt(token);
             personRepository.enableAppUser(
                     confirmationToken.getPerson().getEmail());
-            return "confirmed";
+            return "your email confirmed";
         }
 
         private String buildEmail(String name, String link) {
