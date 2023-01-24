@@ -31,13 +31,13 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http
             .csrf().disable()
             .authorizeHttpRequests()
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/expert/**").hasRole("EXPERT")
+            .antMatchers("/client/**").hasRole("CLIENT")
             .antMatchers("/api/v1/client/save-client").permitAll()
             .antMatchers("/api/v1/expert/save-expert").permitAll()
             .antMatchers("/api/v1/admin/expert-confirm").permitAll()
             .antMatchers("/api/v1/admin/client-confirm").permitAll()
-            .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/expert/**").hasRole("EXPERT")
-            .antMatchers("/client/**").hasRole("CLIENT")
             .anyRequest()
             .authenticated()
             .and().httpBasic();
