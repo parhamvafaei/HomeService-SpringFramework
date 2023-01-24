@@ -31,7 +31,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http
             .csrf().disable()
             .authorizeHttpRequests()
-            .antMatchers(HttpMethod.POST,"/api/v1/**").permitAll()
+            .antMatchers("/api/v1/client/save-client").permitAll()
+            .antMatchers("/api/v1/expert/save-expert").permitAll()
             .antMatchers("/api/v1/admin/expert-confirm").permitAll()
             .antMatchers("/api/v1/admin/client-confirm").permitAll()
             .antMatchers("/admin/**").hasRole("ADMIN")
