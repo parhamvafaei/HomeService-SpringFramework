@@ -23,14 +23,14 @@ Project has three rolls such as admin , expert , client.
 
 In System :
 -------------------------------
-.Admin
+.Admin:
 -The admin has some advantages and permisions to add add services , subservices , experts and so on...
 -Some logical fuctions to Manipulation entities and filtering datas about rolls
 -Get permissions to qualified experts or clients to use system
 
 
 -------------------------------
-.Client 
+.Client: 
 -Request needed services   
 -Can select desired expert to request according to expert rating , experts offer price , ...
 -Rated the expert and give score and comment to job when is done
@@ -40,7 +40,7 @@ In System :
 
 
 -------------------------------
-.Expert
+.Expert:
 -can offer to works and requests setted that related to his services , and set the price or comment to client
 -Finished the job and get offerd fee
 
