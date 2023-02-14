@@ -52,6 +52,6 @@ In System :
 
 
              
-                                                                                                         Many other features
-                                                                                                         you will see when you checked project .
-                                                                                                         I hope it will be useful for you guys and the Java community !                    
+                                                                                                Many other features
+                                                                                                you will see when you checked project .
+                                                                                                I hope it will be useful for you guys and the Java community !                    
