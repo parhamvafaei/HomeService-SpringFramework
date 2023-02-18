@@ -1,7 +1,7 @@
 
 # HomeService-finalRelease
 
-.its a java project designed for technical services related to house .The base of this project written by spring boot and spring data.
+.A java project designed for technical services related to house .The base of this project written by spring boot and spring data.
 
 .Using RestAPI to make connection to front side.
 
